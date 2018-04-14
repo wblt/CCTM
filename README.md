@@ -4,4 +4,4 @@
 
 扫描二维码
 
-[![RxTools](https://github.com/wblt/CCTM/blob/master/qrcode_apk.png)]
+![RxTools](https://github.com/wblt/CCTM/blob/master/qrcode_apk.png)
