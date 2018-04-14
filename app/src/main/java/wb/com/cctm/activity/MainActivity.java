@@ -1,13 +1,20 @@
 package wb.com.cctm.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 
+import com.pgyersdk.javabean.AppBean;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
+
 import wb.com.cctm.R;
 import wb.com.cctm.base.BaseActivity;
+import wb.com.cctm.commons.utils.VersionUtil;
 import wb.com.cctm.fragment.DeliverFragment;
 import wb.com.cctm.fragment.MarketFragment;
 import wb.com.cctm.fragment.MineFragment;
@@ -17,6 +24,7 @@ public class MainActivity extends BaseActivity {
     private Fragment[] fragments;
     private int index;
     private int currentTabIndex;
+    private String verName = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,5 +80,43 @@ public class MainActivity extends BaseActivity {
         // set current tab selected
         mTabs[index].setSelected(true);
         currentTabIndex = index;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        update();
+    }
+    private void update() {
+        verName = VersionUtil.getAppVersionName(this);
+        //设置是否强制更新。true为强制更新；false为不强制更新（默认值）。
+        PgyUpdateManager.setIsForced(true);
+        PgyUpdateManager.register(MainActivity.this, new UpdateManagerListener() {
+            @Override
+            public void onNoUpdateAvailable() {
+
+            }
+            @Override
+            public void onUpdateAvailable(String s) {
+                // 将新版本信息封装到AppBean中
+                final AppBean appBean = getAppBeanFromString(s);
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("版本"+verName+"更新")
+                        .setMessage(appBean.getReleaseNote())
+                        .setNegativeButton(
+                                "确定",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(
+                                            DialogInterface dialog,
+                                            int which) {
+                                        startDownloadTask(
+                                                MainActivity.this,
+                                                appBean.getDownloadURL());
+                                    }
+                                }).show();
+            }
+        });
+
     }
 }
