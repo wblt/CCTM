@@ -1,0 +1,61 @@
+package wb.com.cctm.fragment;
+
+import android.content.Context;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import wb.com.cctm.R;
+import wb.com.cctm.adapter.CheckAdpter;
+import wb.com.cctm.base.BaseFragment;
+
+
+public class CheckFragment extends BaseFragment {
+    Unbinder unbinder;
+    @BindView(R.id.recyc_list)
+    RecyclerView recyc_list;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater,container,savedInstanceState);
+        appendMainBody(this,R.layout.fragment_check);
+        unbinder = ButterKnife.bind(this,view);
+        initview(view);
+        return view;
+    }
+
+    private void initview(View view) {
+        List<String> dates = new ArrayList<>();
+        dates.add("");
+        dates.add("");
+        dates.add("");
+        dates.add("");
+        dates.add("");
+        dates.add("");
+        CheckAdpter adpter = new CheckAdpter(dates,getContext());
+        recyc_list.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyc_list.setAdapter(adpter);
+    }
+
+    @Override
+    public void onDestroy() {
+        unbinder.unbind();
+        super.onDestroy();
+    }
+}
