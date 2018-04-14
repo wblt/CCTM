@@ -1,19 +1,43 @@
 package wb.com.cctm.activity;
 
+import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import wb.com.cctm.R;
 import wb.com.cctm.base.BaseActivity;
+import wb.com.cctm.commons.utils.SPUtils;
+import wb.com.cctm.commons.utils.ToastUtils;
 
 public class LoginActivity extends BaseActivity {
     @BindView(R.id.top_left)
     ImageButton top_left;
+    @BindView(R.id.et_username)
+    EditText et_username;
+    @BindView(R.id.et_password)
+    EditText et_password;
+    @BindView(R.id.btn_login)
+    Button btn_login;
+    @BindView(R.id.ll_remember_password)
+    LinearLayout ll_remember_password;
+    @BindView(R.id.ll_auto_login)
+    LinearLayout ll_auto_login;
+    @BindView(R.id.tv_register)
+    TextView tv_register;
+    @BindView(R.id.tv_forgot_password)
+    TextView tv_forgot_password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,5 +50,40 @@ public class LoginActivity extends BaseActivity {
 
     private void initview() {
         top_left.setVisibility(View.INVISIBLE);
+    }
+
+    @OnClick({R.id.btn_login})
+    void viewOnclick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_login:
+                login();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void login() {
+        final String username = et_username.getText().toString();
+        String password = et_password.getText().toString();
+        if (TextUtils.isEmpty(username)) {
+            ToastUtils.toastutils("用户名为空",this);
+            return;
+        }
+        if (TextUtils.isEmpty(password)) {
+            ToastUtils.toastutils("密码为空",this);
+            return;
+        }
+        showLoadding("登录中...");
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dismissLoadding();
+                SPUtils.putString(SPUtils.userid,username);
+                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        },2000);
     }
 }

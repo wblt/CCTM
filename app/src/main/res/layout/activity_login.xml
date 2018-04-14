@@ -40,6 +40,7 @@
                     android:layout_height="30dp"
                     android:src="@mipmap/header_icon"/>
                 <EditText
+                    android:id="@+id/et_username"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
@@ -67,6 +68,7 @@
                     android:layout_height="30dp"
                     android:src="@mipmap/suo_icon"/>
                 <EditText
+                    android:id="@+id/et_password"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
@@ -88,6 +90,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <LinearLayout
+                    android:id="@+id/ll_remember_password"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -107,6 +110,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_auto_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <ImageView
@@ -127,6 +131,7 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/btn_login"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -140,6 +145,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/tv_register"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="立即注册>>"
@@ -150,6 +156,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"></LinearLayout>
                 <TextView
+                    android:id="@+id/tv_forgot_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="忘记密码?"

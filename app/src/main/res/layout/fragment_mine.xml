@@ -44,7 +44,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="大兵哥"
-                            android:textSize="14dp"/>
+                            android:textSize="12dp"/>
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="CCTM"
-                                android:textSize="14dp"/>
+                                android:textSize="12dp"/>
                         </LinearLayout>
                     </LinearLayout>
 
@@ -86,7 +86,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="能量钱包"
-                            android:textSize="14dp"/>
+                            android:textSize="12dp"/>
                         <TextView
                             android:layout_marginTop="2dp"
                             android:textColor="@color/white"
@@ -94,7 +94,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0.00"
-                            android:textSize="14dp"/>
+                            android:textSize="12dp"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -113,14 +113,14 @@
                         android:ellipsize="middle"
                         android:text="wzd771A1u7jpR3jqhojqdynj6rB3obmLAPuwuCCgkh"
                         android:textColor="@color/white"
-                        android:textSize="14dp"/>
+                        android:textSize="12dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:lines="1"
                         android:text="复制钱包地址"
                         android:textColor="@color/main_bottom_text_color_selector"
-                        android:textSize="14dp"/>
+                        android:textSize="12dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -139,7 +139,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="我的订单"
-                        android:textSize="14dp"
+                        android:textSize="12dp"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/white"/>
                     <ImageView
@@ -167,7 +167,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="复利设置"
-                        android:textSize="14dp"
+                        android:textSize="12dp"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/white"/>
                     <ImageView
@@ -195,7 +195,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="财务转账"
-                        android:textSize="14dp"
+                        android:textSize="12dp"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/white"/>
                     <ImageView
@@ -223,7 +223,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="转账记录"
-                        android:textSize="14dp"
+                        android:textSize="12dp"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/white"/>
                     <ImageView
@@ -251,7 +251,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="钱包换算"
-                        android:textSize="14dp"
+                        android:textSize="12dp"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/white"/>
                     <ImageView
@@ -279,7 +279,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="美元汇率"
-                        android:textSize="14dp"
+                        android:textSize="12dp"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/white"/>
                     <ImageView

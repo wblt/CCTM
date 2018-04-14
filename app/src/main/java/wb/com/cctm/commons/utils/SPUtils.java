@@ -12,6 +12,7 @@ import wb.com.cctm.App;
  */
 public class SPUtils {
     private static final String CONFIG = "config";
+    public static final String userid = "userid";
     /**
      * 清空SharedPreferences实例对象
      *
