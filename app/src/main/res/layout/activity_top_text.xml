@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
 <RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="60dp"
     android:background="@color/mainPrimary">
@@ -23,7 +23,6 @@
            android:layout_centerVertical="true"
            android:textColor="@color/white"
            android:textSize="14sp"/>
-    
 	<LinearLayout
         android:id="@+id/top_right"
         android:layout_width="wrap_content"
@@ -41,4 +40,3 @@
 	        android:textSize="14sp" />
     </LinearLayout>
 </RelativeLayout>
-</layout>

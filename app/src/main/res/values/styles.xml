@@ -20,6 +20,10 @@
         <item name="android:windowAnimationStyle">@style/pageInOut</item>
     </style>
 
+    <style name="ThemeSplash" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@mipmap/fullscreen</item>
+    </style>
+
     <!-- 左边的箭头指示-->
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
