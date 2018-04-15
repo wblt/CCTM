@@ -84,6 +84,40 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/button_round_gray"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/phone_code"/>
+                <EditText
+                    android:id="@+id/et_code"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:textSize="12dp"
+                    android:textColor="@color/white"
+                    android:hint="请输入右侧验证码"
+                    android:textColorHint="@color/white"
+                    android:singleLine="true"
+                    android:maxLength="4"
+                    android:inputType="number"
+                    android:digits="1234567890"/>
+                <ImageView
+                    android:id="@+id/iv_showCode"
+                    android:layout_width="100dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

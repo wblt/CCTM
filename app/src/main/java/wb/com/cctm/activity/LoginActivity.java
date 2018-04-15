@@ -5,10 +5,12 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import wb.com.cctm.R;
 import wb.com.cctm.base.BaseActivity;
+import wb.com.cctm.commons.utils.Code;
 import wb.com.cctm.commons.utils.SPUtils;
 import wb.com.cctm.commons.utils.ToastUtils;
 
@@ -37,6 +40,11 @@ public class LoginActivity extends BaseActivity {
     TextView tv_register;
     @BindView(R.id.tv_forgot_password)
     TextView tv_forgot_password;
+    @BindView(R.id.iv_showCode)
+    ImageView iv_showCode;
+    @BindView(R.id.et_code)
+    EditText et_code;
+    private String realCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +58,12 @@ public class LoginActivity extends BaseActivity {
 
     private void initview() {
         top_left.setVisibility(View.INVISIBLE);
+        //将验证码用图片的形式显示出来
+        iv_showCode.setImageBitmap(Code.getInstance().createBitmap());
+        realCode = Code.getInstance().getCode().toLowerCase();
     }
 
-    @OnClick({R.id.btn_login,R.id.tv_register,R.id.tv_forgot_password})
+    @OnClick({R.id.btn_login,R.id.tv_register,R.id.tv_forgot_password,R.id.iv_showCode})
     void viewOnclick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -67,6 +78,10 @@ public class LoginActivity extends BaseActivity {
                 intent = new Intent(LoginActivity.this,ForgotPasswordActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.iv_showCode:
+                iv_showCode.setImageBitmap(Code.getInstance().createBitmap());
+                realCode = Code.getInstance().getCode().toLowerCase();
+                break;
             default:
                 break;
         }
@@ -75,12 +90,23 @@ public class LoginActivity extends BaseActivity {
     private void login() {
         final String username = et_username.getText().toString();
         String password = et_password.getText().toString();
+        String code = et_code.getText().toString();
         if (TextUtils.isEmpty(username)) {
             ToastUtils.toastutils("用户名为空",this);
             return;
         }
         if (TextUtils.isEmpty(password)) {
             ToastUtils.toastutils("密码为空",this);
+            return;
+        }
+        if (TextUtils.isEmpty(code)) {
+            ToastUtils.toastutils("验证码为空",this);
+            return;
+        }
+        if (!realCode.equals(code)) {
+            ToastUtils.toastutils("验证码输入错误",this);
+            iv_showCode.setImageBitmap(Code.getInstance().createBitmap());
+            realCode = Code.getInstance().getCode().toLowerCase();
             return;
         }
         showLoadding("登录中...");
