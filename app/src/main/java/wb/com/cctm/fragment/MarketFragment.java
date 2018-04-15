@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +21,13 @@ import butterknife.Unbinder;
 import wb.com.cctm.R;
 import wb.com.cctm.adapter.MarketPageAdapter;
 import wb.com.cctm.base.BaseFragment;
+import wb.com.cctm.commons.utils.ToastUtils;
 
 public class MarketFragment extends BaseFragment {
     @BindView(R.id.top_left)
     ImageButton top_left;
+    @BindView(R.id.top_right_text)
+    TextView top_right_text;
     private Unbinder unbinder;
     private List<Fragment> mFragmentList;
     private List<String> mTitleList;
@@ -41,7 +45,7 @@ public class MarketFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater,container,savedInstanceState);
         appendMainBody(this,R.layout.fragment_market);
-        appendTopBody(R.layout.activity_top_icon);
+        appendTopBody(R.layout.activity_top_text);
         setTopBarTitle("市场");
         unbinder = ButterKnife.bind(this,view);
         initview(view);
@@ -49,6 +53,13 @@ public class MarketFragment extends BaseFragment {
     }
 
     private void initview(View view) {
+        top_right_text.setText("挂单");
+        top_right_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToastUtils.toastutils("开发中",getActivity());
+            }
+        });
         top_left.setVisibility(View.INVISIBLE);
         mFragmentList = new ArrayList<>();
         mFragmentList.add(new CheckFragment());
