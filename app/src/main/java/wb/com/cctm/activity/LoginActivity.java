@@ -61,6 +61,8 @@ public class LoginActivity extends BaseActivity {
         //将验证码用图片的形式显示出来
         iv_showCode.setImageBitmap(Code.getInstance().createBitmap());
         realCode = Code.getInstance().getCode().toLowerCase();
+        et_username.setText(SPUtils.getString(SPUtils.userid));
+        et_password.setText(SPUtils.getString(SPUtils.password));
     }
 
     @OnClick({R.id.btn_login,R.id.tv_register,R.id.tv_forgot_password,R.id.iv_showCode})
@@ -89,7 +91,7 @@ public class LoginActivity extends BaseActivity {
 
     private void login() {
         final String username = et_username.getText().toString();
-        String password = et_password.getText().toString();
+        final String password = et_password.getText().toString();
         String code = et_code.getText().toString();
         if (TextUtils.isEmpty(username)) {
             ToastUtils.toastutils("用户名为空",this);
@@ -109,12 +111,21 @@ public class LoginActivity extends BaseActivity {
             realCode = Code.getInstance().getCode().toLowerCase();
             return;
         }
+        if (!username.equals(SPUtils.getString(SPUtils.userid))) {
+            ToastUtils.toastutils("账号输入错误",this);
+            return;
+        }
+        if (!password.equals(SPUtils.getString(SPUtils.password))) {
+            ToastUtils.toastutils("密码输入错误",this);
+            return;
+        }
         showLoadding("登录中...");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 dismissLoadding();
                 SPUtils.putString(SPUtils.userid,username);
+                SPUtils.putString(SPUtils.password,password);
                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                 startActivity(intent);
                 finish();

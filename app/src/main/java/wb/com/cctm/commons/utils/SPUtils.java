@@ -13,12 +13,12 @@ import wb.com.cctm.App;
 public class SPUtils {
     private static final String CONFIG = "config";
     public static final String userid = "userid";
+    public static final String password = "password";
 
     /**
      * 退出程序清空用户数据
      */
     public static void clearUser() {
-        SPUtils.putString(userid,"");
     }
     /**
      * 清空SharedPreferences实例对象
