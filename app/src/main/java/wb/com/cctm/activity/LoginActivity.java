@@ -52,11 +52,20 @@ public class LoginActivity extends BaseActivity {
         top_left.setVisibility(View.INVISIBLE);
     }
 
-    @OnClick({R.id.btn_login})
+    @OnClick({R.id.btn_login,R.id.tv_register,R.id.tv_forgot_password})
     void viewOnclick(View view) {
+        Intent intent;
         switch (view.getId()) {
             case R.id.btn_login:
                 login();
+                break;
+            case R.id.tv_register:
+                intent = new Intent(LoginActivity.this,RegisterActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.tv_forgot_password:
+                intent = new Intent(LoginActivity.this,ForgotPasswordActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;

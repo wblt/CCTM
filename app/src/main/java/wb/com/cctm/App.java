@@ -10,6 +10,8 @@ import com.tencent.bugly.crashreport.CrashReport;
 import java.util.LinkedList;
 import java.util.List;
 
+import wb.com.cctm.activity.MainActivity;
+
 /**
  * Created by wb on 2018/4/12.
  */
@@ -17,6 +19,7 @@ import java.util.List;
 public class App extends Application {
     private List<Activity> mList = new LinkedList<>();
     private static App instance;
+    private MainActivity mainActivity;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -49,6 +52,14 @@ public class App extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public MainActivity getMainActivity() {
+        return mainActivity;
+    }
+
+    public void setMainActivity(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
     }
 
 }

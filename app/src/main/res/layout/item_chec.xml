@@ -27,16 +27,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1.156"
+                        android:text="数量(个)"
                         android:textSize="12dp"
-                        android:textColor="@color/main_bottom_text_color_selector"/>
+                        android:textColor="@color/white"/>
                     <TextView
                         android:layout_marginTop="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="指导价"
+                        android:text="100"
                         android:textSize="12dp"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/main_bottom_text_color_selector"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_weight="1"
@@ -47,16 +47,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1.156"
+                        android:text="价格($)"
                         android:textSize="12dp"
-                        android:textColor="@color/main_bottom_text_color_selector"/>
+                        android:textColor="@color/white"/>
                     <TextView
                         android:layout_marginTop="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="最高价"
+                        android:text="1.17"
                         android:textSize="12dp"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/main_bottom_text_color_selector"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_weight="1"
@@ -67,16 +67,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1.156"
+                        android:text="总计($)"
                         android:textSize="12dp"
-                        android:textColor="@color/main_bottom_text_color_selector"/>
+                        android:textColor="@color/white"/>
                     <TextView
                         android:layout_marginTop="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="最低价"
+                        android:text="116.60"
                         android:textSize="12dp"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/main_bottom_text_color_selector"/>
                 </LinearLayout>
             </LinearLayout>
 

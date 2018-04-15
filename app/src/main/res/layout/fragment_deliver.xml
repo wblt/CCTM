@@ -28,15 +28,30 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@mipmap/head"/>
-                <TextView
-                    android:id="@+id/tv_look_friends"
-                    android:textColor="@color/white"
-                    android:gravity="center"
-                    android:layout_marginLeft="5dp"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="点击查看我的朋友"
-                    android:textSize="12dp"/>
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_user_name"
+                        android:textColor="@color/white"
+                        android:gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="大兵哥"
+                        android:textSize="12dp"/>
+                    <TextView
+                        android:layout_marginTop="3dp"
+                        android:id="@+id/tv_look_friends"
+                        android:textColor="@color/white"
+                        android:gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="点击查看我的朋友"
+                        android:textSize="12dp"/>
+                </LinearLayout>
                 <LinearLayout
                     android:layout_weight="1"
                     android:layout_width="match_parent"
