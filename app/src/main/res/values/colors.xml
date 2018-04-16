@@ -36,4 +36,10 @@
     <color name="viewfinder_mask">#50000000</color>
     <color name="main_botton_text_color">#848484</color>
     <color name="main_bottom_text_color_selector">#CCB07E</color>
+    <color name="yellow">#fd9c06</color>
+    <color name="red">#EE2C2C</color>
+    <color name="grey">#BDBDBD</color>
+    <color name="color_one">#FDE4BB</color>
+    <color name="color_two">#FCD2A1</color>
+    <color name="color_three">#EF8273</color>
 </resources>

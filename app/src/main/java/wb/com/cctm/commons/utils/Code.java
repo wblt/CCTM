@@ -51,7 +51,7 @@ public class Code {
     private int padding_left, padding_top;
     private Random random = new Random();
     //验证码图片
-    public Bitmap createBitmap() {
+    public Bitmap createBitmap(String hexCorlor) {
         padding_left = 0;
 
         Bitmap bp = Bitmap.createBitmap(width, height, Config.ARGB_8888);
@@ -59,7 +59,7 @@ public class Code {
 
         code = createCode();
 
-        int color = Color.parseColor("#424242");
+        int color = Color.parseColor(hexCorlor);
         c.drawColor(color);
         Paint paint = new Paint();
         paint.setAntiAlias(true);

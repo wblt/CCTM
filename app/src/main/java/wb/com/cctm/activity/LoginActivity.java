@@ -59,7 +59,7 @@ public class LoginActivity extends BaseActivity {
     private void initview() {
         top_left.setVisibility(View.INVISIBLE);
         //将验证码用图片的形式显示出来
-        iv_showCode.setImageBitmap(Code.getInstance().createBitmap());
+        iv_showCode.setImageBitmap(Code.getInstance().createBitmap("#424242"));
         realCode = Code.getInstance().getCode().toLowerCase();
         et_username.setText(SPUtils.getString(SPUtils.userid));
         et_password.setText(SPUtils.getString(SPUtils.password));
@@ -81,7 +81,7 @@ public class LoginActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.iv_showCode:
-                iv_showCode.setImageBitmap(Code.getInstance().createBitmap());
+                iv_showCode.setImageBitmap(Code.getInstance().createBitmap("#424242"));
                 realCode = Code.getInstance().getCode().toLowerCase();
                 break;
             default:
@@ -107,7 +107,7 @@ public class LoginActivity extends BaseActivity {
         }
         if (!realCode.equals(code)) {
             ToastUtils.toastutils("验证码输入错误",this);
-            iv_showCode.setImageBitmap(Code.getInstance().createBitmap());
+            iv_showCode.setImageBitmap(Code.getInstance().createBitmap("#424242"));
             realCode = Code.getInstance().getCode().toLowerCase();
             return;
         }
