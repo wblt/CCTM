@@ -16,4 +16,5 @@ public class ForgotPasswordActivity extends BaseActivity {
         setTopBarTitle("忘记密码");
         setTopLeftDefultListener();
     }
+
 }

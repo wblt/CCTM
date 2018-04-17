@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -23,11 +24,13 @@ import wb.com.cctm.R;
 import wb.com.cctm.activity.InvitingFriendsActivity;
 import wb.com.cctm.activity.MoveWalletActivity;
 import wb.com.cctm.activity.NewsActivity;
+import wb.com.cctm.activity.WalletRecordActivity;
 import wb.com.cctm.base.BaseFragment;
 import wb.com.cctm.commons.step.UpdateUiCallBack;
 import wb.com.cctm.commons.step.service.StepService;
 import wb.com.cctm.commons.step.utils.SharedPreferencesUtils;
 import wb.com.cctm.commons.step.view.StepArcView;
+import wb.com.cctm.commons.utils.ToastUtils;
 
 public class DeliverFragment extends BaseFragment {
 
@@ -40,6 +43,8 @@ public class DeliverFragment extends BaseFragment {
     @BindView(R.id.loadingIv)
     ImageView loadingIv;
     private AnimationDrawable mAnimation;
+    @BindView(R.id.ll_look_friende)
+    LinearLayout ll_look_friende;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +95,7 @@ public class DeliverFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.ll_invate_friends,R.id.xingfeng,R.id.ll_move_wallet})
+    @OnClick({R.id.ll_invate_friends,R.id.xingfeng,R.id.ll_move_wallet,R.id.ll_change_wallet})
     void viewClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -104,6 +109,13 @@ public class DeliverFragment extends BaseFragment {
                 break;
             case R.id.ll_move_wallet:
                 intent = new Intent(getActivity(), MoveWalletActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.ll_look_friende:
+                ToastUtils.toastutils("开发中",getContext());
+                break;
+            case R.id.ll_change_wallet:
+                intent = new Intent(getActivity(), WalletRecordActivity.class);
                 startActivity(intent);
                 break;
             default:

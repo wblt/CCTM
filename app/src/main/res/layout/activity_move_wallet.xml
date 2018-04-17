@@ -78,6 +78,7 @@
                 android:layout_marginLeft="5dp"
                 android:textColor="@color/white"/>
             <EditText
+                android:id="@+id/et_number"
                 android:gravity="end"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
@@ -134,7 +135,7 @@
             android:layout_height="0.2dp"
             android:background="@color/main_botton_text_color"></LinearLayout>
         <Button
-            android:id="@+id/btn_login"
+            android:id="@+id/btn_commit"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
