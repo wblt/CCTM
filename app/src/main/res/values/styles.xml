@@ -42,6 +42,9 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-
+    <style name="dialog_anim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/anim_dialog_enter</item>
+        <item name="android:windowExitAnimation">@anim/anim_dialog_exit</item>
+    </style>
 
 </resources>
