@@ -100,7 +100,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activity.WalletRecordActivity"></activity>
+        <activity android:name=".activity.WalletRecordActivity" />
+        <activity android:name=".activity.GuadanActivity"></activity>
     </application>
 
 </manifest>

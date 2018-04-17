@@ -1,6 +1,7 @@
 package wb.com.cctm.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -19,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import wb.com.cctm.R;
+import wb.com.cctm.activity.GuadanActivity;
 import wb.com.cctm.adapter.MarketPageAdapter;
 import wb.com.cctm.base.BaseFragment;
 import wb.com.cctm.commons.utils.ToastUtils;
@@ -57,7 +59,8 @@ public class MarketFragment extends BaseFragment {
         top_right_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ToastUtils.toastutils("开发中",getActivity());
+                Intent intent = new Intent(getActivity(),GuadanActivity.class);
+                startActivity(intent);
             }
         });
         top_left.setVisibility(View.INVISIBLE);
