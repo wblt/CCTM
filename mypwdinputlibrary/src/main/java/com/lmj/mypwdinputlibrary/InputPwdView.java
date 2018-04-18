@@ -79,7 +79,10 @@ public class InputPwdView extends LinearLayout {
                 } else if (i == 10) {
                     inputPwdView_Pwd.addPwd("0");
                 } else if (i == 9) {
-
+                    // 取消
+                    if (null != inputPwdListener) {
+                        inputPwdListener.hide();
+                    }
                 } else {
                     inputPwdView_Pwd.addPwd(String.valueOf(++i));
                 }
@@ -127,10 +130,10 @@ public class InputPwdView extends LinearLayout {
         public View getView(int i, View view, ViewGroup viewGroup) {
             View cview = LayoutInflater.from(context).inflate(R.layout.myinputviewlist_item, viewGroup, false);
             TextView tv = (TextView) cview.findViewById(R.id.myInputPwdListItem_tv);
-
             if (i == 9) {
-                tv.setVisibility(View.GONE);
+                tv.setVisibility(View.VISIBLE);
                 cview.findViewById(R.id.myInputPwdListItem_delete).setVisibility(View.GONE);
+                tv.setText("取消");
             } else if (i == 10) {
                 cview.findViewById(R.id.myInputPwdListItem_delete).setVisibility(View.GONE);
                 tv.setVisibility(View.VISIBLE);

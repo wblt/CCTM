@@ -2,5 +2,5 @@
 <selector
   xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true" android:drawable="@color/myInputPwdBase_gray" />
-      <item  android:drawable="@android:color/white" />
-    </selector>
+    <item  android:drawable="@color/myInputPwdBase_gray" />
+</selector>
