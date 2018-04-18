@@ -26,7 +26,7 @@ public class InvitingFriendsActivity extends BaseActivity {
         appendMainBody(this,R.layout.activity_inviting_friends);
         appendTopBody(R.layout.activity_top_text);
         setTopLeftDefultListener();
-        setTopBarTitle("邀请好有");
+        setTopBarTitle("邀请好友");
         ButterKnife.bind(this);
     }
 

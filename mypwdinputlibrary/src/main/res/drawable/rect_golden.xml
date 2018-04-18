@@ -7,7 +7,6 @@
         </shape>
     </item>
     <!-- 主体背景颜色值 -->
-
     <item
         android:bottom="0dp"
         android:top="1dp"

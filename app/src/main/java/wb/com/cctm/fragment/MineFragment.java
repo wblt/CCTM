@@ -13,9 +13,13 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import wb.com.cctm.R;
+import wb.com.cctm.activity.CompoundActivity;
+import wb.com.cctm.activity.MyorderActivity;
 import wb.com.cctm.activity.SettingActivity;
+import wb.com.cctm.activity.UserInfoActivity;
 import wb.com.cctm.base.BaseFragment;
 
 public class MineFragment extends BaseFragment {
@@ -54,8 +58,26 @@ public class MineFragment extends BaseFragment {
         });
     }
 
-
-
+    @OnClick({R.id.ll_user_info,R.id.ll_my_order,R.id.ll_fuli_setting})
+    void viewClick(View view) {
+        Intent intent;
+        switch (view.getId()) {
+            case R.id.ll_user_info:
+                intent = new Intent(getActivity(), UserInfoActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.ll_my_order:
+                intent = new Intent(getActivity(), MyorderActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.ll_fuli_setting:
+                intent = new Intent(getActivity(), CompoundActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
+    }
 
     @Override
     public void onDestroy() {
