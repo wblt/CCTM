@@ -14,6 +14,7 @@ public class SPUtils {
     private static final String CONFIG = "config";
     public static final String userid = "userid";
     public static final String password = "password";
+    public static final String headimgpath = "headimgpath";
 
     /**
      * 退出程序清空用户数据

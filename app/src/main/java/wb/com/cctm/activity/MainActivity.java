@@ -15,6 +15,8 @@ import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 
+import java.io.File;
+
 import wb.com.cctm.App;
 import wb.com.cctm.R;
 import wb.com.cctm.base.BaseActivity;
@@ -22,6 +24,7 @@ import wb.com.cctm.commons.utils.VersionUtil;
 import wb.com.cctm.fragment.DeliverFragment;
 import wb.com.cctm.fragment.MarketFragment;
 import wb.com.cctm.fragment.MineFragment;
+import wb.com.cctm.net.FlowAPI;
 
 public class MainActivity extends BaseActivity {
     private Button[] mTabs;
@@ -103,6 +106,7 @@ public class MainActivity extends BaseActivity {
                     REQUEST_EXTERNAL_STORAGE);
         } else {
             update();
+            initTools();
         }
     }
     private void update() {
@@ -136,5 +140,13 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+    }
+
+    public void initTools(){
+        String out_file_path = FlowAPI.YYW_FILE_PATH;
+        File dir = new File(out_file_path);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
     }
 }
