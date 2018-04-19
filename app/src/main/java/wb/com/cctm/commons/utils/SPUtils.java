@@ -12,14 +12,17 @@ import wb.com.cctm.App;
  */
 public class SPUtils {
     private static final String CONFIG = "config";
-    public static final String userid = "userid";
+    public static final String username = "username";
     public static final String password = "password";
     public static final String headimgpath = "headimgpath";
+    public static final String phone = "phone";
+    public static final String isLogin = "isLogin";
 
     /**
      * 退出程序清空用户数据
      */
     public static void clearUser() {
+        SPUtils.putString(isLogin,"0");
     }
     /**
      * 清空SharedPreferences实例对象

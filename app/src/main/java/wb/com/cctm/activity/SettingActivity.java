@@ -42,8 +42,8 @@ public class SettingActivity extends BaseActivity {
                 SPUtils.clearUser();
                 intent = new Intent(SettingActivity.this,LoginActivity.class);
                 startActivity(intent);
-                App.getInstance().getMainActivity().finish();
                 finish();
+                App.getInstance().getMainActivity().finish();
                 break;
             default:
                 break;

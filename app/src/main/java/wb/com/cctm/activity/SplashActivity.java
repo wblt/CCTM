@@ -14,7 +14,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        if (TextUtils.isEmpty(SPUtils.getString(SPUtils.userid))) {
+        if (SPUtils.getString(SPUtils.isLogin).equals("0")) {
             Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
             startActivity(intent);
         } else {

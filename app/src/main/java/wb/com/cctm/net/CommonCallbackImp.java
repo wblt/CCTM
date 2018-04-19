@@ -22,12 +22,14 @@ import wb.com.cctm.base.BaseActivity;
 public class CommonCallbackImp implements Callback.CommonCallback<String>,Callback.ProgressCallback<String> {
     private String tip;
     private RequestParams requestParams;
-    private Context context;
+    private BaseActivity activity;
+    private int type = 0;
 
-    public CommonCallbackImp(String tip, RequestParams requestParams, Context context){
+    public CommonCallbackImp(String tip, RequestParams requestParams, BaseActivity activity){
         this.tip = tip;
         this.requestParams = requestParams;
-        this.context = context;
+        this.activity = activity;
+        type = 1;
     }
 
     public CommonCallbackImp(String tip, RequestParams requestParams){
@@ -36,16 +38,19 @@ public class CommonCallbackImp implements Callback.CommonCallback<String>,Callba
     }
 
     private void show(String pMsg){
-        if(context == null){
+        if(activity == null){
             return;
         }
-        Toast toast =  Toast.makeText(context,pMsg,Toast.LENGTH_LONG);
+        Toast toast =  Toast.makeText(activity,pMsg,Toast.LENGTH_LONG);
         toast.show();
     }
 
     @Override
     public void onSuccess(String result) {
         Log.i("",tip + "返回："+result);
+        if(type == 1){
+            activity.dismissLoadding();
+        }
     }
 
     @Override
@@ -58,10 +63,14 @@ public class CommonCallbackImp implements Callback.CommonCallback<String>,Callba
             show("服务器异常");
             ex.printStackTrace();
         }
+        if(type == 1) {
+            activity.dismissLoadding();
+        }
     }
 
     @Override
     public void onCancelled(CancelledException cex) {
+
     }
 
     @Override
@@ -76,6 +85,9 @@ public class CommonCallbackImp implements Callback.CommonCallback<String>,Callba
     @Override
     public void onStarted() {
         Log.i("",tip+"参数：" + requestParams.getStringParams() + requestParams.getFileParams());
+        if(type == 1){
+            activity.showLoadding("请稍候...");
+        }
     }
 
     @Override

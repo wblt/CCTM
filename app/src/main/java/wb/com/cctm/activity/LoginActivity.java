@@ -14,6 +14,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
+
+import org.xutils.http.RequestParams;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -22,6 +26,11 @@ import wb.com.cctm.base.BaseActivity;
 import wb.com.cctm.commons.utils.Code;
 import wb.com.cctm.commons.utils.SPUtils;
 import wb.com.cctm.commons.utils.ToastUtils;
+import wb.com.cctm.net.CommonCallbackImp;
+import wb.com.cctm.net.FlowAPI;
+import wb.com.cctm.net.MXUtils;
+
+import static wb.com.cctm.R.id.et_userphone;
 
 public class LoginActivity extends BaseActivity {
     @BindView(R.id.top_left)
@@ -61,7 +70,7 @@ public class LoginActivity extends BaseActivity {
         //将验证码用图片的形式显示出来
         iv_showCode.setImageBitmap(Code.getInstance().createBitmap("#424242"));
         realCode = Code.getInstance().getCode().toLowerCase();
-        et_username.setText(SPUtils.getString(SPUtils.userid));
+        et_username.setText(SPUtils.getString(SPUtils.username));
         et_password.setText(SPUtils.getString(SPUtils.password));
     }
 
@@ -111,25 +120,27 @@ public class LoginActivity extends BaseActivity {
             realCode = Code.getInstance().getCode().toLowerCase();
             return;
         }
-        if (!username.equals(SPUtils.getString(SPUtils.userid))) {
-            ToastUtils.toastutils("账号输入错误",this);
-            return;
-        }
-        if (!password.equals(SPUtils.getString(SPUtils.password))) {
-            ToastUtils.toastutils("密码输入错误",this);
-            return;
-        }
-        showLoadding("登录中...");
-        new Handler().postDelayed(new Runnable() {
+        RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.login);
+        requestParams.addParameter("USER_NAME", username);
+        requestParams.addParameter("PASSWORD", password);
+        MXUtils.httpPost(requestParams,new CommonCallbackImp("USER - 登录",requestParams,this){
             @Override
-            public void run() {
-                dismissLoadding();
-                SPUtils.putString(SPUtils.userid,username);
-                SPUtils.putString(SPUtils.password,password);
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(intent);
-                finish();
+            public void onSuccess(String data) {
+                super.onSuccess(data);
+                JSONObject jsonObject = JSONObject.parseObject(data);
+                String result = jsonObject.getString("code");
+                String message = jsonObject.getString("message");
+                if (result.equals(FlowAPI.SUCCEED)) {
+                    SPUtils.putString(SPUtils.username,username);
+                    SPUtils.putString(SPUtils.password,password);
+                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    ToastUtils.toastutils(message,LoginActivity.this);
+                }
             }
-        },2000);
+        });
+
     }
 }

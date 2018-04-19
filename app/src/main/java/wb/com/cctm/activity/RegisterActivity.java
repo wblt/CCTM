@@ -6,19 +6,30 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.alibaba.fastjson.JSONObject;
+
+import org.xutils.http.RequestParams;
+
+import java.security.NoSuchAlgorithmException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import wb.com.cctm.R;
 import wb.com.cctm.base.BaseActivity;
+import wb.com.cctm.commons.utils.MD5;
 import wb.com.cctm.commons.utils.RegExpValidator;
 import wb.com.cctm.commons.utils.SPUtils;
 import wb.com.cctm.commons.utils.ToastUtils;
+import wb.com.cctm.net.CommonCallbackImp;
+import wb.com.cctm.net.FlowAPI;
+import wb.com.cctm.net.MXUtils;
 
 public class RegisterActivity extends BaseActivity {
 
@@ -34,6 +45,10 @@ public class RegisterActivity extends BaseActivity {
     Button btn_get_code;
     private String codeNum;     // 验证码
     private MyCount myCount;
+    @BindView(R.id.et_userphone)
+    EditText et_userphone;
+    @BindView(R.id.et_yaoqing_code)
+    EditText et_yaoqing_code;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,14 +83,23 @@ public class RegisterActivity extends BaseActivity {
 
     private void getcode() {
         final String username = et_username.getText().toString();
+        String userphone = et_userphone.getText().toString();
         final String password = et_password.getText().toString();
         String re_password = et_re_password.getText().toString();
         if (TextUtils.isEmpty(username)) {
-            ToastUtils.toastutils("电话号码为空",RegisterActivity.this);
+            ToastUtils.toastutils("用户名输入为空",RegisterActivity.this);
             return;
         }
-        if (!RegExpValidator.IsHandset(username)) {
-            ToastUtils.toastutils("密码为空",RegisterActivity.this);
+        if (TextUtils.isEmpty(userphone)) {
+            ToastUtils.toastutils("电话号码输入为空",RegisterActivity.this);
+            return;
+        }
+        if (TextUtils.isEmpty(password)) {
+            ToastUtils.toastutils("密码输入为空",RegisterActivity.this);
+            return;
+        }
+        if (!RegExpValidator.IsHandset(userphone)) {
+            ToastUtils.toastutils("电话号码格式不正确",RegisterActivity.this);
             return;
         }
         String regex = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$";
@@ -87,23 +111,55 @@ public class RegisterActivity extends BaseActivity {
             ToastUtils.toastutils("密码输入不一致",RegisterActivity.this);
             return;
         }
-        ToastUtils.toastutils("验证码发送成功",RegisterActivity.this);
-        btn_get_code.setEnabled(false);
-        myCount.start();
-        ToastUtils.toastutils("验证码为123456",RegisterActivity.this);
+        try {
+            String md5Str = MD5.MD5Encode(userphone+"shc");
+            RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.register_code);
+            requestParams.addParameter("ACCOUNT", et_userphone.getText().toString());
+            requestParams.addParameter("digestStr", md5Str);
+            MXUtils.httpPost(requestParams,new CommonCallbackImp("USER - 注册短信验证码",requestParams,this){
+                @Override
+                public void onSuccess(String data) {
+                    super.onSuccess(data);
+                    JSONObject jsonObject = JSONObject.parseObject(data);
+                    String result = jsonObject.getString("code");
+                    String message = jsonObject.getString("message");
+                    if (result.equals(FlowAPI.SUCCEED)) {
+                        ToastUtils.toastutils("验证码发送成功",RegisterActivity.this);
+                        btn_get_code.setEnabled(false);
+                        myCount.start();
+                    } else {
+                        ToastUtils.toastutils(message,RegisterActivity.this);
+                    }
+                }
+            });
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void register() {
         final String username = et_username.getText().toString();
         final String password = et_password.getText().toString();
+        final String userphone = et_userphone.getText().toString();
         String re_password = et_re_password.getText().toString();
+        String yaoqingcode = et_yaoqing_code.getText().toString();
         String code = et_code.getText().toString();
         if (TextUtils.isEmpty(username)) {
-            ToastUtils.toastutils("电话号码为空",RegisterActivity.this);
+            ToastUtils.toastutils("用户名输入为空",RegisterActivity.this);
             return;
         }
-        if (!RegExpValidator.IsHandset(username)) {
-            ToastUtils.toastutils("密码为空",RegisterActivity.this);
+        if (TextUtils.isEmpty(userphone)) {
+            ToastUtils.toastutils("电话号码输入为空",RegisterActivity.this);
+            return;
+        }
+
+        if (!RegExpValidator.IsHandset(userphone)) {
+            ToastUtils.toastutils("电话号码格式错误",RegisterActivity.this);
+            return;
+        }
+        if (TextUtils.isEmpty(password)) {
+            ToastUtils.toastutils("密码输入为空",RegisterActivity.this);
             return;
         }
         if (!password.equals(re_password)) {
@@ -114,22 +170,39 @@ public class RegisterActivity extends BaseActivity {
             ToastUtils.toastutils("验证为空",RegisterActivity.this);
             return;
         }
-        if (!code.equals("123456")) {
-            ToastUtils.toastutils("验证码输入错误",RegisterActivity.this);
+        if (TextUtils.isEmpty(yaoqingcode)) {
+            ToastUtils.toastutils("邀请码输入为空",RegisterActivity.this);
             return;
         }
-        showLoadding("注册中...");
-        new Handler().postDelayed(new Runnable() {
+        RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.register);
+        requestParams.addParameter("USER_NAME", username);
+        requestParams.addParameter("PASSWORD", password);
+        requestParams.addParameter("ACCOUNT", userphone);
+        requestParams.addParameter("SJYZM", code);
+        requestParams.addParameter("YQ_CODE", yaoqingcode);
+        MXUtils.httpPost(requestParams,new CommonCallbackImp("USER - 用户注册",requestParams,this){
             @Override
-            public void run() {
-                dismissLoadding();
-                SPUtils.putString(SPUtils.userid,username);
-                SPUtils.putString(SPUtils.password,password);
-                Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
-                startActivity(intent);
-                finish();
+            public void onSuccess(String data) {
+                super.onSuccess(data);
+                JSONObject jsonObject = JSONObject.parseObject(data);
+                String result = jsonObject.getString("code");
+                String message = jsonObject.getString("message");
+                if (result.equals(FlowAPI.SUCCEED)) {
+                    String pd = jsonObject.getString("pd");
+                    JSONObject pd_obj = JSONObject.parseObject(pd);
+                    SPUtils.putString(SPUtils.username,username);
+                    SPUtils.putString(SPUtils.password,password);
+                    SPUtils.putString(SPUtils.phone,userphone);
+                    Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    ToastUtils.toastutils(message,RegisterActivity.this);
+                }
+
             }
-        },2000);
+        });
+
     }
 
     public class MyCount extends CountDownTimer {
@@ -149,4 +222,6 @@ public class RegisterActivity extends BaseActivity {
             btn_get_code.setText("获取验证码");
         }
     }
+
+
 }

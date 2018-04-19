@@ -8,6 +8,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,10 +49,11 @@ public class DeliverFragment extends BaseFragment {
     private AnimationDrawable mAnimation;
     @BindView(R.id.ll_look_friende)
     LinearLayout ll_look_friende;
+    @BindView(R.id.refreshLayout)
+    RefreshLayout refreshLayout;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,6 +79,12 @@ public class DeliverFragment extends BaseFragment {
             }
         });
         initData();
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+
+            }
+        });
     }
 
     private void initData() {
@@ -82,7 +93,6 @@ public class DeliverFragment extends BaseFragment {
         String planWalk_QTY = (String) sp.getParam("planWalk_QTY", "7000");
         //设置当前步数为0
         cc.setCurrentCount(Integer.parseInt(planWalk_QTY), 0);
-//        tv_isSupport.setText("计步中...");
         setupService();
     }
 
@@ -149,17 +159,21 @@ public class DeliverFragment extends BaseFragment {
             StepService stepService = ((StepService.StepBinder) service).getService();
             //设置初始化数据
             String planWalk_QTY = (String) sp.getParam("planWalk_QTY", "7000");
-            cc.setCurrentCount(Integer.parseInt(planWalk_QTY), stepService.getStepCount());
+            if (cc != null) {
+                cc.setCurrentCount(Integer.parseInt(planWalk_QTY), stepService.getStepCount());
+            }
             //设置步数监听回调
             stepService.registerCallback(new UpdateUiCallBack() {
                 @Override
                 public void updateUi(int stepCount) {
                     String planWalk_QTY = (String) sp.getParam("planWalk_QTY", "7000");
-                    cc.setCurrentCount(Integer.parseInt(planWalk_QTY), stepCount);
+                    if (cc != null) {
+                        cc.setCurrentCount(Integer.parseInt(planWalk_QTY), stepCount);
+                    }
+
                 }
             });
         }
-
         /**
          * 当与Service之间的连接丢失的时候会调用该方法，
          * 这种情况经常发生在Service所在的进程崩溃或者被Kill的时候调用，
@@ -171,4 +185,6 @@ public class DeliverFragment extends BaseFragment {
 
         }
     };
+
+
 }

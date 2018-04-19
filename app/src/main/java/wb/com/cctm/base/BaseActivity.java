@@ -97,7 +97,7 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * 加载菊花
      */
-    protected void showLoadding(String message) {
+    public void showLoadding(String message) {
         if (builder == null) {
             builder = new LoadingDialog.Builder(this)
                     .setCancelable(false);
@@ -112,7 +112,7 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * 消失菊花
      */
-    protected void dismissLoadding() {
+    public void dismissLoadding() {
         if (loadingDialog != null) {
             loadingDialog.dismiss();
         }

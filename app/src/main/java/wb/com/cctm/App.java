@@ -7,6 +7,8 @@ import android.support.multidex.MultiDex;
 
 import com.tencent.bugly.crashreport.CrashReport;
 
+import org.xutils.x;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class App extends Application {
         instance = this;
         // 腾讯bugly
         CrashReport.initCrashReport(getApplicationContext(), "a92ccabdd7", true);
+        initExt();
     }
 
     @Override
@@ -60,6 +63,11 @@ public class App extends Application {
 
     public void setMainActivity(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
+    }
+
+    public void initExt(){
+        x.Ext.init(this);
+        x.Ext.setDebug(true);
     }
 
 }
