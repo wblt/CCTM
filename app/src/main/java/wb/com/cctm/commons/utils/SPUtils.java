@@ -17,7 +17,7 @@ public class SPUtils {
     public static final String headimgpath = "headimgpath";
     public static final String phone = "phone";
     public static final String isLogin = "isLogin";
-
+    public static final String wallet_address = "wallet_address";
     /**
      * 退出程序清空用户数据
      */

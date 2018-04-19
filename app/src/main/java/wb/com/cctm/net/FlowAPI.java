@@ -31,5 +31,22 @@ public class FlowAPI {
     // USER - 忘记密码
     public static String forgotpwd = SERVER_IP + "/app/user/forget";
 
+    // INDEX - 公告
+    public static String notice = SERVER_IP + "/app/index/notice";
+
+    // INDEX - 我的好友
+    public static String friends = SERVER_IP + "/app/index/friends";
+
+    // INDEX - 记录步数
+    public static String dayStep = SERVER_IP + "/app/index/dayStep";
+
+    // INDEX - 邀请好友
+    public static String invitation = SERVER_IP + "/app/index/invitation";
+
+    // INDEX - 零钱钱包转入算力钱包
+    public static String transferred = SERVER_IP + "/app/index/transferred";
+
+    // INDEX - 首页
+    public static String homePage = SERVER_IP + "/app/index/homePage";
 
 }

@@ -133,6 +133,7 @@ public class LoginActivity extends BaseActivity {
                 if (result.equals(FlowAPI.SUCCEED)) {
                     SPUtils.putString(SPUtils.username,username);
                     SPUtils.putString(SPUtils.password,password);
+                    SPUtils.putString(SPUtils.isLogin,"1");
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
                     finish();

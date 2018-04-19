@@ -17,24 +17,36 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.xutils.http.RequestParams;
+
+import java.math.BigDecimal;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import wb.com.cctm.R;
+import wb.com.cctm.activity.FrendsActivity;
 import wb.com.cctm.activity.InvitingFriendsActivity;
 import wb.com.cctm.activity.MoveWalletActivity;
 import wb.com.cctm.activity.NewsActivity;
 import wb.com.cctm.activity.WalletRecordActivity;
+import wb.com.cctm.base.BaseActivity;
 import wb.com.cctm.base.BaseFragment;
 import wb.com.cctm.commons.step.UpdateUiCallBack;
 import wb.com.cctm.commons.step.service.StepService;
 import wb.com.cctm.commons.step.utils.SharedPreferencesUtils;
 import wb.com.cctm.commons.step.view.StepArcView;
+import wb.com.cctm.commons.utils.ImageLoader;
+import wb.com.cctm.commons.utils.SPUtils;
 import wb.com.cctm.commons.utils.ToastUtils;
+import wb.com.cctm.net.CommonCallbackImp;
+import wb.com.cctm.net.FlowAPI;
+import wb.com.cctm.net.MXUtils;
 
 public class DeliverFragment extends BaseFragment {
 
@@ -51,6 +63,14 @@ public class DeliverFragment extends BaseFragment {
     LinearLayout ll_look_friende;
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;
+    @BindView(R.id.iv_head_img)
+    ImageView iv_head_img;
+    @BindView(R.id.tv_user_name)
+    TextView tv_user_name;
+    @BindView(R.id.tv_d_curr)
+    TextView tv_d_curr;
+    @BindView(R.id.tv_s_curr)
+    TextView tv_s_curr;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +83,12 @@ public class DeliverFragment extends BaseFragment {
         unbinder = ButterKnife.bind(this,view);
         initview(view);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        homepage();
     }
 
     private void initview(View view) {
@@ -105,7 +131,7 @@ public class DeliverFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.ll_invate_friends,R.id.xingfeng,R.id.ll_move_wallet,R.id.ll_change_wallet})
+    @OnClick({R.id.ll_invate_friends,R.id.xingfeng,R.id.ll_move_wallet,R.id.ll_change_wallet,R.id.ll_look_friende})
     void viewClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -122,7 +148,8 @@ public class DeliverFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.ll_look_friende:
-                ToastUtils.toastutils("开发中",getContext());
+                intent = new Intent(getActivity(), FrendsActivity.class);
+                startActivity(intent);
                 break;
             case R.id.ll_change_wallet:
                 intent = new Intent(getActivity(), WalletRecordActivity.class);
@@ -185,6 +212,32 @@ public class DeliverFragment extends BaseFragment {
 
         }
     };
+
+    private void homepage() {
+        RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.homePage);
+        requestParams.addParameter("USER_NAME", SPUtils.getString(SPUtils.username));
+        MXUtils.httpPost(requestParams,new CommonCallbackImp("INDEX - 首页",requestParams, (BaseActivity) getActivity()){
+            @Override
+            public void onSuccess(String data) {
+                super.onSuccess(data);
+                JSONObject jsonObject = JSONObject.parseObject(data);
+                String result = jsonObject.getString("code");
+                String message = jsonObject.getString("message");
+                if (result.equals(FlowAPI.SUCCEED)) {
+                    String pd = jsonObject.getString("pd");
+                    JSONObject pd_obj = JSONObject.parseObject(pd);
+                    SPUtils.putString(SPUtils.wallet_address,pd_obj.getString("W_ADDRESS"));
+                    ImageLoader.load(pd_obj.getString("HEAD_URL"),iv_head_img);
+                    SPUtils.putString(SPUtils.headimgpath,pd_obj.getString("HEAD_URL"));
+                    tv_user_name.setText(pd_obj.getString("USER_NAME"));
+                    tv_d_curr.setText(pd_obj.getString("D_CURRENCY"));
+                    tv_s_curr.setText(pd_obj.getString("S_CURRENCY"));
+                } else {
+                    ToastUtils.toastutils(message,getActivity());
+                }
+            }
+        });
+    }
 
 
 }
