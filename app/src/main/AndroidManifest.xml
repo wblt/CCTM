@@ -140,7 +140,10 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".activity.UserInfoActivity" />
         <activity android:name=".activity.MyorderActivity" />
-        <activity android:name=".activity.CompoundActivity"></activity>
+        <activity android:name=".activity.CompoundActivity" />
+        <activity android:name=".activity.FinancialTransferActivity" />
+        <activity android:name=".activity.TransferRecoderActivity" />
+        <activity android:name=".activity.WalletConversionActivity"></activity>
     </application>
 
 </manifest>

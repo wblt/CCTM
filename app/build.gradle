@@ -34,6 +34,8 @@ dependencies {
     //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
     compile files('libs/lite-orm-1.7.0.jar')
     compile project(':mypwdinputlibrary')
+    compile project(':imagewatcher')
+    compile project(':imagepicker')
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:multidex:1.0.1'
@@ -50,6 +52,4 @@ dependencies {
     compile 'org.xutils:xutils:3.3.36'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    compile project(':imagewatcher')
-    compile project(':imagepicker')
 }

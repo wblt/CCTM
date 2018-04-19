@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import wb.com.cctm.R;
 import wb.com.cctm.activity.GuadanActivity;
-import wb.com.cctm.adapter.MarketPageAdapter;
+import wb.com.cctm.adapter.BBPageAdapter;
 import wb.com.cctm.base.BaseFragment;
 import wb.com.cctm.commons.utils.ToastUtils;
 
@@ -70,7 +70,7 @@ public class MarketFragment extends BaseFragment {
         mTitleList = new ArrayList<>();
         mTitleList.add("买单市场");
         mTitleList.add("卖单市场");
-        mvp.setAdapter(new MarketPageAdapter(getFragmentManager(), mFragmentList, mTitleList));
+        mvp.setAdapter(new BBPageAdapter(getFragmentManager(), mFragmentList, mTitleList));
         //将tablayout与fragment关联
         tab.setTabMode(TabLayout.MODE_FIXED);
         //将tablayout与fragment关联

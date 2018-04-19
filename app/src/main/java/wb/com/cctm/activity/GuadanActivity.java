@@ -3,9 +3,7 @@ package wb.com.cctm.activity;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +11,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import wb.com.cctm.R;
-import wb.com.cctm.adapter.GuadanPageAdapter;
+import wb.com.cctm.adapter.BBPageAdapter;
 import wb.com.cctm.base.BaseActivity;
 import wb.com.cctm.fragment.GuaBuyFragment;
 import wb.com.cctm.fragment.GuaSellFragment;
@@ -44,7 +42,7 @@ public class GuadanActivity extends BaseActivity {
         mTitleList = new ArrayList<>();
         mTitleList.add("挂买单");
         mTitleList.add("挂卖单");
-        mvp.setAdapter(new GuadanPageAdapter(getSupportFragmentManager(),mFragmentList,mTitleList));
+        mvp.setAdapter(new BBPageAdapter(getSupportFragmentManager(),mFragmentList,mTitleList));
         //将tablayout与fragment关联
         tab.setTabMode(TabLayout.MODE_FIXED);
         //将tablayout与fragment关联

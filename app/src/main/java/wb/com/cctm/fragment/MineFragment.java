@@ -19,9 +19,12 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import wb.com.cctm.R;
 import wb.com.cctm.activity.CompoundActivity;
+import wb.com.cctm.activity.FinancialTransferActivity;
 import wb.com.cctm.activity.MyorderActivity;
 import wb.com.cctm.activity.SettingActivity;
+import wb.com.cctm.activity.TransferRecoderActivity;
 import wb.com.cctm.activity.UserInfoActivity;
+import wb.com.cctm.activity.WalletConversionActivity;
 import wb.com.cctm.base.BaseFragment;
 import wb.com.cctm.commons.utils.ImageLoader;
 import wb.com.cctm.commons.utils.SPUtils;
@@ -73,7 +76,8 @@ public class MineFragment extends BaseFragment {
         });
     }
 
-    @OnClick({R.id.ll_user_info,R.id.ll_my_order,R.id.ll_fuli_setting})
+    @OnClick({R.id.ll_user_info,R.id.ll_my_order,R.id.ll_fuli_setting,R.id.ll_transfer,R.id.ll_transfer_recoder,
+            R.id.ll_wallet_conversion})
     void viewClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -87,6 +91,18 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.ll_fuli_setting:
                 intent = new Intent(getActivity(), CompoundActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.ll_transfer:
+                intent = new Intent(getActivity(), FinancialTransferActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.ll_transfer_recoder:
+                intent = new Intent(getActivity(), TransferRecoderActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.ll_wallet_conversion:
+                intent = new Intent(getActivity(), WalletConversionActivity.class);
                 startActivity(intent);
                 break;
             default:

@@ -14,11 +14,11 @@ import butterknife.ButterKnife;
 import wb.com.cctm.R;
 import wb.com.cctm.adapter.BBPageAdapter;
 import wb.com.cctm.base.BaseActivity;
-import wb.com.cctm.fragment.GuaBuyFragment;
-import wb.com.cctm.fragment.GuaSellFragment;
-import wb.com.cctm.fragment.MyCheckFragment;
+import wb.com.cctm.fragment.OutChangeFragment;
+import wb.com.cctm.fragment.OutenergyFragment;
 
-public class MyorderActivity extends BaseActivity {
+public class FinancialTransferActivity extends BaseActivity {
+
     @BindView(R.id.tab)
     TabLayout tab;
     @BindView(R.id.mvp)
@@ -28,20 +28,21 @@ public class MyorderActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        appendMainBody(this,R.layout.activity_myorder);
+        appendMainBody(this,R.layout.activity_financial_transfer);
         appendTopBody(R.layout.activity_top_text);
         setTopLeftDefultListener();
-        setTopBarTitle("订单");
+        setTopBarTitle("转账");
         ButterKnife.bind(this);
         initview();
     }
+
     private void initview() {
         mFragmentList = new ArrayList<>();
-        mFragmentList.add(new MyCheckFragment());
-        mFragmentList.add(new MyCheckFragment());
+        mFragmentList.add(new OutenergyFragment());
+        mFragmentList.add(new OutChangeFragment());
         mTitleList = new ArrayList<>();
-        mTitleList.add("我的买单");
-        mTitleList.add("我的卖单");
+        mTitleList.add("转出能量包");
+        mTitleList.add("转出零钱包");
         mvp.setAdapter(new BBPageAdapter(getSupportFragmentManager(),mFragmentList,mTitleList));
         //将tablayout与fragment关联
         tab.setTabMode(TabLayout.MODE_FIXED);

@@ -7,15 +7,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.List;
 
 /**
- * Created by wb on 2018/4/18.
+ * Created by wb on 2018/4/19.
  */
 
-public class MyorderPageAdapter extends FragmentPagerAdapter {
+public class BBPageAdapter extends FragmentPagerAdapter {
     //添加fragment的集合
     private List<Fragment> mFragmentList;
     //添加标题的集合
     private List<String> mTilteLis;
-    public MyorderPageAdapter(FragmentManager fm,List<Fragment> fragmentList, List<String> tilteLis) {
+    public BBPageAdapter(FragmentManager fm, List<Fragment> fragmentList, List<String> tilteLis) {
         super(fm);
         mFragmentList = fragmentList;
         mTilteLis = tilteLis;
