@@ -30,6 +30,7 @@ import butterknife.internal.Utils;
 import ch.ielse.view.imagewatcher.ImageWatcher;
 import wb.com.cctm.R;
 import wb.com.cctm.base.BaseActivity;
+import wb.com.cctm.commons.utils.BBConfig;
 import wb.com.cctm.commons.utils.BitmapUtils;
 import wb.com.cctm.commons.utils.CommonUtils;
 import wb.com.cctm.commons.utils.FileUtil;
@@ -37,7 +38,6 @@ import wb.com.cctm.commons.utils.GlideImageLoader;
 import wb.com.cctm.commons.utils.ImageLoader;
 import wb.com.cctm.commons.utils.SPUtils;
 import wb.com.cctm.commons.widget.ActionSheet;
-import wb.com.cctm.net.FlowAPI;
 
 public class UserInfoActivity extends BaseActivity {
     Dialog dialog;
@@ -110,7 +110,7 @@ public class UserInfoActivity extends BaseActivity {
         if (TextUtils.isEmpty(filepath)) {
             try {
                 Bitmap bitmap = BitmapUtils.readBitMap(this,R.mipmap.head);
-                filepath = FlowAPI.YYW_FILE_PATH + System.currentTimeMillis() + "save.png";
+                filepath = BBConfig.YYW_FILE_PATH + System.currentTimeMillis() + "save.png";
                 FileUtil.saveBitmap(bitmap,filepath);
                 SPUtils.putString(SPUtils.headimgpath,filepath);
             } catch (Exception e) {

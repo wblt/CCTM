@@ -14,7 +14,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import wb.com.cctm.net.FlowAPI;
 
 /**
  * Image compress factory class

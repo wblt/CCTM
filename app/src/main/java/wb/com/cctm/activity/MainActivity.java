@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -16,15 +17,17 @@ import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 
 import java.io.File;
+import java.security.NoSuchAlgorithmException;
 
 import wb.com.cctm.App;
 import wb.com.cctm.R;
 import wb.com.cctm.base.BaseActivity;
+import wb.com.cctm.commons.utils.BBConfig;
+import wb.com.cctm.commons.utils.MD5;
 import wb.com.cctm.commons.utils.VersionUtil;
 import wb.com.cctm.fragment.DeliverFragment;
 import wb.com.cctm.fragment.MarketFragment;
 import wb.com.cctm.fragment.MineFragment;
-import wb.com.cctm.net.FlowAPI;
 
 public class MainActivity extends BaseActivity {
     private Button[] mTabs;
@@ -42,6 +45,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         App.getInstance().setMainActivity(this);
         initView();
+        test();
     }
     private void initView() {
         DeliverFragment deliverFragment = new DeliverFragment();
@@ -143,10 +147,20 @@ public class MainActivity extends BaseActivity {
     }
 
     public void initTools(){
-        String out_file_path = FlowAPI.YYW_FILE_PATH;
+        String out_file_path = BBConfig.YYW_FILE_PATH;
         File dir = new File(out_file_path);
         if (!dir.exists()) {
             dir.mkdirs();
+        }
+    }
+
+    private void test() {
+        try {
+            String str  = "15388965285dec";
+            String md5_str = MD5.MD5Encode(str);
+            Log.i("s",md5_str);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
     }
 }
