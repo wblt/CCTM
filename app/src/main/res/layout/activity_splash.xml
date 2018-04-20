@@ -10,5 +10,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/fullscreen"/>
+        android:src="@mipmap/fullscreen"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"/>
 </LinearLayout>
