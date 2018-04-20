@@ -7,6 +7,7 @@ package wb.com.cctm.bean;
 public class NoticeBean {
     String TITLE;
     String CONTENT;
+    String CREATE_TIME;
 
     public String getTITLE() {
         return TITLE;
@@ -22,5 +23,13 @@ public class NoticeBean {
 
     public void setCONTENT(String CONTENT) {
         this.CONTENT = CONTENT;
+    }
+
+    public String getCREATE_TIME() {
+        return CREATE_TIME;
+    }
+
+    public void setCREATE_TIME(String CREATE_TIME) {
+        this.CREATE_TIME = CREATE_TIME;
     }
 }

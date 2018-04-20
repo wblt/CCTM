@@ -31,5 +31,6 @@ public class NewsDetailActivity extends BaseActivity {
     private void initview() {
         tv_title.setText(getIntent().getStringExtra("title"));
         tv_content.setText("   "+getIntent().getStringExtra("content"));
+        tv_time.setText(getIntent().getStringExtra("time"));
     }
 }

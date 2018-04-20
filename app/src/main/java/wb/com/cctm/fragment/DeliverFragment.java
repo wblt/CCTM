@@ -73,6 +73,7 @@ public class DeliverFragment extends BaseFragment {
     TextView tv_s_curr;
     @BindView(R.id.sm_refreshLayout)
     SmartRefreshLayout sm_refreshLayout;
+    private String A_CURRENCY;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,6 +151,7 @@ public class DeliverFragment extends BaseFragment {
                 intent = new Intent(getActivity(), MoveWalletActivity.class);
                 intent.putExtra("D_CURRENCY",tv_d_curr.getText().toString());
                 intent.putExtra("S_CURRENCY",tv_s_curr.getText().toString());
+                intent.putExtra("A_CURRENCY",A_CURRENCY);
                 startActivity(intent);
                 break;
             case R.id.ll_look_friende:
@@ -239,6 +241,8 @@ public class DeliverFragment extends BaseFragment {
                     tv_user_name.setText(pd_obj.getString("USER_NAME"));
                     tv_d_curr.setText(pd_obj.getString("D_CURRENCY"));
                     tv_s_curr.setText(pd_obj.getString("S_CURRENCY"));
+
+                    A_CURRENCY = pd_obj.getString("A_CURRENCY");
                     dayStep();
                 } else {
                     ToastUtils.toastutils(message,getActivity());

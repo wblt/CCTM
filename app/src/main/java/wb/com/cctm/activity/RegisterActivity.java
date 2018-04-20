@@ -86,6 +86,7 @@ public class RegisterActivity extends BaseActivity {
         String userphone = et_userphone.getText().toString();
         final String password = et_password.getText().toString();
         String re_password = et_re_password.getText().toString();
+        String yaoqingcode = et_yaoqing_code.getText().toString();
         if (TextUtils.isEmpty(username)) {
             ToastUtils.toastutils("用户名输入为空",RegisterActivity.this);
             return;
@@ -109,6 +110,10 @@ public class RegisterActivity extends BaseActivity {
         }
         if (!password.equals(re_password)) {
             ToastUtils.toastutils("密码输入不一致",RegisterActivity.this);
+            return;
+        }
+        if (TextUtils.isEmpty(yaoqingcode)) {
+            ToastUtils.toastutils("邀请码输入为空",RegisterActivity.this);
             return;
         }
         try {

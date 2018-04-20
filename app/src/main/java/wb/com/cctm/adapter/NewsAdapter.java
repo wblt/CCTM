@@ -44,6 +44,7 @@ public class NewsAdapter extends RecyclerView.Adapter {
         Myholder myholder = (Myholder) holder;
         myholder.tv_title.setText(bean.getTITLE());
         myholder.tv_content.setText(bean.getCONTENT());
+        myholder.tv_time.setText(bean.getCREATE_TIME());
         myholder.tv_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,11 +64,13 @@ public class NewsAdapter extends RecyclerView.Adapter {
         private TextView tv_title;
         private TextView tv_content;
         private TextView tv_detail;
+        private TextView tv_time;
         public Myholder(View itemView) {
             super(itemView);
             tv_content = itemView.findViewById(R.id.tv_content);
             tv_title = itemView.findViewById(R.id.tv_title);
             tv_detail = itemView.findViewById(R.id.tv_detail);
+            tv_time = itemView.findViewById(R.id.tv_time);
         }
     }
 

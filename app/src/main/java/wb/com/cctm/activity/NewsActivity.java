@@ -68,6 +68,7 @@ public class NewsActivity extends BaseActivity {
                     Intent intent = new Intent(NewsActivity.this,NewsDetailActivity.class);
                     intent.putExtra("title",noticeBean.getTITLE());
                     intent.putExtra("content",noticeBean.getCONTENT());
+                    intent.putExtra("time",noticeBean.getCREATE_TIME());
                     startActivity(intent);
                 }
             });
