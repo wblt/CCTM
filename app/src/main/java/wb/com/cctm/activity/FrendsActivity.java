@@ -1,15 +1,22 @@
 package wb.com.cctm.activity;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.xutils.http.RequestParams;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -29,6 +36,12 @@ public class FrendsActivity extends BaseActivity {
     @BindView(R.id.recyc_list)
     RecyclerView recyc_list;
     private FrendsAdapter adapter;
+    @BindView(R.id.ll_content)
+    LinearLayout ll_content;
+    @BindView(R.id.ll_no_data)
+    LinearLayout ll_no_data;
+    @BindView(R.id.sm_refreshLayout)
+    SmartRefreshLayout sm_refreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,15 +50,29 @@ public class FrendsActivity extends BaseActivity {
         setTopBarTitle("我的好友");
         setTopLeftDefultListener();
         ButterKnife.bind(this);
+        initview();
         friends();
+    }
+
+    private void initview() {
+        sm_refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                refreshLayout.finishRefresh(1000);
+                friends();
+            }
+        });
     }
 
     private void recyc_frends(List<FrendsBean> list) {
         if (adapter == null) {
             adapter = new FrendsAdapter(list,FrendsActivity.this);
+            recyc_list.setLayoutManager(new LinearLayoutManager(this));
+            recyc_list.setAdapter(adapter);
+        } else {
+            adapter.refresh(list);
         }
-        recyc_list.setLayoutManager(new LinearLayoutManager(this));
-        recyc_list.setAdapter(adapter);
+
     }
 
     private void friends() {
@@ -61,7 +88,14 @@ public class FrendsActivity extends BaseActivity {
                 if (result.equals(FlowAPI.SUCCEED)) {
                     String pd = jsonObject.getString("pd");
                     List<FrendsBean> beanList = JSONArray.parseArray(pd,FrendsBean.class);
-                    recyc_frends(beanList);
+                    if (beanList != null && beanList.size() >0) {
+                        ll_content.setVisibility(View.VISIBLE);
+                        ll_no_data.setVisibility(View.GONE);
+                        recyc_frends(beanList);
+                    } else {
+                        ll_content.setVisibility(View.GONE);
+                        ll_no_data.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     ToastUtils.toastutils(message,FrendsActivity.this);
                 }

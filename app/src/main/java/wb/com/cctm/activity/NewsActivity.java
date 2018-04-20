@@ -1,13 +1,19 @@
 package wb.com.cctm.activity;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.xutils.http.RequestParams;
 
@@ -27,10 +33,15 @@ import wb.com.cctm.net.FlowAPI;
 import wb.com.cctm.net.MXUtils;
 
 public class NewsActivity extends BaseActivity {
-
     @BindView(R.id.recyc_list)
     RecyclerView recyc_list;
     private NewsAdapter newsAdapter;
+    @BindView(R.id.ll_content)
+    LinearLayout ll_content;
+    @BindView(R.id.ll_no_data)
+    LinearLayout ll_no_data;
+    @BindView(R.id.sm_refreshLayout)
+    SmartRefreshLayout sm_refreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,19 +60,31 @@ public class NewsActivity extends BaseActivity {
         }
         if (newsAdapter == null) {
             newsAdapter = new NewsAdapter(noticeBeen,NewsActivity.this);
+            recyc_list.setLayoutManager(new LinearLayoutManager(this));
+            recyc_list.setAdapter(newsAdapter);
+            newsAdapter.setListener(new OnItemClickListener<NoticeBean>() {
+                @Override
+                public void onClick(NoticeBean noticeBean, View view, int position) {
+                    Intent intent = new Intent(NewsActivity.this,NewsDetailActivity.class);
+                    intent.putExtra("title",noticeBean.getTITLE());
+                    intent.putExtra("content",noticeBean.getCONTENT());
+                    startActivity(intent);
+                }
+            });
+        } else {
+            newsAdapter.refresh(noticeBeen);
         }
-        newsAdapter.setListener(new OnItemClickListener() {
-            @Override
-            public void onClick(Object o, View view, int position) {
-                ToastUtils.toastutils("开发中",NewsActivity.this);
-            }
-        });
-        recyc_list.setLayoutManager(new LinearLayoutManager(this));
-        recyc_list.setAdapter(newsAdapter);
+
     }
 
     private void initview() {
-
+        sm_refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                refreshLayout.finishRefresh(1000);
+                notice();
+            }
+        });
     }
     private void notice() {
         RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.notice);
@@ -75,7 +98,14 @@ public class NewsActivity extends BaseActivity {
                 if (result.equals(FlowAPI.SUCCEED)) {
                     String pd = jsonObject.getString("pd");
                     List<NoticeBean> beanList = JSONArray.parseArray(pd,NoticeBean.class);
-                    recyc_notice(beanList);
+                    if (beanList != null && beanList.size() >0) {
+                        ll_content.setVisibility(View.VISIBLE);
+                        ll_no_data.setVisibility(View.GONE);
+                        recyc_notice(beanList);
+                    } else {
+                        ll_content.setVisibility(View.GONE);
+                        ll_no_data.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     ToastUtils.toastutils(message,NewsActivity.this);
                 }

@@ -144,7 +144,8 @@
         <activity android:name=".activity.FinancialTransferActivity" />
         <activity android:name=".activity.TransferRecoderActivity" />
         <activity android:name=".activity.WalletConversionActivity" />
-        <activity android:name=".activity.FrendsActivity"></activity>
+        <activity android:name=".activity.FrendsActivity" />
+        <activity android:name=".activity.NewsDetailActivity"></activity>
     </application>
 
 </manifest>

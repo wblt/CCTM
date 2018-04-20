@@ -20,11 +20,17 @@ import wb.com.cctm.bean.NoticeBean;
 public class NewsAdapter extends RecyclerView.Adapter {
     private List<NoticeBean> datas;
     private Context context;
-    private OnItemClickListener listener;
+    private OnItemClickListener<NoticeBean> listener;
     public NewsAdapter(List<NoticeBean> datas, Context context) {
         this.datas = datas;
         this.context = context;
     }
+
+    public void refresh(List<NoticeBean> datas) {
+        this.datas = datas;
+        notifyDataSetChanged();
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view =  LayoutInflater.from(context).inflate(R.layout.item_news,parent,false);
@@ -65,7 +71,7 @@ public class NewsAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public void setListener(OnItemClickListener listener) {
+    public void setListener(OnItemClickListener<NoticeBean> listener) {
         this.listener = listener;
     }
 }

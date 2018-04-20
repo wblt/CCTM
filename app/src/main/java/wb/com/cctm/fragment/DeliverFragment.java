@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -41,6 +42,7 @@ import wb.com.cctm.commons.step.UpdateUiCallBack;
 import wb.com.cctm.commons.step.service.StepService;
 import wb.com.cctm.commons.step.utils.SharedPreferencesUtils;
 import wb.com.cctm.commons.step.view.StepArcView;
+import wb.com.cctm.commons.utils.CommonUtils;
 import wb.com.cctm.commons.utils.ImageLoader;
 import wb.com.cctm.commons.utils.SPUtils;
 import wb.com.cctm.commons.utils.ToastUtils;
@@ -61,8 +63,6 @@ public class DeliverFragment extends BaseFragment {
     private AnimationDrawable mAnimation;
     @BindView(R.id.ll_look_friende)
     LinearLayout ll_look_friende;
-    @BindView(R.id.refreshLayout)
-    RefreshLayout refreshLayout;
     @BindView(R.id.iv_head_img)
     ImageView iv_head_img;
     @BindView(R.id.tv_user_name)
@@ -71,6 +71,8 @@ public class DeliverFragment extends BaseFragment {
     TextView tv_d_curr;
     @BindView(R.id.tv_s_curr)
     TextView tv_s_curr;
+    @BindView(R.id.sm_refreshLayout)
+    SmartRefreshLayout sm_refreshLayout;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,10 +107,11 @@ public class DeliverFragment extends BaseFragment {
             }
         });
         initData();
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+        sm_refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-
+                refreshLayout.finishRefresh(1000);
+                homepage();
             }
         });
     }
@@ -188,6 +191,7 @@ public class DeliverFragment extends BaseFragment {
             String planWalk_QTY = (String) sp.getParam("planWalk_QTY", "7000");
             if (cc != null) {
                 cc.setCurrentCount(Integer.parseInt(planWalk_QTY), stepService.getStepCount());
+                SPUtils.putString(SPUtils.current_step,stepService.getStepCount()+"");
             }
             //设置步数监听回调
             stepService.registerCallback(new UpdateUiCallBack() {
@@ -196,6 +200,7 @@ public class DeliverFragment extends BaseFragment {
                     String planWalk_QTY = (String) sp.getParam("planWalk_QTY", "7000");
                     if (cc != null) {
                         cc.setCurrentCount(Integer.parseInt(planWalk_QTY), stepCount);
+                        SPUtils.putString(SPUtils.current_step,stepCount+"");
                     }
 
                 }
@@ -232,9 +237,32 @@ public class DeliverFragment extends BaseFragment {
                     tv_user_name.setText(pd_obj.getString("USER_NAME"));
                     tv_d_curr.setText(pd_obj.getString("D_CURRENCY"));
                     tv_s_curr.setText(pd_obj.getString("S_CURRENCY"));
+                    dayStep();
                 } else {
                     ToastUtils.toastutils(message,getActivity());
                 }
+            }
+        });
+    }
+
+
+    private void dayStep() {
+        RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.dayStep);
+        requestParams.addParameter("USER_NAME", SPUtils.getString(SPUtils.username));
+        requestParams.addParameter("USER_STEP", SPUtils.getString(SPUtils.current_step));
+        requestParams.addParameter("CREATE_TIME", CommonUtils.getCurrentTime());
+        MXUtils.httpPost(requestParams,new CommonCallbackImp("INDEX - 记录步数",requestParams, (BaseActivity) getActivity()){
+            @Override
+            public void onSuccess(String data) {
+                super.onSuccess(data);
+                JSONObject jsonObject = JSONObject.parseObject(data);
+                String result = jsonObject.getString("code");
+                String message = jsonObject.getString("message");
+                if (result.equals(FlowAPI.SUCCEED)) {
+                } else {
+                    ToastUtils.toastutils(message,getActivity());
+                }
+
             }
         });
     }
