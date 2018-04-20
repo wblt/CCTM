@@ -27,6 +27,7 @@
                 android:layout_marginLeft="5dp"
                 android:textColor="@color/white"/>
             <TextView
+                android:id="@+id/tv_s_curr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0.00"
@@ -48,11 +49,12 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="能量钱包"
+                android:text="零钱钱包"
                 android:textSize="12dp"
                 android:layout_marginLeft="5dp"
                 android:textColor="@color/white"/>
             <TextView
+                android:id="@+id/tv_d_curr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0.00"
@@ -73,7 +75,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="转入数量"
+                android:text="转入金额"
                 android:textSize="12dp"
                 android:layout_marginLeft="5dp"
                 android:textColor="@color/white"/>
@@ -88,7 +90,9 @@
                 android:textSize="12dp"
                 android:textColorHint="@color/main_botton_text_color"
                 android:hint="请输入1~5000且1的倍数"
-                android:background="@null"/>
+                android:background="@null"
+                android:inputType="number"
+                android:digits="1234567890"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

@@ -148,6 +148,8 @@ public class DeliverFragment extends BaseFragment {
                 break;
             case R.id.ll_move_wallet:
                 intent = new Intent(getActivity(), MoveWalletActivity.class);
+                intent.putExtra("D_CURRENCY",tv_d_curr.getText().toString());
+                intent.putExtra("S_CURRENCY",tv_s_curr.getText().toString());
                 startActivity(intent);
                 break;
             case R.id.ll_look_friende:
