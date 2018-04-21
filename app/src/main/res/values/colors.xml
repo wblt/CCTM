@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="mainPrimary">#303030</color>
-    <color name="mainPrimary2">#353535</color>
-    <color name="bottom_color">#424242</color>
+    <color name="mainPrimary">#020919</color>
+    <color name="mainPrimary2">#020919</color>
+    <color name="bottom_color">#020919</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="black">#000000</color>
@@ -34,12 +34,14 @@
     <color name="transparent">#00000000</color>
     <color name="viewfinder_laser">#cc0000</color> <!-- Android standard ICS color -->
     <color name="viewfinder_mask">#50000000</color>
-    <color name="main_botton_text_color">#848484</color>
-    <color name="main_bottom_text_color_selector">#CCB07E</color>
+    <color name="main_botton_text_color">#111C3D</color>
+    <color name="main_bottom_text_color_selector">#ffffff</color>
     <color name="yellow">#fd9c06</color>
     <color name="red">#EE2C2C</color>
     <color name="grey">#BDBDBD</color>
     <color name="color_one">#FDE4BB</color>
     <color name="color_two">#FCD2A1</color>
     <color name="color_three">#EF8273</color>
+    <color name="color_green">#31AA28</color>
+
 </resources>
