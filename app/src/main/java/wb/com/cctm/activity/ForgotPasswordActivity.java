@@ -92,7 +92,7 @@ public class ForgotPasswordActivity extends BaseActivity {
             return;
         }
         try {
-            String md5_str = MD5.MD5Encode(username+"shc");
+            String md5_str = MD5.MD5Encode(phone+"shc");
             RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.forgotpwd_code);
             requestParams.addParameter("USER_NAME",username);
             requestParams.addParameter("digestStr", md5_str);

@@ -9,9 +9,16 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +45,29 @@ public class MineFragment extends BaseFragment {
     private Unbinder unbinder;
     @BindView(R.id.iv_head_img)
     ImageView iv_head_img;
+    //定义图标数组
+    private int[] imageRes = {
+            R.mipmap.chang,
+            R.mipmap.chang,
+            R.mipmap.chang,
+            R.mipmap.chang,
+            R.mipmap.chang,
+            R.mipmap.chang,
+            R.mipmap.chang,
+            R.mipmap.chang,
+            0};
+    //定义图标下方的名称数组
+    private String[] name = {
+            "我的订单",
+            "复利设置",
+            "财务转账",
+            "转账记录",
+            "钱包换算",
+            "美元汇率",
+            "运动记录",
+            "更多",
+            ""
+    };
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +82,7 @@ public class MineFragment extends BaseFragment {
         setTopBarTitle("我的");
         unbinder = ButterKnife.bind(this,view);
         initview(view);
+        initgradle(view);
         return view;
     }
 
@@ -76,33 +107,12 @@ public class MineFragment extends BaseFragment {
         });
     }
 
-    @OnClick({R.id.ll_user_info,R.id.ll_my_order,R.id.ll_fuli_setting,R.id.ll_transfer,R.id.ll_transfer_recoder,
-            R.id.ll_wallet_conversion})
+    @OnClick({R.id.ll_user_info})
     void viewClick(View view) {
         Intent intent;
         switch (view.getId()) {
             case R.id.ll_user_info:
                 intent = new Intent(getActivity(), UserInfoActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.ll_my_order:
-                intent = new Intent(getActivity(), MyorderActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.ll_fuli_setting:
-                intent = new Intent(getActivity(), CompoundActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.ll_transfer:
-                intent = new Intent(getActivity(), FinancialTransferActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.ll_transfer_recoder:
-                intent = new Intent(getActivity(), TransferRecoderActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.ll_wallet_conversion:
-                intent = new Intent(getActivity(), WalletConversionActivity.class);
                 startActivity(intent);
                 break;
             default:
@@ -114,5 +124,64 @@ public class MineFragment extends BaseFragment {
     public void onDestroy() {
         unbinder.unbind();
         super.onDestroy();
+    }
+    private void initgradle(View view) {
+        GridView gridView= (GridView) view.findViewById(R.id.gridview);//初始化
+        //生成动态数组，并且转入数据
+        ArrayList<HashMap<String ,Object>> listItemArrayList=new ArrayList<HashMap<String,Object>>();
+        for(int i=0; i<imageRes.length; i++){
+            HashMap<String, Object> map=new HashMap<String,Object>();
+            map.put("itemImage", imageRes[i]);
+            map.put("itemText", name[i]);
+            listItemArrayList.add(map);
+        }
+        //生成适配器的ImageItem 与动态数组的元素相对应
+        SimpleAdapter saImageItems = new SimpleAdapter(getActivity(),
+                listItemArrayList,//数据来源
+                R.layout.item_mine,//item的XML
+                //动态数组与ImageItem对应的子项
+                new String[]{"itemImage","itemText"},
+                //ImageItem的XML文件里面的一个ImageView,TextView ID
+                new int[]{R.id.img_shoukuan,R.id.tv_tt_title });
+        //添加并且显示
+        gridView.setAdapter(saImageItems);
+        //添加消息处理
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String title = name[position];
+                Intent intent;
+                switch (title) {
+                    case "我的订单":
+                        intent = new Intent(getActivity(), MyorderActivity.class);
+                        startActivity(intent);
+                        break;
+                    case "复利设置":
+                        intent = new Intent(getActivity(), CompoundActivity.class);
+                        startActivity(intent);
+                        break;
+                    case "财务转账":
+                        intent = new Intent(getActivity(), FinancialTransferActivity.class);
+                        startActivity(intent);
+                        break;
+                    case "转账记录":
+                        intent = new Intent(getActivity(), TransferRecoderActivity.class);
+                        startActivity(intent);
+                        break;
+                    case "钱包换算":
+                        intent = new Intent(getActivity(), WalletConversionActivity.class);
+                        startActivity(intent);
+                        break;
+                    case "美元汇率":
+                        break;
+                    case "运动记录":
+                        break;
+                    case "更多":
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 }

@@ -1,5 +1,6 @@
 package wb.com.cctm.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,12 +31,13 @@ public class WalletRecordActivity extends BaseActivity {
     private void initview() {
 
     }
-
     @OnClick({R.id.tv_look_all})
     void viewClick(View view) {
+        Intent intent;
         switch (view.getId()) {
             case R.id.tv_look_all:
-                ToastUtils.toastutils("开发中",WalletRecordActivity.this);
+                intent = new Intent(WalletRecordActivity.this,AllReleaseActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;
