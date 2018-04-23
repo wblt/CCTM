@@ -2,13 +2,16 @@ package wb.com.cctm.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,7 +22,17 @@ import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.lzy.imagepicker.view.CropImageView;
+import com.nanchen.compresshelper.CompressHelper;
+import com.tencent.cos.COSClient;
+import com.tencent.cos.COSClientConfig;
+import com.tencent.cos.common.COSEndPoint;
+import com.tencent.cos.model.COSRequest;
+import com.tencent.cos.model.COSResult;
+import com.tencent.cos.model.PutObjectRequest;
+import com.tencent.cos.model.PutObjectResult;
+import com.tencent.cos.task.listener.IUploadTaskListener;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +50,10 @@ import wb.com.cctm.commons.utils.FileUtil;
 import wb.com.cctm.commons.utils.GlideImageLoader;
 import wb.com.cctm.commons.utils.ImageLoader;
 import wb.com.cctm.commons.utils.SPUtils;
+import wb.com.cctm.commons.utils.Sign;
+import wb.com.cctm.commons.utils.StringUtil;
 import wb.com.cctm.commons.widget.ActionSheet;
+import wb.com.cctm.net.FlowAPI;
 
 public class UserInfoActivity extends BaseActivity {
     Dialog dialog;
@@ -50,6 +66,9 @@ public class UserInfoActivity extends BaseActivity {
     private List<String> urlList;
     private List<ImageItem> images;
     public static final int REQUEST_CODE_SELECT = 100;
+    private String sign;
+    String bucket = "waxin";
+    COSClient cos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +79,29 @@ public class UserInfoActivity extends BaseActivity {
         ButterKnife.bind(this);
         initView();
         initImagePicker();
+        initTX();
+    }
+
+    private void initTX(){
+        Context context = getApplicationContext();
+        //创建COSClientConfig对象，根据需要修改默认的配置参数
+        COSClientConfig config = new COSClientConfig();
+        //如设置园区
+        config.setEndPoint(COSEndPoint.COS_GZ);
+        cos = new COSClient(context,FlowAPI.TX_FILE_ID,config, FlowAPI.TX_PRES_ID);
+    }
+
+    /**
+     * 获取多次签名
+     * @return
+     */
+    public String getSign(){
+        int appId = 1251679641;
+        String bucket = "waxin";
+        String secretId = "AKID7548TmOJYzQuNKwSTRNNMNSVfBkIoRwS";
+        String secretKey = "g188wZ4NdhgXDhz78xhL64ESxjTxOl5P";
+        long expired = System.currentTimeMillis() / 1000 + 60;
+        return Sign.appSignature(appId,secretId,secretKey,expired,bucket);
     }
 
     @Override
@@ -163,12 +205,65 @@ public class UserInfoActivity extends BaseActivity {
             if (data != null && requestCode == REQUEST_CODE_SELECT) {
                 images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 if (images != null && images.size()>0) {
-                    ImageItem imageItem = images.get(0);
+                    final ImageItem imageItem = images.get(0);
                     ImagePicker.getInstance().getImageLoader().displayImage(UserInfoActivity.this, imageItem.path, iv_img_head, 0, 0);
                     SPUtils.putString(SPUtils.headimgpath,imageItem.path);
+                    // 上传照片
+                    showLoadding("请稍候...");
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            sign = getSign();
+                            upload(imageItem.path);
+                        }
+                    },1000);
                 }
             }
         }
+    }
+
+    private void upload(String filePath){
+        String filename = filePath;
+        File file = new File(filename);
+        String prefix= filename.substring(filename.lastIndexOf(".")+1);
+        String cosPath = SPUtils.getString("mobile")+ "_" + System.currentTimeMillis() + "_" + StringUtil.getRandom5()+"." + prefix;
+        PutObjectRequest putObjectRequest = new PutObjectRequest();
+        putObjectRequest.setBucket(bucket);
+        putObjectRequest.setCosPath(cosPath);
+        putObjectRequest.setInsertOnly("0");
+        putObjectRequest.setSrcPath(CompressHelper.getDefault(getApplicationContext()).compressToFile(file).getAbsolutePath());
+        putObjectRequest.setSign(sign);
+        putObjectRequest.setListener(new  IUploadTaskListener(){
+            @Override
+            public void onSuccess(COSRequest cosRequest, COSResult cosResult) {
+                PutObjectResult result = (PutObjectResult) cosResult;
+                dismissLoadding();
+                if(result != null){
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append(" 上传结果： ret=" + result.code + "; msg =" +result.msg + "\n");
+                    stringBuilder.append(" access_url= " + result.access_url == null ? "null" :result.access_url + "\n");
+                    stringBuilder.append(" resource_path= " + result.resource_path == null ? "null" :result.resource_path + "\n");
+                    stringBuilder.append(" url= " + result.url == null ? "null" :result.url);
+                    Log.i("TEST",stringBuilder.toString());
+                }
+            }
+            @Override
+            public void onFailed(COSRequest COSRequest, final COSResult cosResult) {
+                dismissLoadding();
+                Log.w("TEST","上传出错： ret =" +cosResult.code + "; msg =" + cosResult.msg);
+            }
+            @Override
+            public void onProgress(COSRequest cosRequest, final long currentSize, final long totalSize) {
+                float progress = (float)currentSize/totalSize;
+                progress = progress *100;
+                Log.w("TEST","进度：  " + (int)progress + "%");
+            }
+            @Override
+            public void onCancel(COSRequest cosRequest, COSResult cosResult) {
+                dismissLoadding();
+            }
+        });
+        cos.putObject(putObjectRequest);
     }
 
 

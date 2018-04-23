@@ -1,1 +1,1 @@
-include ':app', ':mypwdinputlibrary', ':imagewatcher', ':imagepicker'
+include ':app', ':mypwdinputlibrary', ':imagewatcher', ':imagepicker', ':compresshelper'
