@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.Glide;
+import com.lzy.imagepicker.ImagePicker;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -35,6 +37,7 @@ import wb.com.cctm.activity.FrendsActivity;
 import wb.com.cctm.activity.InvitingFriendsActivity;
 import wb.com.cctm.activity.MoveWalletActivity;
 import wb.com.cctm.activity.NewsActivity;
+import wb.com.cctm.activity.UserInfoActivity;
 import wb.com.cctm.activity.WalletRecordActivity;
 import wb.com.cctm.base.BaseActivity;
 import wb.com.cctm.base.BaseFragment;
@@ -236,13 +239,13 @@ public class DeliverFragment extends BaseFragment {
                     String pd = jsonObject.getString("pd");
                     JSONObject pd_obj = JSONObject.parseObject(pd);
                     SPUtils.putString(SPUtils.wallet_address,pd_obj.getString("W_ADDRESS"));
-                    ImageLoader.load(pd_obj.getString("HEAD_URL"),iv_head_img);
                     SPUtils.putString(SPUtils.headimgpath,pd_obj.getString("HEAD_URL"));
+                    SPUtils.putString(SPUtils.nick_name,pd_obj.getString("NICK_NAME"));
                     tv_user_name.setText(pd_obj.getString("USER_NAME"));
                     tv_d_curr.setText(pd_obj.getString("D_CURRENCY"));
                     tv_s_curr.setText(pd_obj.getString("S_CURRENCY"));
-
                     A_CURRENCY = pd_obj.getString("A_CURRENCY");
+                    ImageLoader.load(pd_obj.getString("HEAD_URL"),iv_head_img);
                     dayStep();
                 } else {
                     ToastUtils.toastutils(message,getActivity());

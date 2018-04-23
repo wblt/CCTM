@@ -14,7 +14,7 @@ public class FlowAPI {
         requestParams.setConnectTimeout(150000);
         return requestParams;
     }
-    public static final String TX_FILE_ID = "1251679641";
+    public static final String TX_FILE_ID = "1254340937";
     public static final String TX_PRES_ID = null;
 
     public static String SERVER_IP = "http://139.196.225.206:8082";
@@ -51,5 +51,23 @@ public class FlowAPI {
 
     // INDEX - 首页
     public static String homePage = SERVER_IP + "/app/index/homePage";
+
+    // TOOL - 修改个人信息
+    public static String cgPersonMes = SERVER_IP + "/app/tool/cgPersonMes";
+
+    // TOOL - 修改安全密码
+    public static String aqPassw = SERVER_IP + "/app/tool/aqPassw";
+
+    // TOOL - 修改手机号码
+    public static String phoneCg = SERVER_IP + "/app/tool/phoneCg";
+
+    // TOOL - 修改登录密码
+    public static String changePassw = SERVER_IP + "/app/tool/changePassw";
+
+    // INDEX - 释放记录
+    public static String release = SERVER_IP + "/app/index/release";
+
+    // INDEX - 释放详情
+    public static String releaseDetaiil = SERVER_IP + "/app/index/releaseDetaiil";
 
 }

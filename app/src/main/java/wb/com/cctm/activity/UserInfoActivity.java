@@ -10,14 +10,17 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
@@ -31,6 +34,8 @@ import com.tencent.cos.model.COSResult;
 import com.tencent.cos.model.PutObjectRequest;
 import com.tencent.cos.model.PutObjectResult;
 import com.tencent.cos.task.listener.IUploadTaskListener;
+
+import org.xutils.http.RequestParams;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -52,8 +57,11 @@ import wb.com.cctm.commons.utils.ImageLoader;
 import wb.com.cctm.commons.utils.SPUtils;
 import wb.com.cctm.commons.utils.Sign;
 import wb.com.cctm.commons.utils.StringUtil;
+import wb.com.cctm.commons.utils.ToastUtils;
 import wb.com.cctm.commons.widget.ActionSheet;
+import wb.com.cctm.net.CommonCallbackImp;
 import wb.com.cctm.net.FlowAPI;
+import wb.com.cctm.net.MXUtils;
 
 public class UserInfoActivity extends BaseActivity {
     Dialog dialog;
@@ -67,8 +75,13 @@ public class UserInfoActivity extends BaseActivity {
     private List<ImageItem> images;
     public static final int REQUEST_CODE_SELECT = 100;
     private String sign;
-    String bucket = "waxin";
+    String bucket = "ala";
     COSClient cos;
+    private String HEAD_URL = "";
+    @BindView(R.id.et_nick_name)
+    EditText et_nick_name;
+    @BindView(R.id.top_right_text)
+    TextView top_right_text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +100,7 @@ public class UserInfoActivity extends BaseActivity {
         //创建COSClientConfig对象，根据需要修改默认的配置参数
         COSClientConfig config = new COSClientConfig();
         //如设置园区
-        config.setEndPoint(COSEndPoint.COS_GZ);
+        config.setEndPoint("bj");
         cos = new COSClient(context,FlowAPI.TX_FILE_ID,config, FlowAPI.TX_PRES_ID);
     }
 
@@ -96,10 +109,10 @@ public class UserInfoActivity extends BaseActivity {
      * @return
      */
     public String getSign(){
-        int appId = 1251679641;
-        String bucket = "waxin";
-        String secretId = "AKID7548TmOJYzQuNKwSTRNNMNSVfBkIoRwS";
-        String secretKey = "g188wZ4NdhgXDhz78xhL64ESxjTxOl5P";
+        int appId = 1254340937;
+        String bucket = "ala";
+        String secretId = "AKIDjGchX7LVIp8ByUHlX4LNAj131jALkuJS";
+        String secretKey = "2qOindHDvMXS6UcT4OSFmCMHwKJ2WkiP";
         long expired = System.currentTimeMillis() / 1000 + 60;
         return Sign.appSignature(appId,secretId,secretKey,expired,bucket);
     }
@@ -110,10 +123,20 @@ public class UserInfoActivity extends BaseActivity {
         String headpath = SPUtils.getString(SPUtils.headimgpath);
         if (!TextUtils.isEmpty(headpath)) {
             ImageLoader.load(headpath,iv_img_head);
+            String hint = SPUtils.getString(SPUtils.nick_name);
+            SpannableString s = new SpannableString(hint);//这里输入自己想要的提示文字
+            et_nick_name.setHint(s);
         }
     }
 
     private void initView() {
+        top_right_text.setText("完成");
+        top_right_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cgPersonMes();
+            }
+        });
         dialog = ActionSheet.showSheet(this,R.layout.actionsheet_photo);
         TextView cancel = dialog.findViewById(R.id.cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -245,6 +268,7 @@ public class UserInfoActivity extends BaseActivity {
                     stringBuilder.append(" resource_path= " + result.resource_path == null ? "null" :result.resource_path + "\n");
                     stringBuilder.append(" url= " + result.url == null ? "null" :result.url);
                     Log.i("TEST",stringBuilder.toString());
+                    HEAD_URL = result.access_url;
                 }
             }
             @Override
@@ -264,6 +288,44 @@ public class UserInfoActivity extends BaseActivity {
             }
         });
         cos.putObject(putObjectRequest);
+    }
+
+
+    private void cgPersonMes() {
+        String nick = "";
+        if (TextUtils.isEmpty(et_nick_name.getText().toString())) {
+            nick = et_nick_name.getHint().toString();
+        } else {
+            nick = et_nick_name.getText().toString();
+        }
+        RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.cgPersonMes);
+        requestParams.addParameter("USER_NAME", SPUtils.username);
+        requestParams.addParameter("HEAD_URL", HEAD_URL);
+        requestParams.addParameter("NICK_NAME",nick);
+        MXUtils.httpPost(requestParams,new CommonCallbackImp("TOOL - 修改个人信息",requestParams,this){
+            @Override
+            public void onSuccess(String data) {
+                super.onSuccess(data);
+                JSONObject jsonObject = JSONObject.parseObject(data);
+                String result = jsonObject.getString("code");
+                String message = jsonObject.getString("message");
+                if (result.equals(FlowAPI.SUCCEED)) {
+                    ToastUtils.toastutils("修改成功",UserInfoActivity.this);
+                    String hint = et_nick_name.getText().toString();
+                    ImageLoader.load(HEAD_URL,iv_img_head);
+                    SpannableString s = new SpannableString(hint);//这里输入自己想要的提示文字
+                    et_nick_name.setHint(s);
+                    // 更新头像地址
+                    SPUtils.putString(SPUtils.headimgpath,HEAD_URL);
+                    SPUtils.putString(SPUtils.nick_name,hint);
+                    et_nick_name.getText().clear();
+                } else {
+                    ToastUtils.toastutils(message,UserInfoActivity.this);
+                }
+
+            }
+        });
+
     }
 
 
