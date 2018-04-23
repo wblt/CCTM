@@ -70,4 +70,36 @@ public class FlowAPI {
     // INDEX - 释放详情
     public static String releaseDetaiil = SERVER_IP + "/app/index/releaseDetaiil";
 
+    // MY - 复利状态
+    public static String ifFl = SERVER_IP + "/app/my/ifFl";
+
+    // MY - 修改复利状态
+    public static String cgFl = SERVER_IP + "/app/my/cgFl";
+
+    // MY - 兑换能量
+    public static String changeEnergy = SERVER_IP + "/app/my/changeEnergy";
+
+    // MY - 兑换能量页面
+    public static String cgEnergyMes = SERVER_IP + "/app/my/cgEnergyMes";
+
+    // MY - 发送
+    public static String send = SERVER_IP + "/app/my/send";
+
+    // MY - 可发送内容
+    public static String sendMes = SERVER_IP + "/app/my/sendMes";
+
+    // MY - 接收记录
+    public static String receiveDetail = SERVER_IP + "/app/my/receiveDetail";
+
+    // MY - 转账记录
+    public static String sendDetail = SERVER_IP + "/app/my/sendDetail";
+
+    // MY - 运动记录
+    public static String stepDetail = SERVER_IP + "/app/my/stepDetail";
+
+
+
+
+
+
 }

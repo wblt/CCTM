@@ -9,11 +9,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.alibaba.fastjson.JSONObject;
+
+import org.xutils.http.RequestParams;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import wb.com.cctm.R;
 import wb.com.cctm.base.BaseActivity;
+import wb.com.cctm.commons.utils.SPUtils;
+import wb.com.cctm.commons.utils.ToastUtils;
+import wb.com.cctm.net.CommonCallbackImp;
+import wb.com.cctm.net.FlowAPI;
+import wb.com.cctm.net.MXUtils;
 
 public class CompoundActivity extends BaseActivity {
 
@@ -41,7 +50,7 @@ public class CompoundActivity extends BaseActivity {
     }
 
     private void initView() {
-        updatastatus();
+        ifFl();
     }
 
     @OnClick({R.id.ll_fuli,R.id.ll_stop_fuli,R.id.btn_commit})
@@ -92,5 +101,29 @@ public class CompoundActivity extends BaseActivity {
             btn_commit.setBackgroundResource(R.drawable.button_round_golden);
         }
     }
+
+
+    private void ifFl() {
+        RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.ifFl);
+        requestParams.addParameter("USER_NAME", SPUtils.getString(SPUtils.username));
+        MXUtils.httpPost(requestParams,new CommonCallbackImp("MY - 复利状态",requestParams,this){
+            @Override
+            public void onSuccess(String data) {
+                super.onSuccess(data);
+                JSONObject jsonObject = JSONObject.parseObject(data);
+                String result = jsonObject.getString("code");
+                String message = jsonObject.getString("message");
+                if (result.equals(FlowAPI.SUCCEED)) {
+                    String pd = jsonObject.getString("pd");
+                    JSONObject pd_obj = JSONObject.parseObject(pd);
+
+                } else {
+                    ToastUtils.toastutils(message,CompoundActivity.this);
+                }
+
+            }
+        });
+    }
+
 
 }

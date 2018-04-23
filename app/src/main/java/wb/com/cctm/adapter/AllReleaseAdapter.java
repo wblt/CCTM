@@ -5,10 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
 import wb.com.cctm.R;
+import wb.com.cctm.bean.AllReleaseBean;
 import wb.com.cctm.bean.NoticeBean;
 
 /**
@@ -16,10 +18,10 @@ import wb.com.cctm.bean.NoticeBean;
  */
 
 public class AllReleaseAdapter extends RecyclerView.Adapter {
-    private List<String> datas;
+    private List<AllReleaseBean> datas;
     private Context context;
 
-    public AllReleaseAdapter(List<String> datas, Context context) {
+    public AllReleaseAdapter(List<AllReleaseBean> datas, Context context) {
         this.datas = datas;
         this.context = context;
     }
@@ -30,14 +32,22 @@ public class AllReleaseAdapter extends RecyclerView.Adapter {
         return myViewHolder;
     }
 
-    public void refresh(List<String> datas) {
+    public void refresh(List<AllReleaseBean> datas) {
         this.datas = datas;
         notifyDataSetChanged();
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        AllReleaseBean bean = datas.get(position);
+        Myholder myholder = (Myholder) holder;
+        myholder.tv_big.setText(bean.getBIG_CURRENCY());
+        myholder.tv_small.setText(bean.getSMALL_CURRENCY());
+        myholder.tv_jd.setText(bean.getJD_CURRENCY());
+        myholder.tv_step.setText(bean.getSTEP_CURRENCY());
+        myholder.tv_time.setText(bean.getCREATE_TIME());
+        myholder.tv_today.setText(bean.getCALCULATE_MONEY());
+        myholder.tv_smart.setText(bean.getSTATIC_CURRENCY());
     }
 
     @Override
@@ -46,9 +56,23 @@ public class AllReleaseAdapter extends RecyclerView.Adapter {
     }
 
     public static class Myholder extends RecyclerView.ViewHolder {
+        private TextView tv_today;
+        private TextView tv_time;
+        private TextView tv_smart;
+        private TextView tv_big;
+        private TextView tv_small;
+        private TextView tv_step;
+        private TextView tv_jd;
+
         public Myholder(View itemView) {
             super(itemView);
-
+            tv_today = itemView.findViewById(R.id.tv_today);
+            tv_time = itemView.findViewById(R.id.tv_time);
+            tv_smart = itemView.findViewById(R.id.tv_smart);
+            tv_big = itemView.findViewById(R.id.tv_big);
+            tv_small = itemView.findViewById(R.id.tv_small);
+            tv_step = itemView.findViewById(R.id.tv_step);
+            tv_jd = itemView.findViewById(R.id.tv_jd);
         }
     }
 
