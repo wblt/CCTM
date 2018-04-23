@@ -45,6 +45,8 @@ public class MineFragment extends BaseFragment {
     private Unbinder unbinder;
     @BindView(R.id.iv_head_img)
     ImageView iv_head_img;
+    @BindView(R.id.tv_nick_name)
+    TextView tv_nick_name;
     //定义图标数组
     private int[] imageRes = {
             R.mipmap.chang,
@@ -93,6 +95,7 @@ public class MineFragment extends BaseFragment {
         if (!TextUtils.isEmpty(headpath)) {
             ImageLoader.load(headpath,iv_head_img);
         }
+        tv_nick_name.setText(SPUtils.getString(SPUtils.nick_name));
     }
 
     private void initview(View view) {

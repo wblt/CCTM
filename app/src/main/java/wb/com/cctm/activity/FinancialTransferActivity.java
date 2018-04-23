@@ -14,8 +14,6 @@ import butterknife.ButterKnife;
 import wb.com.cctm.R;
 import wb.com.cctm.adapter.BBPageAdapter;
 import wb.com.cctm.base.BaseActivity;
-import wb.com.cctm.fragment.OutChangeFragment;
-import wb.com.cctm.fragment.OutenergyFragment;
 
 public class FinancialTransferActivity extends BaseActivity {
 
