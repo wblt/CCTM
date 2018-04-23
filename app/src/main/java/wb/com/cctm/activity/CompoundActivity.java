@@ -57,11 +57,11 @@ public class CompoundActivity extends BaseActivity {
     void viewClick(View view) {
         switch (view.getId()) {
             case R.id.ll_fuli:
-                flag = "0";
+                flag = "1";
                 updatastatus();
                 break;
             case R.id.ll_stop_fuli:
-                flag = "1";
+                flag = "0";
                 updatastatus();
                 break;
             case R.id.btn_commit:
@@ -73,6 +73,7 @@ public class CompoundActivity extends BaseActivity {
                         lastflag = flag;
                         btn_commit.setBackgroundResource(0);
                         btn_commit.setBackgroundResource(R.drawable.button_round_gray);
+                        cgFl();
                     }
                 },2000);
                 break;
@@ -82,7 +83,7 @@ public class CompoundActivity extends BaseActivity {
     }
 
     private void updatastatus() {
-        if (flag.equals("0")) {
+        if (flag.equals("1")) {
             img_fuli_gou.setVisibility(View.VISIBLE);
             img_stop_gou.setVisibility(View.INVISIBLE);
             ll_fuli.setBackgroundColor(getResources().getColor(R.color.bottom_color));
@@ -116,7 +117,12 @@ public class CompoundActivity extends BaseActivity {
                 if (result.equals(FlowAPI.SUCCEED)) {
                     String pd = jsonObject.getString("pd");
                     JSONObject pd_obj = JSONObject.parseObject(pd);
-
+                    if (pd_obj.getString("IFFL").equals("0")) {
+                        flag = "0";
+                    } else {
+                        flag = "1";
+                    }
+                    updatastatus();
                 } else {
                     ToastUtils.toastutils(message,CompoundActivity.this);
                 }
@@ -124,6 +130,36 @@ public class CompoundActivity extends BaseActivity {
             }
         });
     }
+
+    private void cgFl() {
+        RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.cgFl);
+        requestParams.addParameter("USER_NAME", SPUtils.getString(SPUtils.username));
+        requestParams.addParameter("IFFL", flag);
+        MXUtils.httpPost(requestParams,new CommonCallbackImp("USER - 注册短信验证码",requestParams,this){
+            @Override
+            public void onSuccess(String data) {
+                super.onSuccess(data);
+                JSONObject jsonObject = JSONObject.parseObject(data);
+                String result = jsonObject.getString("code");
+                String message = jsonObject.getString("message");
+                if (result.equals(FlowAPI.SUCCEED)) {
+                    String pd = jsonObject.getString("pd");
+                    JSONObject pd_obj = JSONObject.parseObject(pd);
+                    if (pd_obj.getString("IFFL").equals("0")) {
+                        flag = "0";
+                    } else {
+                        flag = "1";
+                    }
+                    updatastatus();
+                } else {
+                    ToastUtils.toastutils(message,CompoundActivity.this);
+                }
+
+            }
+        });
+    }
+
+
 
 
 }
