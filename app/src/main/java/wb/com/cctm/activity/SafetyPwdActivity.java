@@ -17,7 +17,6 @@ import java.security.NoSuchAlgorithmException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import wb.com.cctm.App;
 import wb.com.cctm.R;
 import wb.com.cctm.base.BaseActivity;
 import wb.com.cctm.commons.utils.MD5;
@@ -28,8 +27,7 @@ import wb.com.cctm.net.CommonCallbackImp;
 import wb.com.cctm.net.FlowAPI;
 import wb.com.cctm.net.MXUtils;
 
-public class ForgotPasswordActivity extends BaseActivity {
-
+public class SafetyPwdActivity extends BaseActivity {
 
     @BindView(R.id.et_username)
     EditText et_username;
@@ -45,13 +43,12 @@ public class ForgotPasswordActivity extends BaseActivity {
     private MyCount myCount;
     @BindView(R.id.et_phone)
     EditText et_phone;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        appendMainBody(this,R.layout.activity_forgot_password);
+        appendMainBody(this,R.layout.activity_safety_pwd);
         appendTopBody(R.layout.activity_top_text);
-        setTopBarTitle("忘记密码");
+        setTopBarTitle("安全密码");
         setTopLeftDefultListener();
         ButterKnife.bind(this);
         initview();
@@ -80,23 +77,24 @@ public class ForgotPasswordActivity extends BaseActivity {
         String phone = et_phone.getText().toString();
         String username = et_username.getText().toString();
         if(TextUtils.isEmpty(username)) {
-            ToastUtils.toastutils("用户名输入为空",ForgotPasswordActivity.this);
+            ToastUtils.toastutils("用户名输入为空",SafetyPwdActivity.this);
             return;
         }
         if (TextUtils.isEmpty(phone)) {
-            ToastUtils.toastutils("电话号码输入为空",ForgotPasswordActivity.this);
+            ToastUtils.toastutils("电话号码输入为空",SafetyPwdActivity.this);
             return;
         }
         if (!RegExpValidator.IsHandset(phone)) {
-            ToastUtils.toastutils("电话号码格式错误",ForgotPasswordActivity.this);
+            ToastUtils.toastutils("电话号码格式错误",SafetyPwdActivity.this);
             return;
         }
         try {
             String md5_str = MD5.MD5Encode(phone+"shc");
-            RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.forgotpwd_code);
+            RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.sysendMessAQ);
             requestParams.addParameter("USER_NAME",username);
+            requestParams.addParameter("ACCOUNT",phone);
             requestParams.addParameter("digestStr", md5_str);
-            MXUtils.httpPost(requestParams,new CommonCallbackImp("USER - 忘记密码短信验证码",requestParams,this){
+            MXUtils.httpPost(requestParams,new CommonCallbackImp("USER - 安全密码短信验证码",requestParams,this){
                 @Override
                 public void onSuccess(String data) {
                     super.onSuccess(data);
@@ -104,11 +102,11 @@ public class ForgotPasswordActivity extends BaseActivity {
                     String result = jsonObject.getString("code");
                     String message = jsonObject.getString("message");
                     if (result.equals(FlowAPI.SUCCEED)) {
-                        ToastUtils.toastutils("验证码发送成功",ForgotPasswordActivity.this);
+                        ToastUtils.toastutils("验证码发送成功",SafetyPwdActivity.this);
                         btn_code.setEnabled(false);
                         myCount.start();
                     } else {
-                        ToastUtils.toastutils(message,ForgotPasswordActivity.this);
+                        ToastUtils.toastutils(message,SafetyPwdActivity.this);
                     }
                 }
             });
@@ -126,30 +124,34 @@ public class ForgotPasswordActivity extends BaseActivity {
         String password = et_password.getText().toString();
         String re_password = et_re_password.getText().toString();
         if (TextUtils.isEmpty(username)) {
-            ToastUtils.toastutils("用户名输入为空",ForgotPasswordActivity.this);
+            ToastUtils.toastutils("用户名输入为空",SafetyPwdActivity.this);
             return;
         }
         if (TextUtils.isEmpty(phone)) {
-            ToastUtils.toastutils("电话号码输入为空",ForgotPasswordActivity.this);
+            ToastUtils.toastutils("电话号码输入为空",SafetyPwdActivity.this);
             return;
         }
         if (!RegExpValidator.IsHandset(phone)) {
-            ToastUtils.toastutils("电话号码格式错误",ForgotPasswordActivity.this);
+            ToastUtils.toastutils("电话号码格式错误",SafetyPwdActivity.this);
             return;
         }
         if (TextUtils.isEmpty(password)) {
-            ToastUtils.toastutils("密码输入为空",ForgotPasswordActivity.this);
+            ToastUtils.toastutils("密码输入为空",SafetyPwdActivity.this);
             return;
         }
         if (!re_password.equals(password)) {
-            ToastUtils.toastutils("两次密码输入不一致",ForgotPasswordActivity.this);
+            ToastUtils.toastutils("两次密码输入不一致",SafetyPwdActivity.this);
             return;
         }
-        RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.forgotpwd);
+        if (password.length() != 6) {
+            ToastUtils.toastutils("请输入6位数字密码",SafetyPwdActivity.this);
+            return;
+        }
+        RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.aqPassw);
         requestParams.addParameter("USER_NAME", username);
         requestParams.addParameter("SJYZM", code);
-        requestParams.addParameter("PASSWORD", password);
-        MXUtils.httpPost(requestParams,new CommonCallbackImp("USER - 忘记密码",requestParams,this){
+        requestParams.addParameter("NEW_PAS", password);
+        MXUtils.httpPost(requestParams,new CommonCallbackImp("TOOL - 修改安全密码",requestParams,this){
             @Override
             public void onSuccess(String data) {
                 super.onSuccess(data);
@@ -158,10 +160,10 @@ public class ForgotPasswordActivity extends BaseActivity {
                 String message = jsonObject.getString("message");
                 if (result.equals(FlowAPI.SUCCEED)) {
                     SPUtils.putString(SPUtils.phone,phone);
-                    ToastUtils.toastutils("修改成功",ForgotPasswordActivity.this);
+                    ToastUtils.toastutils("修改成功",SafetyPwdActivity.this);
                     finish();
                 } else {
-                    ToastUtils.toastutils(message,ForgotPasswordActivity.this);
+                    ToastUtils.toastutils(message,SafetyPwdActivity.this);
                 }
             }
         });
@@ -185,5 +187,4 @@ public class ForgotPasswordActivity extends BaseActivity {
             btn_code.setText("获取验证码");
         }
     }
-
 }

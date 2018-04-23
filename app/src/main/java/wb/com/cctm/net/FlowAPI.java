@@ -97,9 +97,6 @@ public class FlowAPI {
     // MY - 运动记录
     public static String stepDetail = SERVER_IP + "/app/my/stepDetail";
 
-
-
-
-
-
+    // USER - 安全密码短信验证码
+    public static String sysendMessAQ = SERVER_IP + "/app/user/sysendMessAQ";
 }

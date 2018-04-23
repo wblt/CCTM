@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -20,6 +21,14 @@ public class SettingActivity extends BaseActivity {
 
     @BindView(R.id.tv_version_name)
     TextView tv_version_name;
+    @BindView(R.id.ll_safety_pwd)
+    LinearLayout ll_safety_pwd;
+    @BindView(R.id.ll_login_pwd)
+    LinearLayout ll_login_pwd;
+    @BindView(R.id.ll_phone_number)
+    LinearLayout ll_phone_number;
+    @BindView(R.id.ll_user_bind)
+    LinearLayout ll_user_bind;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +43,7 @@ public class SettingActivity extends BaseActivity {
         tv_version_name.setText(VersionUtil.getAppVersionName(SettingActivity.this));
     }
 
-    @OnClick({R.id.btn_logout})
+    @OnClick({R.id.btn_logout,R.id.ll_phone_number,R.id.ll_login_pwd,R.id.ll_safety_pwd,R.id.ll_user_bind})
     void viewClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -44,6 +53,20 @@ public class SettingActivity extends BaseActivity {
                 startActivity(intent);
                 finish();
                 App.getInstance().getMainActivity().finish();
+                break;
+            case R.id.ll_phone_number:
+                intent = new Intent(SettingActivity.this,PhoneNumberActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.ll_login_pwd:
+                intent = new Intent(SettingActivity.this,LoginPwdActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.ll_safety_pwd:
+                intent = new Intent(SettingActivity.this,SafetyPwdActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.ll_user_bind:
                 break;
             default:
                 break;

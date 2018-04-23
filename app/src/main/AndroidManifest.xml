@@ -146,7 +146,12 @@
         <activity android:name=".activity.WalletConversionActivity" />
         <activity android:name=".activity.FrendsActivity" />
         <activity android:name=".activity.NewsDetailActivity" />
-        <activity android:name=".activity.AllReleaseActivity"></activity>
+        <activity android:name=".activity.AllReleaseActivity" />
+        <activity android:name=".activity.ReciverRecordActivity" />
+        <activity android:name=".activity.StepRecoderActivity" />
+        <activity android:name=".activity.LoginPwdActivity" />
+        <activity android:name=".activity.SafetyPwdActivity" />
+        <activity android:name=".activity.PhoneNumberActivity"></activity>
     </application>
 
 </manifest>
