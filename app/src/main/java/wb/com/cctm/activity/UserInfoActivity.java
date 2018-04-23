@@ -299,7 +299,7 @@ public class UserInfoActivity extends BaseActivity {
             nick = et_nick_name.getText().toString();
         }
         RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.cgPersonMes);
-        requestParams.addParameter("USER_NAME", SPUtils.username);
+        requestParams.addParameter("USER_NAME", SPUtils.getString(SPUtils.username));
         requestParams.addParameter("HEAD_URL", HEAD_URL);
         requestParams.addParameter("NICK_NAME",nick);
         MXUtils.httpPost(requestParams,new CommonCallbackImp("TOOL - 修改个人信息",requestParams,this){

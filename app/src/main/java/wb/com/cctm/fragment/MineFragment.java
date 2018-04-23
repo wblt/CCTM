@@ -62,8 +62,8 @@ public class MineFragment extends BaseFragment {
             "复利设置",
             "财务转账",
             "转账记录",
-            "钱包换算",
-            "美元汇率",
+            "接收记录",
+            "能量兑换",
             "运动记录",
             "更多",
             ""
@@ -168,11 +168,9 @@ public class MineFragment extends BaseFragment {
                         intent = new Intent(getActivity(), TransferRecoderActivity.class);
                         startActivity(intent);
                         break;
-                    case "钱包换算":
+                    case "能量兑换":
                         intent = new Intent(getActivity(), WalletConversionActivity.class);
                         startActivity(intent);
-                        break;
-                    case "美元汇率":
                         break;
                     case "运动记录":
                         break;
