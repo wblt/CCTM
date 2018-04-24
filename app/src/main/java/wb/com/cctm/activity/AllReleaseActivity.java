@@ -59,6 +59,7 @@ public class AllReleaseActivity extends BaseActivity {
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 refreshLayout.finishRefresh(1000);
                 queryId = "0";
+                adapter.clear();
                 releaseDetaiil("1");
             }
         });
