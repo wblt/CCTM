@@ -15,6 +15,7 @@ import wb.com.cctm.App;
 import wb.com.cctm.R;
 import wb.com.cctm.base.BaseActivity;
 import wb.com.cctm.commons.utils.SPUtils;
+import wb.com.cctm.commons.utils.ToastUtils;
 import wb.com.cctm.commons.utils.VersionUtil;
 
 public class SettingActivity extends BaseActivity {
@@ -67,6 +68,7 @@ public class SettingActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.ll_user_bind:
+                ToastUtils.toastutils("开发中",SettingActivity.this);
                 break;
             default:
                 break;

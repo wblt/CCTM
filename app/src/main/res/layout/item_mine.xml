@@ -5,7 +5,7 @@
     android:paddingBottom="4dip"
     android:layout_width="fill_parent"
     android:gravity="center_horizontal"
-    android:background="@color/mainPrimary">
+    android:background="@drawable/ripple_main_bg">
     <ImageView
         android:layout_centerInParent="true"
         android:layout_gravity="center"

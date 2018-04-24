@@ -194,6 +194,7 @@ public class MineFragment extends BaseFragment {
                     case "运动记录":
                         break;
                     case "更多":
+                        ToastUtils.toastutils("开发中",getActivity());
                         break;
                     default:
                         break;
