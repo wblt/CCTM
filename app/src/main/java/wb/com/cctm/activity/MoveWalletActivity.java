@@ -63,7 +63,7 @@ public class MoveWalletActivity extends BaseActivity {
         et_number.setHint(s);
     }
 
-    @OnClick({R.id.btn_commit,R.id.iv_showCode})
+    @OnClick({R.id.btn_commit,R.id.iv_showCode,R.id.iv_input_xx})
     void viewClick(View view) {
         switch (view.getId()) {
             case R.id.btn_commit:
@@ -72,6 +72,9 @@ public class MoveWalletActivity extends BaseActivity {
             case R.id.iv_showCode:
                 iv_showCode.setImageBitmap(Code.getInstance().createBitmap("#020919"));
                 realCode = Code.getInstance().getCode().toLowerCase();
+                break;
+            case R.id.iv_input_xx:
+                et_number.getText().clear();
                 break;
             default:
                 break;

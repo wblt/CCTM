@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import wb.com.cctm.R;
@@ -18,23 +19,21 @@ import wb.com.cctm.bean.NoticeBean;
  */
 
 public class AllReleaseAdapter extends RecyclerView.Adapter {
-    private List<AllReleaseBean> datas;
-    private Context context;
-
-    public AllReleaseAdapter(List<AllReleaseBean> datas, Context context) {
-        this.datas = datas;
-        this.context = context;
+    private List<AllReleaseBean> datas = new ArrayList<>();
+    public void clear() {
+        datas.clear();
+    }
+    public void addAll(List<AllReleaseBean> data) {
+        this.datas.addAll(data);
+    }
+    public List<AllReleaseBean> getData() {
+        return datas;
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view =  LayoutInflater.from(context).inflate(R.layout.item_all_release,parent,false);
+        View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.item_all_release,parent,false);
         Myholder myViewHolder = new Myholder(view);
         return myViewHolder;
-    }
-
-    public void refresh(List<AllReleaseBean> datas) {
-        this.datas = datas;
-        notifyDataSetChanged();
     }
 
     @Override

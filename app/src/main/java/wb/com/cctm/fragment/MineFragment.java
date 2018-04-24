@@ -30,7 +30,9 @@ import wb.com.cctm.activity.CompoundActivity;
 import wb.com.cctm.activity.FinancialTransferActivity;
 import wb.com.cctm.activity.InvitingFriendsActivity;
 import wb.com.cctm.activity.MyorderActivity;
+import wb.com.cctm.activity.ReciverRecordActivity;
 import wb.com.cctm.activity.SettingActivity;
+import wb.com.cctm.activity.StepRecoderActivity;
 import wb.com.cctm.activity.TransferRecoderActivity;
 import wb.com.cctm.activity.UserInfoActivity;
 import wb.com.cctm.activity.WalletConversionActivity;
@@ -187,11 +189,17 @@ public class MineFragment extends BaseFragment {
                         intent = new Intent(getActivity(), TransferRecoderActivity.class);
                         startActivity(intent);
                         break;
+                    case "接收记录":
+                        intent = new Intent(getActivity(), ReciverRecordActivity.class);
+                        startActivity(intent);
+                        break;
                     case "能量兑换":
                         intent = new Intent(getActivity(), WalletConversionActivity.class);
                         startActivity(intent);
                         break;
                     case "运动记录":
+                        intent = new Intent(getActivity(), StepRecoderActivity.class);
+                        startActivity(intent);
                         break;
                     case "更多":
                         ToastUtils.toastutils("开发中",getActivity());

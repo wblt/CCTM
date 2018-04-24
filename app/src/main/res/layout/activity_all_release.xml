@@ -23,16 +23,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <LinearLayout
-                    android:id="@+id/ll_content"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyc_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recyc_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    </android.support.v7.widget.RecyclerView>
-                </LinearLayout>
+                </android.support.v7.widget.RecyclerView>
                 <!--加载失败-->
                 <LinearLayout
                     android:id="@+id/ll_no_data"

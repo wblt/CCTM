@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSONArray;
@@ -34,8 +35,6 @@ import wb.com.cctm.net.MXUtils;
 public class AllReleaseActivity extends BaseActivity {
     @BindView(R.id.recyc_list)
     RecyclerView recyc_list;
-    @BindView(R.id.ll_content)
-    LinearLayout ll_content;
     @BindView(R.id.ll_no_data)
     LinearLayout ll_no_data;
     @BindView(R.id.sm_refreshLayout)
@@ -54,16 +53,6 @@ public class AllReleaseActivity extends BaseActivity {
         releaseDetaiil("1");
     }
 
-    private void recyc_init(List<AllReleaseBean> list) {
-        if (adapter == null) {
-            adapter = new AllReleaseAdapter(list,this);
-            recyc_list.setLayoutManager(new LinearLayoutManager(this));
-            recyc_list.setAdapter(adapter);
-        } else {
-            adapter.refresh(list);
-        }
-    }
-
     private void initView() {
         sm_refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -80,6 +69,9 @@ public class AllReleaseActivity extends BaseActivity {
                 releaseDetaiil("2");
             }
         });
+        adapter = new AllReleaseAdapter();
+        recyc_list.setLayoutManager(new LinearLayoutManager(this));
+        recyc_list.setAdapter(adapter);
     }
 
     private void releaseDetaiil(String type) {
@@ -100,7 +92,15 @@ public class AllReleaseActivity extends BaseActivity {
                     if (beanList.size() > 0) {
                         queryId = beanList.get(beanList.size() -1).getID();
                     }
-                    recyc_init(beanList);
+                    adapter.addAll(beanList);
+                    adapter.notifyDataSetChanged();
+                    if (adapter.getData().size()>0) {
+                        recyc_list.setVisibility(View.VISIBLE);
+                        ll_no_data.setVisibility(View.GONE);
+                    } else {
+                        recyc_list.setVisibility(View.GONE);
+                        ll_no_data.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     ToastUtils.toastutils(message,AllReleaseActivity.this);
                 }

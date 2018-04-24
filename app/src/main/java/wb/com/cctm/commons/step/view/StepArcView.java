@@ -124,7 +124,7 @@ public class StepArcView extends View {
         paintCurrent.setStyle(Paint.Style.STROKE);//设置填充样式
         paintCurrent.setAntiAlias(true);//抗锯齿功能
         paintCurrent.setStrokeWidth(borderWidth);//设置画笔宽度
-        paintCurrent.setColor(getResources().getColor(R.color.red));//设置画笔颜色
+        paintCurrent.setColor(getResources().getColor(R.color.color_green));//设置画笔颜色
         canvas.drawArc(rectF, startAngle, currentAngleLength, false, paintCurrent);
     }
 
@@ -138,11 +138,10 @@ public class StepArcView extends View {
         vTextPaint.setTextSize(numberTextSize);
         Typeface font = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
         vTextPaint.setTypeface(font);//字体风格
-        vTextPaint.setColor(getResources().getColor(R.color.red));
+        vTextPaint.setColor(getResources().getColor(R.color.color_green));
         Rect bounds_Number = new Rect();
         vTextPaint.getTextBounds(stepNumber, 0, stepNumber.length(), bounds_Number);
         canvas.drawText(stepNumber, centerX, getHeight() / 2 + bounds_Number.height() / 2, vTextPaint);
-
     }
 
     /**
