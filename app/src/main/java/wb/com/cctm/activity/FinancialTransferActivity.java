@@ -159,6 +159,8 @@ public class FinancialTransferActivity extends BaseActivity {
                 if (result.equals(FlowAPI.SUCCEED)) {
                     String pd = jsonObject.getString("pd");
                     JSONObject pd_obj = JSONObject.parseObject(pd);
+                    ToastUtils.toastutils("转账成功",FinancialTransferActivity.this);
+                    finish();
                 } else {
                     ToastUtils.toastutils(message,FinancialTransferActivity.this);
                 }
