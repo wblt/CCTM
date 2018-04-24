@@ -21,6 +21,7 @@ public class SPUtils {
     public static final String current_step = "current_step";
     public static final String nick_name = "nick_name";
     public static final String safety = "safety";
+    public static final String w_energy = "w_energy";
 
     /**
      * 退出程序清空用户数据

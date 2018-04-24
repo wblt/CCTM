@@ -1,5 +1,6 @@
 package wb.com.cctm.fragment;
 
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -27,6 +28,7 @@ import butterknife.Unbinder;
 import wb.com.cctm.R;
 import wb.com.cctm.activity.CompoundActivity;
 import wb.com.cctm.activity.FinancialTransferActivity;
+import wb.com.cctm.activity.InvitingFriendsActivity;
 import wb.com.cctm.activity.MyorderActivity;
 import wb.com.cctm.activity.SettingActivity;
 import wb.com.cctm.activity.TransferRecoderActivity;
@@ -35,6 +37,7 @@ import wb.com.cctm.activity.WalletConversionActivity;
 import wb.com.cctm.base.BaseFragment;
 import wb.com.cctm.commons.utils.ImageLoader;
 import wb.com.cctm.commons.utils.SPUtils;
+import wb.com.cctm.commons.utils.ToastUtils;
 
 public class MineFragment extends BaseFragment {
 
@@ -47,6 +50,12 @@ public class MineFragment extends BaseFragment {
     ImageView iv_head_img;
     @BindView(R.id.tv_nick_name)
     TextView tv_nick_name;
+    @BindView(R.id.tv_w_energy)
+    TextView tv_w_energy;
+    @BindView(R.id.tv_wallet_address)
+    TextView tv_wallet_address;
+    @BindView(R.id.tv_copy_address)
+    TextView tv_copy_address;
     //定义图标数组
     private int[] imageRes = {
             R.mipmap.chang,
@@ -96,6 +105,8 @@ public class MineFragment extends BaseFragment {
             ImageLoader.load(headpath,iv_head_img);
         }
         tv_nick_name.setText(SPUtils.getString(SPUtils.nick_name));
+        tv_w_energy.setText(SPUtils.getString(SPUtils.w_energy));
+        tv_wallet_address.setText(SPUtils.getString(SPUtils.wallet_address));
     }
 
     private void initview(View view) {
@@ -110,13 +121,18 @@ public class MineFragment extends BaseFragment {
         });
     }
 
-    @OnClick({R.id.ll_user_info})
+    @OnClick({R.id.ll_user_info,R.id.tv_copy_address})
     void viewClick(View view) {
         Intent intent;
         switch (view.getId()) {
             case R.id.ll_user_info:
                 intent = new Intent(getActivity(), UserInfoActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.tv_copy_address:
+                ClipboardManager clip_left = (ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                clip_left.setText(tv_wallet_address.getText());
+                ToastUtils.toastutils("你已复制到粘贴板",getActivity());
                 break;
             default:
                 break;

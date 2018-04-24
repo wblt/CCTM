@@ -242,6 +242,7 @@ public class DeliverFragment extends BaseFragment {
                     SPUtils.putString(SPUtils.headimgpath,pd_obj.getString("HEAD_URL"));
                     SPUtils.putString(SPUtils.nick_name,pd_obj.getString("NICK_NAME"));
                     SPUtils.putString(SPUtils.safety,pd_obj.getString("IFPAS"));
+                    SPUtils.putString(SPUtils.w_energy,pd_obj.getString("W_ENERGY"));
                     tv_user_name.setText(pd_obj.getString("NICK_NAME"));
                     tv_d_curr.setText(pd_obj.getString("D_CURRENCY"));
                     tv_s_curr.setText(pd_obj.getString("S_CURRENCY"));
