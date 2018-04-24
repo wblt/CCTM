@@ -161,6 +161,7 @@ public class SafetyPwdActivity extends BaseActivity {
                 if (result.equals(FlowAPI.SUCCEED)) {
                     SPUtils.putString(SPUtils.phone,phone);
                     ToastUtils.toastutils("修改成功",SafetyPwdActivity.this);
+                    SPUtils.putString(SPUtils.safety,"1");
                     finish();
                 } else {
                     ToastUtils.toastutils(message,SafetyPwdActivity.this);

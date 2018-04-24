@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import wb.com.cctm.R;
 import wb.com.cctm.base.BaseActivity;
+import wb.com.cctm.commons.utils.SPUtils;
 import wb.com.cctm.commons.utils.ToastUtils;
 import wb.com.cctm.net.CommonCallbackImp;
 import wb.com.cctm.net.FlowAPI;
@@ -82,7 +83,9 @@ public class LoginPwdActivity extends BaseActivity {
                 String message = jsonObject.getString("message");
                 if (result.equals(FlowAPI.SUCCEED)) {
                     String pd = jsonObject.getString("pd");
-                    JSONObject pd_obj = JSONObject.parseObject(pd);
+                    ToastUtils.toastutils("修改成功",LoginPwdActivity.this);
+                    SPUtils.putString(SPUtils.password,et_new_password.getText().toString());
+                    finish();
                 } else {
                     ToastUtils.toastutils(message,LoginPwdActivity.this);
                 }
