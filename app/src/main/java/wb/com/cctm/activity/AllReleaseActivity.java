@@ -80,7 +80,7 @@ public class AllReleaseActivity extends BaseActivity {
         requestParams.addParameter("USER_NAME", SPUtils.getString(SPUtils.username));
         requestParams.addParameter("QUERY_ID", queryId);
         requestParams.addParameter("TYPE",type);
-        MXUtils.httpPost(requestParams,new CommonCallbackImp("INDEX - 释放详情",requestParams,this){
+        MXUtils.httpPost(requestParams,new CommonCallbackImp("INDEX - 释放详情",requestParams){
             @Override
             public void onSuccess(String data) {
                 super.onSuccess(data);

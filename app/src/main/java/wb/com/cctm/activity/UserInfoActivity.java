@@ -126,6 +126,7 @@ public class UserInfoActivity extends BaseActivity {
             String hint = SPUtils.getString(SPUtils.nick_name);
             SpannableString s = new SpannableString(hint);//这里输入自己想要的提示文字
             et_nick_name.setHint(s);
+            HEAD_URL = SPUtils.getString(SPUtils.headimgpath);
         }
     }
 
