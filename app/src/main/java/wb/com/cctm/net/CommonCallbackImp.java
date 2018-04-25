@@ -56,11 +56,11 @@ public class CommonCallbackImp implements Callback.CommonCallback<String>,Callba
     @Override
     public void onError(Throwable ex, boolean isOnCallback) {
         if (ex instanceof ConnectException || ex instanceof SocketTimeoutException) {
-            show("连接超时");
+            show("连接超时,请重新尝试");
         } else if (ex instanceof HttpException){
             show("网络错误");
         }else {
-            show("服务器异常");
+            show("服务器异常,请联系管理员");
             ex.printStackTrace();
         }
         if(type == 1) {
