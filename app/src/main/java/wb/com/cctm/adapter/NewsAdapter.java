@@ -10,71 +10,43 @@ import android.widget.TextView;
 import java.util.List;
 
 import wb.com.cctm.R;
+import wb.com.cctm.base.BaseRecyclerViewAdapter;
+import wb.com.cctm.base.BaseRecyclerViewHolder;
 import wb.com.cctm.base.OnItemClickListener;
 import wb.com.cctm.bean.NoticeBean;
+import wb.com.cctm.databinding.ItemNewsBinding;
 
 /**
  * Created by wb on 2018/4/16.
  */
 
-public class NewsAdapter extends RecyclerView.Adapter {
-    private List<NoticeBean> datas;
-    private Context context;
-    private OnItemClickListener<NoticeBean> listener;
-    public NewsAdapter(List<NoticeBean> datas, Context context) {
-        this.datas = datas;
-        this.context = context;
-    }
-
-    public void refresh(List<NoticeBean> datas) {
-        this.datas = datas;
-        notifyDataSetChanged();
-    }
-
+public class NewsAdapter extends BaseRecyclerViewAdapter<NoticeBean> {
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view =  LayoutInflater.from(context).inflate(R.layout.item_news,parent,false);
-        Myholder myViewHolder = new Myholder(view);
-        return myViewHolder;
+    public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ViewHolder(parent,R.layout.item_news);
     }
+    private class ViewHolder extends BaseRecyclerViewHolder<NoticeBean,ItemNewsBinding> {
 
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        final NoticeBean bean = datas.get(position);
-        Myholder myholder = (Myholder) holder;
-        myholder.tv_title.setText(bean.getTITLE());
-        myholder.tv_content.setText(bean.getCONTENT());
-        myholder.tv_time.setText(bean.getCREATE_TIME());
-        myholder.tv_detail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (listener != null) {
-                    listener.onClick(bean,view,position);
+        public ViewHolder(ViewGroup viewGroup, int layoutId) {
+            super(viewGroup, layoutId);
+        }
+
+        @Override
+        public void onBindViewHolder(final NoticeBean object, final int position) {
+            binding.executePendingBindings();
+            binding.tvTitle.setText(object.getTITLE());
+            binding.tvContent.setText(object.getCONTENT());
+            binding.tvTime.setText(object.getCREATE_TIME());
+            binding.tvDetail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onClick(object,v,position);
+                    }
                 }
-            }
-        });
-    }
+            });
 
-    @Override
-    public int getItemCount() {
-        return datas.size();
-    }
-
-    public static class Myholder extends RecyclerView.ViewHolder {
-        private TextView tv_title;
-        private TextView tv_content;
-        private TextView tv_detail;
-        private TextView tv_time;
-        public Myholder(View itemView) {
-            super(itemView);
-            tv_content = itemView.findViewById(R.id.tv_content);
-            tv_title = itemView.findViewById(R.id.tv_title);
-            tv_detail = itemView.findViewById(R.id.tv_detail);
-            tv_time = itemView.findViewById(R.id.tv_time);
         }
     }
 
-    public void setListener(OnItemClickListener<NoticeBean> listener) {
-        this.listener = listener;
-    }
 }

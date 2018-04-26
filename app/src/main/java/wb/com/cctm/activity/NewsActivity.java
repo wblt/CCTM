@@ -54,31 +54,26 @@ public class NewsActivity extends BaseActivity {
         notice();
     }
 
-    private void recyc_notice(List<NoticeBean> noticeBeen) {
-        if (noticeBeen == null) {
-            return;
-        }
-        if (newsAdapter == null) {
-            newsAdapter = new NewsAdapter(noticeBeen,NewsActivity.this);
-            recyc_list.setLayoutManager(new LinearLayoutManager(this));
-            recyc_list.setAdapter(newsAdapter);
-            newsAdapter.setListener(new OnItemClickListener<NoticeBean>() {
-                @Override
-                public void onClick(NoticeBean noticeBean, View view, int position) {
-                    Intent intent = new Intent(NewsActivity.this,NewsDetailActivity.class);
-                    intent.putExtra("title",noticeBean.getTITLE());
-                    intent.putExtra("content",noticeBean.getCONTENT());
-                    intent.putExtra("time",noticeBean.getCREATE_TIME());
-                    startActivity(intent);
-                }
-            });
-        } else {
-            newsAdapter.refresh(noticeBeen);
-        }
-
-    }
-
     private void initview() {
+        newsAdapter = new NewsAdapter();
+        recyc_list.setLayoutManager(new LinearLayoutManager(this));
+        recyc_list.setAdapter(newsAdapter);
+        newsAdapter.setOnItemClickListener(new OnItemClickListener<NoticeBean>() {
+            @Override
+            public void onClick(NoticeBean noticeBean, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.tv_detail:
+                        Intent intent = new Intent(NewsActivity.this,NewsDetailActivity.class);
+                        intent.putExtra("title",noticeBean.getTITLE());
+                        intent.putExtra("content",noticeBean.getCONTENT());
+                        intent.putExtra("time",noticeBean.getCREATE_TIME());
+                        startActivity(intent);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
         sm_refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -99,10 +94,11 @@ public class NewsActivity extends BaseActivity {
                 if (result.equals(FlowAPI.SUCCEED)) {
                     String pd = jsonObject.getString("pd");
                     List<NoticeBean> beanList = JSONArray.parseArray(pd,NoticeBean.class);
-                    if (beanList != null && beanList.size() >0) {
+                    newsAdapter.addAll(beanList);
+                    newsAdapter.notifyDataSetChanged();
+                    if (newsAdapter.getData().size()>0) {
                         ll_content.setVisibility(View.VISIBLE);
                         ll_no_data.setVisibility(View.GONE);
-                        recyc_notice(beanList);
                     } else {
                         ll_content.setVisibility(View.GONE);
                         ll_no_data.setVisibility(View.VISIBLE);

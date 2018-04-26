@@ -10,7 +10,6 @@ public class FrendsBean {
     String USER_NAME;
     String NICK_NAME;
 
-
     public String getHEAD_URL() {
         return HEAD_URL;
     }

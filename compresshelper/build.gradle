@@ -4,7 +4,7 @@ group='com.github.nanchen2251' // 指定group，com.github.<用户名>
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         minSdkVersion 11
