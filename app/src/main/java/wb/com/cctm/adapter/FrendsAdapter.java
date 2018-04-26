@@ -5,69 +5,45 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import wb.com.cctm.R;
+import wb.com.cctm.base.BaseRecyclerViewAdapter;
+import wb.com.cctm.base.BaseRecyclerViewHolder;
 import wb.com.cctm.base.OnItemClickListener;
 import wb.com.cctm.bean.FrendsBean;
 import wb.com.cctm.bean.NoticeBean;
 import wb.com.cctm.commons.utils.ImageLoader;
+import wb.com.cctm.databinding.ItemFrendsBinding;
 
 /**
  * Created by wb on 2018/4/20.
  */
 
-public class FrendsAdapter extends RecyclerView.Adapter {
-    private List<FrendsBean> datas;
-    private Context context;
-    private OnItemClickListener<FrendsBean> listener;
-    public FrendsAdapter(List<FrendsBean> datas, Context context) {
-        this.datas = datas;
-        this.context = context;
-    }
-
-    public void refresh(List<FrendsBean> datas) {
-        this.datas = datas;
-        notifyDataSetChanged();
-    }
-
+public class FrendsAdapter extends BaseRecyclerViewAdapter<FrendsBean> {
+    // 模板复制即可
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view =  LayoutInflater.from(context).inflate(R.layout.item_frends,parent,false);
-        Myholder myViewHolder = new Myholder(view);
-        return myViewHolder;
+    public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        // 传你的item布局文件
+        return new ViewHolder(parent, R.layout.item_frends);
     }
 
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        FrendsBean bean = datas.get(position);
-        Myholder myholder = (Myholder) holder;
-        myholder.tv_username.setText(bean.getUSER_NAME());
-        ImageLoader.load(bean.getHEAD_URL(),myholder.iv_img);
-        myholder.tv_tel.setText("tel:"+bean.getTEL());
-    }
-
-    @Override
-    public int getItemCount() {
-        return datas.size();
-    }
-
-    public static class Myholder extends RecyclerView.ViewHolder {
-        private ImageView iv_img;
-        private TextView tv_username;
-        private TextView tv_tel;
-        public Myholder(View itemView) {
-            super(itemView);
-            iv_img = itemView.findViewById(R.id.iv_img);
-            tv_username = itemView.findViewById(R.id.tv_username);
-            tv_tel = itemView.findViewById(R.id.tv_tel);
+    // 模板复制即可
+    private class ViewHolder extends BaseRecyclerViewHolder<FrendsBean,ItemFrendsBinding> {
+        public ViewHolder(ViewGroup parent, int item_android) {
+            super(parent, item_android);
         }
-    }
-
-    public void setListener(OnItemClickListener<FrendsBean> listener) {
-        this.listener = listener;
+        @Override
+        public void onBindViewHolder(FrendsBean object, int position) {
+            binding.executePendingBindings();
+            // 接下来真正开始您的业务逻辑
+            binding.tvUsername.setText(object.getNICK_NAME());
+            ImageLoader.load(object.getHEAD_URL(),binding.ivImg);
+            binding.tvTel.setText("tel:"+object.getTEL());
+        }
     }
 }

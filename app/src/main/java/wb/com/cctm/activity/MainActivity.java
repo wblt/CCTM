@@ -128,6 +128,7 @@ public class MainActivity extends BaseActivity {
                 final AppBean appBean = getAppBeanFromString(s);
                 new AlertDialog.Builder(MainActivity.this)
                         .setTitle("版本"+verName+"更新")
+                        .setCancelable(false)
                         .setMessage(appBean.getReleaseNote())
                         .setNegativeButton(
                                 "确定",

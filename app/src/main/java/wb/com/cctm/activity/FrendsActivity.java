@@ -55,6 +55,9 @@ public class FrendsActivity extends BaseActivity {
     }
 
     private void initview() {
+        adapter = new FrendsAdapter();
+        recyc_list.setLayoutManager(new LinearLayoutManager(this));
+        recyc_list.setAdapter(adapter);
         sm_refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -64,16 +67,6 @@ public class FrendsActivity extends BaseActivity {
         });
     }
 
-    private void recyc_frends(List<FrendsBean> list) {
-        if (adapter == null) {
-            adapter = new FrendsAdapter(list,FrendsActivity.this);
-            recyc_list.setLayoutManager(new LinearLayoutManager(this));
-            recyc_list.setAdapter(adapter);
-        } else {
-            adapter.refresh(list);
-        }
-
-    }
 
     private void friends() {
         RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.friends);
@@ -88,10 +81,11 @@ public class FrendsActivity extends BaseActivity {
                 if (result.equals(FlowAPI.SUCCEED)) {
                     String pd = jsonObject.getString("pd");
                     List<FrendsBean> beanList = JSONArray.parseArray(pd,FrendsBean.class);
-                    if (beanList != null && beanList.size() >0) {
+                    adapter.addAll(beanList);
+                    adapter.notifyDataSetChanged();
+                    if (adapter.getData().size()>0) {
                         ll_content.setVisibility(View.VISIBLE);
                         ll_no_data.setVisibility(View.GONE);
-                        recyc_frends(beanList);
                     } else {
                         ll_content.setVisibility(View.GONE);
                         ll_no_data.setVisibility(View.VISIBLE);
