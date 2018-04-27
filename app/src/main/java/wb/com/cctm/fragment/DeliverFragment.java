@@ -37,6 +37,7 @@ import wb.com.cctm.activity.FrendsActivity;
 import wb.com.cctm.activity.InvitingFriendsActivity;
 import wb.com.cctm.activity.MoveWalletActivity;
 import wb.com.cctm.activity.NewsActivity;
+import wb.com.cctm.activity.TestActivity;
 import wb.com.cctm.activity.UserInfoActivity;
 import wb.com.cctm.activity.WalletRecordActivity;
 import wb.com.cctm.base.BaseActivity;
@@ -138,7 +139,7 @@ public class DeliverFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.ll_invate_friends,R.id.xingfeng,R.id.ll_move_wallet,R.id.ll_change_wallet,R.id.ll_look_friende})
+    @OnClick({R.id.ll_suan_li,R.id.ll_invate_friends,R.id.xingfeng,R.id.ll_move_wallet,R.id.ll_change_wallet,R.id.ll_look_friende})
     void viewClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -163,6 +164,10 @@ public class DeliverFragment extends BaseFragment {
                 break;
             case R.id.ll_change_wallet:
                 intent = new Intent(getActivity(), WalletRecordActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.ll_suan_li:
+                intent = new Intent(getActivity(), TestActivity.class);
                 startActivity(intent);
                 break;
             default:

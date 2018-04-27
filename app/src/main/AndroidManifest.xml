@@ -151,7 +151,8 @@
         <activity android:name=".activity.StepRecoderActivity" />
         <activity android:name=".activity.LoginPwdActivity" />
         <activity android:name=".activity.SafetyPwdActivity" />
-        <activity android:name=".activity.PhoneNumberActivity"></activity>
+        <activity android:name=".activity.PhoneNumberActivity" />
+        <activity android:name=".activity.TestActivity"></activity>
     </application>
 
 </manifest>
