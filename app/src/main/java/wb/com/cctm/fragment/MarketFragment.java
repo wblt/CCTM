@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,8 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.lmj.mypwdinputlibrary.InputPwdView;
+import com.lmj.mypwdinputlibrary.MyInputPwdUtil;
 
 import org.xutils.http.RequestParams;
 
@@ -49,9 +53,12 @@ import butterknife.Unbinder;
 import wb.com.cctm.R;
 import wb.com.cctm.activity.GuadanActivity;
 import wb.com.cctm.adapter.BBPageAdapter;
+import wb.com.cctm.adapter.CheckAdpter;
 import wb.com.cctm.base.BaseActivity;
 import wb.com.cctm.base.BaseFragment;
+import wb.com.cctm.base.OnItemClickListener;
 import wb.com.cctm.bean.DepthBean;
+import wb.com.cctm.commons.utils.CommonUtils;
 import wb.com.cctm.commons.utils.ToastUtils;
 import wb.com.cctm.net.CommonCallbackImp;
 import wb.com.cctm.net.FlowAPI;
@@ -65,10 +72,6 @@ public class MarketFragment extends BaseFragment {
     private Unbinder unbinder;
     private List<Fragment> mFragmentList;
     private List<String> mTitleList;
-    @BindView(R.id.tab)
-    TabLayout tab;
-    @BindView(R.id.mvp)
-    ViewPager mvp;
     @BindView(R.id.lineChart)
     LineChart lineChart;
     @BindView(R.id.tv_day)
@@ -76,6 +79,9 @@ public class MarketFragment extends BaseFragment {
     @BindView(R.id.tv_week)
     TextView tv_week;
     private List<DepthBean> depthBeanList;
+    @BindView(R.id.recyc_list)
+    RecyclerView recyc_list;
+    private MyInputPwdUtil myInputPwdUtil;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +93,7 @@ public class MarketFragment extends BaseFragment {
         View view = super.onCreateView(inflater,container,savedInstanceState);
         appendMainBody(this,R.layout.fragment_market);
         appendTopBody(R.layout.activity_top_text);
-        setTopBarTitle("市场");
+        setTopBarTitle("卖单市场");
         unbinder = ButterKnife.bind(this,view);
         initview(view);
         return view;
@@ -103,19 +109,47 @@ public class MarketFragment extends BaseFragment {
             }
         });
         top_left.setVisibility(View.INVISIBLE);
-        mFragmentList = new ArrayList<>();
-        mFragmentList.add(new CheckFragment());
-        mFragmentList.add(new CheckFragment());
-        mTitleList = new ArrayList<>();
-        mTitleList.add("买单市场");
-        mTitleList.add("卖单市场");
-        mvp.setAdapter(new BBPageAdapter(getFragmentManager(), mFragmentList, mTitleList));
-        //将tablayout与fragment关联
-        tab.setTabMode(TabLayout.MODE_FIXED);
-        //将tablayout与fragment关联
-        tab.setupWithViewPager(mvp);
         initLineChart();
         depth("0","日线走势图");
+
+        List<String> dates = new ArrayList<>();
+        dates.add("");
+        dates.add("");
+        dates.add("");
+        dates.add("");
+        dates.add("");
+        dates.add("");
+        CheckAdpter adpter = new CheckAdpter();
+        adpter.setOnItemClickListener(new OnItemClickListener<String>() {
+            @Override
+            public void onClick(String s, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.ll_pipei:
+                        myInputPwdUtil.show();
+                        break;
+                }
+            }
+        });
+        recyc_list.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyc_list.setAdapter(adpter);
+        myInputPwdUtil = new MyInputPwdUtil(getActivity());
+        myInputPwdUtil.getMyInputDialogBuilder().setAnimStyle(R.style.dialog_anim);
+        myInputPwdUtil.setListener(new InputPwdView.InputPwdListener() {
+            @Override
+            public void hide() {
+                myInputPwdUtil.hide();
+            }
+
+            @Override
+            public void forgetPwd() {
+                ToastUtils.toastutils("忘记密码",getContext());
+            }
+
+            @Override
+            public void finishPwd(String pwd) {
+                ToastUtils.toastutils(pwd,getContext());
+            }
+        });
     }
 
     @OnClick({R.id.tv_day,R.id.tv_week})
@@ -263,12 +297,13 @@ public class MarketFragment extends BaseFragment {
                         for (int i = 0;i<7-depthBeanList.size();i++) {
                             String rtime = "00-00";
                             if (type.equals("0")) {
-                                rtime =  getOldDate(lastStr,i+1);
+                                rtime = CommonUtils.getOldDate(lastStr,i*1+1);
                                 xlist.add(rtime.substring(5));
                             } else {
-                                rtime =  getOldDate(lastStr,i+7);
+                                rtime =  CommonUtils.getOldDate(lastStr,i*7+7);
                                 xlist.add(rtime.substring(5));
                             }
+
                         }
                         notifyDataSetChanged(lineChart,entries,title,xlist);
                     }
@@ -280,41 +315,4 @@ public class MarketFragment extends BaseFragment {
         });
     }
 
-    /**
-     * 获取过去第几天的日期(- 操作) 或者 未来 第几天的日期( + 操作)
-     *
-     * @param past
-     * @return
-     */
-    public  String getPastDate(int past) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + past);
-        Date today = calendar.getTime();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String result = format.format(today);
-        Log.e(null, result);
-        return result;
-    }
-
-    /**
-     * 获取前n天日期、后n天日期
-     *
-     * @param distanceDay 前几天 如获取前7天日期则传-7即可；如果后7天则传7
-     * @return
-     */
-    public String getOldDate(String beginstr,int distanceDay){
-        try {
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            Date beginDate = df.parse(beginstr);
-            SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd");
-            Calendar date = Calendar.getInstance();
-            date.setTime(beginDate);
-            date.set(Calendar.DATE, date.get(Calendar.DATE) + distanceDay);
-            Date endDate = dft.parse(dft.format(date.getTime()));
-            return dft.format(endDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }

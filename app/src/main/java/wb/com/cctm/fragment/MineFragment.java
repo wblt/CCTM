@@ -68,7 +68,7 @@ public class MineFragment extends BaseFragment {
             R.mipmap.chang,
             R.mipmap.chang,
             R.mipmap.chang,
-            0};
+            R.mipmap.chang};
     //定义图标下方的名称数组
     private String[] name = {
             "我的订单",

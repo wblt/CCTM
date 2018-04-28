@@ -10,58 +10,38 @@ import android.widget.LinearLayout;
 import java.util.List;
 
 import wb.com.cctm.R;
+import wb.com.cctm.base.BaseRecyclerViewAdapter;
+import wb.com.cctm.base.BaseRecyclerViewHolder;
 import wb.com.cctm.base.OnItemClickListener;
+import wb.com.cctm.databinding.ItemChecBinding;
 
 /**
  * Created by wb on 2018/4/14.
  */
 
-public class CheckAdpter extends RecyclerView.Adapter{
-
-    private List<String> datas;
-    private Context context;
-    private OnItemClickListener<String> listener;
-    public CheckAdpter(List<String> datas, Context context) {
-        this.datas = datas;
-        this.context = context;
-    }
+public class CheckAdpter extends BaseRecyclerViewAdapter<String>{
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view =  LayoutInflater.from(context).inflate(R.layout.item_chec,parent,false);
-        Myholder myViewHolder = new Myholder(view);
-        return myViewHolder;
+    public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        return new ViewHolder(viewGroup,R.layout.item_chec);
     }
 
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        Myholder myholder = (Myholder) holder;
-        final String s = datas.get(position);
-        myholder.ll_pipei.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (listener != null) {
-                    listener.onClick(s,view,position);
-                }
-            }
-        });
-    }
+    private class ViewHolder extends BaseRecyclerViewHolder<String,ItemChecBinding> {
 
-    @Override
-    public int getItemCount() {
-        return datas.size();
-    }
-
-    public static class Myholder extends RecyclerView.ViewHolder {
-        private LinearLayout ll_pipei;
-        public Myholder(View itemView) {
-            super(itemView);
-            ll_pipei = itemView.findViewById(R.id.ll_pipei);
+        public ViewHolder(ViewGroup viewGroup, int layoutId) {
+            super(viewGroup, layoutId);
         }
-    }
-
-
-    public void setListener(OnItemClickListener<String> listener) {
-        this.listener = listener;
+        @Override
+        public void onBindViewHolder(final String object, final int position) {
+            binding.executePendingBindings();
+            binding.llPipei.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        listener.onClick(object,view,position);
+                    }
+                }
+            });
+        }
     }
 }

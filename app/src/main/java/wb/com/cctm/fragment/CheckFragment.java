@@ -54,8 +54,8 @@ public class CheckFragment extends BaseFragment {
         dates.add("");
         dates.add("");
         dates.add("");
-        CheckAdpter adpter = new CheckAdpter(dates,getContext());
-        adpter.setListener(new OnItemClickListener<String>() {
+        CheckAdpter adpter = new CheckAdpter();
+        adpter.setOnItemClickListener(new OnItemClickListener<String>() {
             @Override
             public void onClick(String s, View view, int position) {
                 myInputPwdUtil.show();
