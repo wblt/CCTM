@@ -18,93 +18,49 @@
             android:layout_margin="10dp"
             android:orientation="vertical">
             <LinearLayout
-                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:padding="5dp"
-                android:background="@drawable/button_round_gray">
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1.156"
-                        android:textSize="12dp"
-                        android:textColor="@color/main_bottom_text_color_selector"/>
-                    <TextView
-                        android:layout_marginTop="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="指导价"
-                        android:textSize="12dp"
-                        android:textColor="@color/white"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/white">
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1.156"
-                        android:textSize="12dp"
-                        android:textColor="@color/main_bottom_text_color_selector"/>
-                    <TextView
-                        android:layout_marginTop="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="最高价"
-                        android:textSize="12dp"
-                        android:textColor="@color/white"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/white">
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1.156"
-                        android:textSize="12dp"
-                        android:textColor="@color/main_bottom_text_color_selector"/>
-                    <TextView
-                        android:layout_marginTop="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="最低价"
-                        android:textSize="12dp"
-                        android:textColor="@color/white"/>
-                </LinearLayout>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="150dp">
-                <ImageView
-                    android:scaleType="fitXY"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:id="@+id/tv_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="日线"
+                    android:textSize="12dp"
+                    android:textColor="@color/yellow"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="周线"
+                    android:textSize="12dp"
+                    android:textColor="@color/white"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
+                <TextView
+                    android:layout_marginRight="10dp"
+                    android:gravity="end"
+                    android:id="@+id/tv_unit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/kxian"
-                    android:adjustViewBounds="true"/>
+                    android:text="单位¥"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
             </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/lineChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
+            </RelativeLayout>
+
             <android.support.design.widget.TabLayout
                 android:layout_marginTop="10dp"
                 android:id="@+id/tab"

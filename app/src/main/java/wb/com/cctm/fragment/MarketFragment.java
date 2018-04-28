@@ -2,6 +2,7 @@ package wb.com.cctm.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,20 +11,44 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+
+import org.xutils.http.RequestParams;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import wb.com.cctm.R;
 import wb.com.cctm.activity.GuadanActivity;
 import wb.com.cctm.adapter.BBPageAdapter;
+import wb.com.cctm.base.BaseActivity;
 import wb.com.cctm.base.BaseFragment;
+import wb.com.cctm.bean.DepthBean;
 import wb.com.cctm.commons.utils.ToastUtils;
+import wb.com.cctm.net.CommonCallbackImp;
+import wb.com.cctm.net.FlowAPI;
+import wb.com.cctm.net.MXUtils;
 
 public class MarketFragment extends BaseFragment {
     @BindView(R.id.top_left)
@@ -37,6 +62,13 @@ public class MarketFragment extends BaseFragment {
     TabLayout tab;
     @BindView(R.id.mvp)
     ViewPager mvp;
+    @BindView(R.id.lineChart)
+    LineChart lineChart;
+    @BindView(R.id.tv_day)
+    TextView tv_day;
+    @BindView(R.id.tv_week)
+    TextView tv_week;
+    private List<DepthBean> depthBeanList;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +107,27 @@ public class MarketFragment extends BaseFragment {
         tab.setTabMode(TabLayout.MODE_FIXED);
         //将tablayout与fragment关联
         tab.setupWithViewPager(mvp);
+        initLineChart();
+        //depth("0","日线走势图");
+    }
+
+    @OnClick({R.id.tv_day,R.id.tv_week})
+    void viewClick(View view) {
+        List<Entry> entries;
+        switch (view.getId()) {
+            case R.id.tv_day:
+                depth("0","日线走势图");
+                tv_day.setTextColor(getActivity().getResources().getColor(R.color.yellow));
+                tv_week.setTextColor(getActivity().getResources().getColor(R.color.white));
+                break;
+            case R.id.tv_week:
+                depth("1","周线走势图");
+                tv_day.setTextColor(getActivity().getResources().getColor(R.color.white));
+                tv_week.setTextColor(getActivity().getResources().getColor(R.color.yellow));
+                break;
+            default:
+                break;
+        }
     }
 
 
@@ -82,5 +135,130 @@ public class MarketFragment extends BaseFragment {
     public void onDestroy() {
         unbinder.unbind();
         super.onDestroy();
+    }
+
+    private void initLineChart() {
+        final List<String> mList = new ArrayList<>();
+        mList.add("04-22");
+        mList.add("04-23");
+        mList.add("04-24");
+        mList.add("04-25");
+        mList.add("04-26");
+        mList.add("04-27");
+        mList.add("04-28");
+        mList.add("04-29");
+        //显示边界
+        lineChart.setDrawBorders(true);
+        // 轴
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setLabelCount(6,false);
+        xAxis.setAxisMinimum(0);
+        xAxis.setAxisMaximum(6);
+        xAxis.setTextColor(Color.WHITE);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return mList.get((int) value); //mList为存有月份的集合
+            }
+        });
+        // 左右y轴
+        YAxis leftYAxis = lineChart.getAxisLeft();
+        YAxis rightYAxis = lineChart.getAxisRight();
+        leftYAxis.setAxisMinimum(0f);
+        leftYAxis.setAxisMaximum(10f);
+        rightYAxis.setAxisMinimum(0f);
+        rightYAxis.setAxisMaximum(10f);
+        rightYAxis.setTextColor(Color.WHITE); //文字颜色
+        leftYAxis.setTextColor(Color.WHITE); //文字颜色
+
+        // 描述
+        Description description = new Description();
+        description.setEnabled(false);
+        lineChart.setDescription(description);
+
+        // 手势
+        lineChart.setDragEnabled(false);
+        lineChart.setDoubleTapToZoomEnabled(false);
+        lineChart.setPinchZoom(false);
+        lineChart.setScaleEnabled(false);
+        lineChart.setDragXEnabled(false);
+        lineChart.setDragYEnabled(false);
+
+
+        // 标签
+        Legend legend = lineChart.getLegend();
+        legend.setTextColor(Color.WHITE);
+
+        //设置数据
+        List<Entry> entries = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            entries.add(new Entry(i, (float) (Math.random()) * 10));
+        }
+        //一个LineDataSet就是一条线
+        LineDataSet lineDataSet = new LineDataSet(entries, "日线走势图");
+        LineData data = new LineData(lineDataSet);
+        lineDataSet.setColor(Color.GREEN);
+        lineDataSet.setValueTextColor(Color.GREEN);
+        lineChart.setData(data);
+    }
+
+    /**
+     * 更新图表
+     *
+     */
+    public void notifyDataSetChanged(LineChart chart, List<Entry> values, String lable, final List<String> xList) {
+        if (xList == null || xList.size() < 7) {
+            return;
+        }
+        if (values == null || values.size() < 7) {
+            return;
+        }
+        chart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return xList.get((int) value); //mList为存有月份的集合
+            }
+        });
+        chart.invalidate();
+        LineDataSet lineDataSet = (LineDataSet) chart.getData().getDataSetByIndex(0);
+        lineDataSet.setValues(values);
+        lineDataSet.setLabel(lable);
+        chart.getData().notifyDataChanged();
+        chart.notifyDataSetChanged();
+    }
+
+    private void depth(final String type, final String title) {
+        RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.depth);
+        requestParams.addParameter("TYPE", type);
+        requestParams.addParameter("NUM", "7");
+        MXUtils.httpPost(requestParams,new CommonCallbackImp("USER - 获取k线数据",requestParams, (BaseActivity) getActivity()){
+            @Override
+            public void onSuccess(String data) {
+                super.onSuccess(data);
+                JSONObject jsonObject = JSONObject.parseObject(data);
+                String result = jsonObject.getString("code");
+                String message = jsonObject.getString("message");
+                if (result.equals(FlowAPI.SUCCEED)) {
+                    String pd = jsonObject.getString("pd");
+                    depthBeanList = JSONArray.parseArray(pd,DepthBean.class);
+                    if (depthBeanList != null && depthBeanList.size()==7) {
+                        // 值
+                        List<String> xlist = new ArrayList<String>();
+                        List<Entry>  entries = new ArrayList<>();
+                        for (int i = 0; i < 7; i++) {
+                            DepthBean bean = depthBeanList.get(i);
+                            String sub = bean.getDEAL_TIME().substring(5);
+                            entries.add(new Entry(i, Float.valueOf(bean.getBUSINESS_PRICE())));
+                            xlist.add(sub);
+                        }
+                        notifyDataSetChanged(lineChart,entries,title,xlist);
+                    }
+                } else {
+                    ToastUtils.toastutils(message,getActivity());
+                }
+
+            }
+        });
     }
 }

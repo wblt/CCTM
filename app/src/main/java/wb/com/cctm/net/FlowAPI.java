@@ -99,4 +99,8 @@ public class FlowAPI {
 
     // USER - 安全密码短信验证码
     public static String sysendMessAQ = SERVER_IP + "/app/user/sysendMessAQ";
+
+    // K线图
+    public static String depth = SERVER_IP + "/app/market/depth";
+
 }

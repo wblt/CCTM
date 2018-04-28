@@ -78,8 +78,8 @@ public class MineFragment extends BaseFragment {
             "接收记录",
             "能量兑换",
             "运动记录",
-            "更多",
-            ""
+            "收款地址",
+            "更多"
     };
     @Override
     public void onCreate(Bundle savedInstanceState) {
