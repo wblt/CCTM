@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +32,14 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import org.xutils.http.RequestParams;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -108,7 +115,7 @@ public class MarketFragment extends BaseFragment {
         //将tablayout与fragment关联
         tab.setupWithViewPager(mvp);
         initLineChart();
-        //depth("0","日线走势图");
+        depth("0","日线走势图");
     }
 
     @OnClick({R.id.tv_day,R.id.tv_week})
@@ -146,7 +153,6 @@ public class MarketFragment extends BaseFragment {
         mList.add("04-26");
         mList.add("04-27");
         mList.add("04-28");
-        mList.add("04-29");
         //显示边界
         lineChart.setDrawBorders(true);
         // 轴
@@ -208,10 +214,10 @@ public class MarketFragment extends BaseFragment {
      *
      */
     public void notifyDataSetChanged(LineChart chart, List<Entry> values, String lable, final List<String> xList) {
-        if (xList == null || xList.size() < 7) {
+        if (xList == null) {
             return;
         }
-        if (values == null || values.size() < 7) {
+        if (values == null) {
             return;
         }
         chart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
@@ -242,15 +248,27 @@ public class MarketFragment extends BaseFragment {
                 if (result.equals(FlowAPI.SUCCEED)) {
                     String pd = jsonObject.getString("pd");
                     depthBeanList = JSONArray.parseArray(pd,DepthBean.class);
-                    if (depthBeanList != null && depthBeanList.size()==7) {
+                    if (depthBeanList != null) {
                         // 值
+                        Collections.reverse(depthBeanList); // 倒序排列
                         List<String> xlist = new ArrayList<String>();
                         List<Entry>  entries = new ArrayList<>();
-                        for (int i = 0; i < 7; i++) {
+                        for (int i = 0; i < depthBeanList.size(); i++) {
                             DepthBean bean = depthBeanList.get(i);
                             String sub = bean.getDEAL_TIME().substring(5);
                             entries.add(new Entry(i, Float.valueOf(bean.getBUSINESS_PRICE())));
                             xlist.add(sub);
+                        }
+                        String lastStr = depthBeanList.get(depthBeanList.size()-1).getDEAL_TIME();
+                        for (int i = 0;i<7-depthBeanList.size();i++) {
+                            String rtime = "00-00";
+                            if (type.equals("0")) {
+                                rtime =  getOldDate(lastStr,i+1);
+                                xlist.add(rtime.substring(5));
+                            } else {
+                                rtime =  getOldDate(lastStr,i+7);
+                                xlist.add(rtime.substring(5));
+                            }
                         }
                         notifyDataSetChanged(lineChart,entries,title,xlist);
                     }
@@ -260,5 +278,43 @@ public class MarketFragment extends BaseFragment {
 
             }
         });
+    }
+
+    /**
+     * 获取过去第几天的日期(- 操作) 或者 未来 第几天的日期( + 操作)
+     *
+     * @param past
+     * @return
+     */
+    public  String getPastDate(int past) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + past);
+        Date today = calendar.getTime();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String result = format.format(today);
+        Log.e(null, result);
+        return result;
+    }
+
+    /**
+     * 获取前n天日期、后n天日期
+     *
+     * @param distanceDay 前几天 如获取前7天日期则传-7即可；如果后7天则传7
+     * @return
+     */
+    public String getOldDate(String beginstr,int distanceDay){
+        try {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            Date beginDate = df.parse(beginstr);
+            SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar date = Calendar.getInstance();
+            date.setTime(beginDate);
+            date.set(Calendar.DATE, date.get(Calendar.DATE) + distanceDay);
+            Date endDate = dft.parse(dft.format(date.getTime()));
+            return dft.format(endDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
