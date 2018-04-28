@@ -14,8 +14,6 @@ import butterknife.ButterKnife;
 import wb.com.cctm.R;
 import wb.com.cctm.adapter.BBPageAdapter;
 import wb.com.cctm.base.BaseActivity;
-import wb.com.cctm.fragment.GuaBuyFragment;
-import wb.com.cctm.fragment.GuaSellFragment;
 import wb.com.cctm.fragment.MyCheckFragment;
 
 public class MyorderActivity extends BaseActivity {

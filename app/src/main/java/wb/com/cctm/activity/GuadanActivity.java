@@ -13,40 +13,20 @@ import butterknife.ButterKnife;
 import wb.com.cctm.R;
 import wb.com.cctm.adapter.BBPageAdapter;
 import wb.com.cctm.base.BaseActivity;
-import wb.com.cctm.fragment.GuaBuyFragment;
-import wb.com.cctm.fragment.GuaSellFragment;
 
 public class GuadanActivity extends BaseActivity {
-
-    @BindView(R.id.tab)
-    TabLayout tab;
-    @BindView(R.id.mvp)
-    ViewPager mvp;
-    private List<Fragment> mFragmentList;
-    private List<String> mTitleList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         appendMainBody(this,R.layout.activity_guadan);
         appendTopBody(R.layout.activity_top_text);
-        setTopBarTitle("挂单");
+        setTopBarTitle("挂卖单");
         setTopLeftDefultListener();
         ButterKnife.bind(this);
         initview();
     }
 
     private void initview() {
-        mFragmentList = new ArrayList<>();
-        mFragmentList.add(new GuaBuyFragment());
-        mFragmentList.add(new GuaSellFragment());
-        mTitleList = new ArrayList<>();
-        mTitleList.add("挂买单");
-        mTitleList.add("挂卖单");
-        mvp.setAdapter(new BBPageAdapter(getSupportFragmentManager(),mFragmentList,mTitleList));
-        //将tablayout与fragment关联
-        tab.setTabMode(TabLayout.MODE_FIXED);
-        //将tablayout与fragment关联
-        tab.setupWithViewPager(mvp);
-    }
 
+    }
 }

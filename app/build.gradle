@@ -44,6 +44,7 @@ dependencies {
     compile project(':imagepicker')
     compile files('libs/cos-sdk-android-1.4.3.jar')
     compile project(':compresshelper')
+    compile files('libs/core-3.3.0.jar')
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:multidex:1.0.1'

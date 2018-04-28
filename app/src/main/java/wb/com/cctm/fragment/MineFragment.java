@@ -1,11 +1,15 @@
 package wb.com.cctm.fragment;
 
+import android.Manifest;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +34,7 @@ import wb.com.cctm.activity.CompoundActivity;
 import wb.com.cctm.activity.FinancialTransferActivity;
 import wb.com.cctm.activity.InvitingFriendsActivity;
 import wb.com.cctm.activity.MyorderActivity;
+import wb.com.cctm.activity.ReciveCodeActivity;
 import wb.com.cctm.activity.ReciverRecordActivity;
 import wb.com.cctm.activity.SettingActivity;
 import wb.com.cctm.activity.StepRecoderActivity;
@@ -40,6 +45,11 @@ import wb.com.cctm.base.BaseFragment;
 import wb.com.cctm.commons.utils.ImageLoader;
 import wb.com.cctm.commons.utils.SPUtils;
 import wb.com.cctm.commons.utils.ToastUtils;
+import wb.com.cctm.commons.zxing.android.CaptureActivity;
+import wb.com.cctm.commons.zxing.bean.ZxingConfig;
+import wb.com.cctm.commons.zxing.common.Constant;
+
+import static android.app.Activity.RESULT_OK;
 
 public class MineFragment extends BaseFragment {
 
@@ -58,6 +68,7 @@ public class MineFragment extends BaseFragment {
     TextView tv_wallet_address;
     @BindView(R.id.tv_copy_address)
     TextView tv_copy_address;
+    private int REQUEST_CODE_SCAN = 111;
     //定义图标数组
     private int[] imageRes = {
             R.mipmap.chang,
@@ -112,7 +123,30 @@ public class MineFragment extends BaseFragment {
     }
 
     private void initview(View view) {
-        top_left.setVisibility(View.INVISIBLE);
+        top_left.setImageResource(R.mipmap.scan);
+        top_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    //权限还没有授予，需要在这里写申请权限的代码
+                    requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_SCAN);
+                } else {
+                    Intent intent = new Intent(getActivity(), CaptureActivity.class);
+                                /*ZxingConfig是配置类  可以设置是否显示底部布局，闪光灯，相册，是否播放提示音  震动等动能
+                                * 也可以不传这个参数
+                                * 不传的话  默认都为默认不震动  其他都为true
+                                * */
+                    ZxingConfig config = new ZxingConfig();
+                    config.setPlayBeep(true);
+                    config.setShake(true);
+                    config.setShowbottomLayout(false);
+                    intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
+                    startActivityForResult(intent, REQUEST_CODE_SCAN);
+                }
+            }
+        });
         top_right_icon.setImageResource(R.mipmap.setting_icon);
         top_right_icon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,6 +235,10 @@ public class MineFragment extends BaseFragment {
                         intent = new Intent(getActivity(), StepRecoderActivity.class);
                         startActivity(intent);
                         break;
+                    case "收款地址":
+                        intent = new Intent(getActivity(), ReciveCodeActivity.class);
+                        startActivity(intent);
+                        break;
                     case "更多":
                         ToastUtils.toastutils("开发中",getActivity());
                         break;
@@ -209,5 +247,42 @@ public class MineFragment extends BaseFragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //        // 扫描二维码/条码回传
+        if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
+            if (data != null) {
+                String content = data.getStringExtra(Constant.CODED_CONTENT);
+                Toast.makeText(getActivity(),content, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_SCAN) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission Granted准许
+                Toast.makeText(getActivity(),"已获得授权！",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), CaptureActivity.class);
+                                /*ZxingConfig是配置类  可以设置是否显示底部布局，闪光灯，相册，是否播放提示音  震动等动能
+                                * 也可以不传这个参数
+                                * 不传的话  默认都为默认不震动  其他都为true
+                                * */
+                ZxingConfig config = new ZxingConfig();
+                config.setPlayBeep(true);
+                config.setShake(true);
+                config.setShowbottomLayout(false);
+                intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
+                startActivityForResult(intent, REQUEST_CODE_SCAN);
+            } else {
+                // Permission Denied拒绝
+                Toast.makeText(getActivity(),"未获得授权！",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
