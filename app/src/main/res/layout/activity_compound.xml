@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="wb.com.cctm.activity.CompoundActivity"
-    android:background="@color/mainPrimary">
+    tools:context="wb.com.cctm.activity.CompoundActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -43,7 +42,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:gravity="center_vertical"
-            android:background="@color/bottom_color">
+            android:background="@android:color/transparent">
             <TextView
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"

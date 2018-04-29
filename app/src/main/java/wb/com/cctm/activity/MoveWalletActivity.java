@@ -53,7 +53,7 @@ public class MoveWalletActivity extends BaseActivity {
     }
 
     private void initview() {
-        iv_showCode.setImageBitmap(Code.getInstance().createBitmap("#020919"));
+        iv_showCode.setImageBitmap(Code.getInstance().createBitmap("#111F3F"));
         realCode = Code.getInstance().getCode().toLowerCase();
         tv_d_curr.setText(getIntent().getStringExtra("D_CURRENCY"));
         tv_s_curr.setText(getIntent().getStringExtra("S_CURRENCY"));
@@ -70,7 +70,7 @@ public class MoveWalletActivity extends BaseActivity {
                 commite();
                 break;
             case R.id.iv_showCode:
-                iv_showCode.setImageBitmap(Code.getInstance().createBitmap("#020919"));
+                iv_showCode.setImageBitmap(Code.getInstance().createBitmap("#111F3F"));
                 realCode = Code.getInstance().getCode().toLowerCase();
                 break;
             case R.id.iv_input_xx:

@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="wb.com.cctm.fragment.MineFragment"
-    android:background="@color/mainPrimary">
+    tools:context="wb.com.cctm.fragment.MineFragment">
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,14 +14,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/mainPrimary"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/mainPrimary"
                 android:orientation="vertical">
                 <LinearLayout
                     android:orientation="vertical"
@@ -142,7 +139,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@color/white"
                 android:padding="1dp">
                 <GridView
                     android:id="@+id/gridview"
@@ -150,10 +146,10 @@
                     android:layout_height="match_parent"
                     android:columnWidth="90dp"
                     android:gravity="center"
-                    android:horizontalSpacing="1dp"
+                    android:horizontalSpacing="0dp"
                     android:numColumns="3"
                     android:stretchMode="columnWidth"
-                    android:verticalSpacing="1dp" />
+                    android:verticalSpacing="0dp" />
             </LinearLayout>
         </LinearLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>

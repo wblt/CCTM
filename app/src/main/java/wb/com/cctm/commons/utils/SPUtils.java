@@ -27,7 +27,7 @@ public class SPUtils {
      * 退出程序清空用户数据
      */
     public static void clearUser() {
-        SPUtils.putString(isLogin,"0");
+        SPUtils.putString(isLogin,"");
     }
     /**
      * 清空SharedPreferences实例对象

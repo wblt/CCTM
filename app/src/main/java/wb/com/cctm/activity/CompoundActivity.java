@@ -86,13 +86,9 @@ public class CompoundActivity extends BaseActivity {
         if (flag.equals("1")) {
             img_fuli_gou.setVisibility(View.VISIBLE);
             img_stop_gou.setVisibility(View.INVISIBLE);
-            ll_fuli.setBackgroundColor(getResources().getColor(R.color.bottom_color));
-            ll_stop_fuli.setBackgroundColor(getResources().getColor(R.color.mainPrimary));
         } else {
             img_fuli_gou.setVisibility(View.INVISIBLE);
             img_stop_gou.setVisibility(View.VISIBLE);
-            ll_fuli.setBackgroundColor(getResources().getColor(R.color.mainPrimary));
-            ll_stop_fuli.setBackgroundColor(getResources().getColor(R.color.bottom_color));
         }
         if (lastflag.equals(flag)) {
             btn_commit.setBackgroundResource(0);

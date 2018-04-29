@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="wb.com.cctm.activity.MyorderActivity"
-    android:background="@color/mainPrimary"
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,10 +16,11 @@
             android:id="@+id/tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorColor="@color/transparent"
+            app:tabIndicatorColor="@android:color/transparent"
             app:tabSelectedTextColor="@color/main_bottom_text_color_selector"
             app:tabTextColor="@color/three_font_color"
-            app:tabTextAppearance="@style/MyTabLayoutTextAppearance">
+            app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
+            android:background="@android:color/transparent">
         </android.support.design.widget.TabLayout>
         <android.support.v4.view.ViewPager
             android:layout_marginTop="10dp"
