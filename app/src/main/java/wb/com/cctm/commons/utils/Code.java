@@ -59,8 +59,9 @@ public class Code {
 
         code = createCode();
 
-        int color = Color.parseColor(hexCorlor);
-        c.drawColor(color);
+        // 画背景颜色
+//        int color = Color.parseColor(hexCorlor);
+//        c.drawColor(color);
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setTextSize(font_size);
