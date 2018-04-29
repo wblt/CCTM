@@ -219,7 +219,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/ZxingTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name=".activity.ReciveCodeActivity"></activity>
+        <activity android:name=".activity.ReciveCodeActivity" />
+        <activity android:name=".activity.PayInfoActivity"></activity>
     </application>
 
 </manifest>

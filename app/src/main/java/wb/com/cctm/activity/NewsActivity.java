@@ -78,6 +78,7 @@ public class NewsActivity extends BaseActivity {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 refreshLayout.finishRefresh(1000);
+                newsAdapter.clear();
                 notice();
             }
         });

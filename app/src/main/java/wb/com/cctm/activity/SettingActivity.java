@@ -68,7 +68,8 @@ public class SettingActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.ll_user_bind:
-                ToastUtils.toastutils("开发中",SettingActivity.this);
+                intent = new Intent(SettingActivity.this,PayInfoActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;

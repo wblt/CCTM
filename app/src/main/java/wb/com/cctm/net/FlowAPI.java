@@ -103,4 +103,12 @@ public class FlowAPI {
     // K线图
     public static String depth = SERVER_IP + "/app/market/depth";
 
+    // TOOL - 修改支付信息
+    public static String cgPayMes = SERVER_IP + "/app/tool/cgPayMes";
+
+    // TOOL - 修改支付信息
+    public static String payMes = SERVER_IP + "/app/tool/payMes";
+
+
+
 }
