@@ -10,6 +10,7 @@ public class MarkBean {
     String BUSINESS_PRICE;
     String CREATE_TIME;
     String TRADE_ID;
+    String USER_NAME;
 
     public String getTOTAL_MONEY() {
         return TOTAL_MONEY;
@@ -49,5 +50,13 @@ public class MarkBean {
 
     public void setTRADE_ID(String TRADE_ID) {
         this.TRADE_ID = TRADE_ID;
+    }
+
+    public String getUSER_NAME() {
+        return USER_NAME;
+    }
+
+    public void setUSER_NAME(String USER_NAME) {
+        this.USER_NAME = USER_NAME;
     }
 }

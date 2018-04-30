@@ -83,6 +83,10 @@ public class FinancialTransferActivity extends BaseActivity {
                 send(pwd);
             }
         });
+        String address = getIntent().getStringExtra("address");
+        if (address != null &&TextUtils.isEmpty(address)) {
+            et_wallet_address.setText(address);
+        }
     }
 
     @OnClick({R.id.btn_commit,R.id.iv_input_xx2,R.id.iv_input_xx})

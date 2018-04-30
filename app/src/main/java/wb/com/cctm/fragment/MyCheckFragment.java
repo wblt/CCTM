@@ -74,8 +74,16 @@ public class MyCheckFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_my_check,container,false);
         unbinder = ButterKnife.bind(this,view);
         initview(view);
-        sellList("1");
+
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adpter.clear();
+        queryid = "0";
+        sellList("1");
     }
 
     private void initview(View view) {
@@ -145,7 +153,8 @@ public class MyCheckFragment extends BaseFragment {
             public void finishPwd(String pwd) {
                 myInputPwdUtil.hide();
                 if (action.equals("可取消")) {
-                    orderCancle(pwd);
+                    test(pwd);
+//                    orderCancle(pwd);
                 } else if (action.equals("确认收款")){
                     surePay(pwd);
                 }
@@ -231,6 +240,35 @@ public class MyCheckFragment extends BaseFragment {
                     String pd = jsonObject.getString("pd");
                     JSONObject pd_obj = JSONObject.parseObject(pd);
                     ToastUtils.toastutils("收款成功",getContext());
+                    // 调下刷新接口
+                    queryid = "0";
+                    adpter.clear();
+                    sellList("1");
+                } else {
+                    ToastUtils.toastutils(message,getContext());
+                }
+
+            }
+        });
+    }
+
+
+    private void test(String pwd) {
+        RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.pay);
+        requestParams.addParameter("TRADE_ID", TRADE_ID);
+        requestParams.addParameter("STATUS", "1");
+        requestParams.addParameter("PASSW", pwd);
+        MXUtils.httpPost(requestParams,new CommonCallbackImp("MARKET - 测试审核",requestParams, (BaseActivity) getActivity()){
+            @Override
+            public void onSuccess(String data) {
+                super.onSuccess(data);
+                JSONObject jsonObject = JSONObject.parseObject(data);
+                String result = jsonObject.getString("code");
+                String message = jsonObject.getString("message");
+                if (result.equals(FlowAPI.SUCCEED)) {
+                    String pd = jsonObject.getString("pd");
+                    JSONObject pd_obj = JSONObject.parseObject(pd);
+                    ToastUtils.toastutils("审核成功",getActivity());
                     // 调下刷新接口
                     queryid = "0";
                     adpter.clear();

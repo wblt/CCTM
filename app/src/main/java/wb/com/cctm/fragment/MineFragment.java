@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -255,8 +256,20 @@ public class MineFragment extends BaseFragment {
         //        // 扫描二维码/条码回传
         if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
             if (data != null) {
-                String content = data.getStringExtra(Constant.CODED_CONTENT);
-                Toast.makeText(getActivity(),content, Toast.LENGTH_SHORT).show();
+                final String content = data.getStringExtra(Constant.CODED_CONTENT);
+//                Toast.makeText(getActivity(),content, Toast.LENGTH_SHORT).show();
+                // 传递进去
+                showLoadding("请稍候...");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismissLoadding();
+                        Intent intent = new Intent(getActivity(),FinancialTransferActivity.class);
+                        intent.putExtra("address",content);
+                        startActivity(intent);
+                    }
+                },1000);
+
             }
         }
     }

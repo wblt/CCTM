@@ -101,7 +101,8 @@ public class GuadanActivity extends BaseActivity {
                         return;
                     }
                     int et_value = Integer.valueOf(et_sell_number.getText().toString());
-                    int a_curr = Integer.valueOf(tv_gua_sell_number.getText().toString());
+                    String guaa_sell = tv_gua_sell_number.getText().toString();
+                    float a_curr = Float.valueOf(guaa_sell);
                     if (et_value>a_curr) {
                         String ss =  "本次最多可转余额为"+tv_gua_sell_number.getText().toString();
                         ToastUtils.toastutils(ss,GuadanActivity.this);
@@ -109,7 +110,7 @@ public class GuadanActivity extends BaseActivity {
                     }
                     sell();
                 } catch (Exception e) {
-                    ToastUtils.toastutils("价格输入格式有误",GuadanActivity.this);
+                    ToastUtils.toastutils("价格格式有误",GuadanActivity.this);
                     e.printStackTrace();
                 }
                 break;

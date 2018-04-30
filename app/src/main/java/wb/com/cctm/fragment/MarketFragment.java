@@ -116,14 +116,6 @@ public class MarketFragment extends BaseFragment {
         top_left.setVisibility(View.INVISIBLE);
         initLineChart();
         depth("0","日线走势图");
-
-        List<String> dates = new ArrayList<>();
-        dates.add("");
-        dates.add("");
-        dates.add("");
-        dates.add("");
-        dates.add("");
-        dates.add("");
         adpter = new CheckAdpter();
         adpter.setOnItemClickListener(new OnItemClickListener<MarkBean>() {
             @Override
@@ -131,6 +123,7 @@ public class MarketFragment extends BaseFragment {
                 switch (view.getId()) {
                     case R.id.ll_pipei:
                         Intent intent = new Intent(getActivity(), MarkBuyActivity.class);
+                        intent.putExtra("TRADE_ID",s.getTRADE_ID());
                         startActivity(intent);
                         break;
                 }
@@ -143,6 +136,8 @@ public class MarketFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        adpter.clear();
+        queryId = "0";
         marketList("1");
     }
 

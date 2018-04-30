@@ -95,6 +95,7 @@ public class ForgotPasswordActivity extends BaseActivity {
             String md5_str = MD5.MD5Encode(phone+"shc");
             RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.forgotpwd_code);
             requestParams.addParameter("USER_NAME",username);
+            requestParams.addParameter("ACCOUNT",phone);
             requestParams.addParameter("digestStr", md5_str);
             MXUtils.httpPost(requestParams,new CommonCallbackImp("USER - 忘记密码短信验证码",requestParams,this){
                 @Override
@@ -123,7 +124,7 @@ public class ForgotPasswordActivity extends BaseActivity {
         final String phone = et_phone.getText().toString();
         final String username = et_username.getText().toString();
         String code = et_code.getText().toString();
-        String password = et_password.getText().toString();
+        final String password = et_password.getText().toString();
         String re_password = et_re_password.getText().toString();
         if (TextUtils.isEmpty(username)) {
             ToastUtils.toastutils("用户名输入为空",ForgotPasswordActivity.this);
@@ -158,6 +159,8 @@ public class ForgotPasswordActivity extends BaseActivity {
                 String message = jsonObject.getString("message");
                 if (result.equals(FlowAPI.SUCCEED)) {
                     SPUtils.putString(SPUtils.phone,phone);
+                    SPUtils.putString(SPUtils.username,username);
+                    SPUtils.putString(SPUtils.password,password);
                     ToastUtils.toastutils("修改成功",ForgotPasswordActivity.this);
                     finish();
                 } else {

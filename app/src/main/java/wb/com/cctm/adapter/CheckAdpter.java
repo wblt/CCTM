@@ -35,6 +35,11 @@ public class CheckAdpter extends BaseRecyclerViewAdapter<MarkBean>{
         @Override
         public void onBindViewHolder(final MarkBean object, final int position) {
             binding.executePendingBindings();
+            binding.tvAll.setText(object.getTOTAL_MONEY());
+            binding.tvNumber.setText(object.getBUSINESS_COUNT());
+            binding.tvPrice.setText(object.getBUSINESS_PRICE());
+            binding.tvTime.setText(object.getCREATE_TIME());
+            binding.tvNameB.setText(object.getUSER_NAME());
             binding.llPipei.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

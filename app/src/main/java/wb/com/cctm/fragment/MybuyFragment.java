@@ -1,6 +1,7 @@
 package wb.com.cctm.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,6 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import wb.com.cctm.R;
+import wb.com.cctm.activity.OrderDetailActivity;
 import wb.com.cctm.adapter.MybuyAdapter;
 import wb.com.cctm.adapter.MychecAdapter;
 import wb.com.cctm.base.BaseActivity;
@@ -63,14 +65,29 @@ public class MybuyFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_mybuy,container,false);
         unbinder = ButterKnife.bind(this,view);
         initview(view);
-        buyList("1");
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        queryid = "0";
+        adpter.clear();
+        buyList("1");
     }
 
     private void initview(View view) {
         adpter = new MybuyAdapter();
         recyc_list.setLayoutManager(new LinearLayoutManager(getContext()));
         recyc_list.setAdapter(adpter);
+        adpter.setOnItemClickListener(new OnItemClickListener<MybuyBean>() {
+            @Override
+            public void onClick(MybuyBean mybuyBean, View view, int position) {
+                Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
+                intent.putExtra("TRADE_ID",mybuyBean.getTRADE_ID());
+                startActivity(intent);
+            }
+        });
         sm_refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -124,6 +141,7 @@ public class MybuyFragment extends BaseFragment {
         });
 
     }
+
 
 
 

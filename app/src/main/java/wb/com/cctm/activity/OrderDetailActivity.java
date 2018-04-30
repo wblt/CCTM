@@ -1,12 +1,16 @@
 package wb.com.cctm.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lmj.mypwdinputlibrary.InputPwdView;
+import com.lmj.mypwdinputlibrary.MyInputPwdUtil;
 
 import org.xutils.http.RequestParams;
 
@@ -15,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import wb.com.cctm.R;
 import wb.com.cctm.base.BaseActivity;
+import wb.com.cctm.commons.utils.SPUtils;
 import wb.com.cctm.commons.utils.ToastUtils;
 import wb.com.cctm.net.CommonCallbackImp;
 import wb.com.cctm.net.FlowAPI;
@@ -47,6 +52,12 @@ public class OrderDetailActivity extends BaseActivity {
     TextView tv_status;
     @BindView(R.id.tv_time)
     TextView tv_time;
+    private MyInputPwdUtil myInputPwdUtil;
+    private String action = "";
+    @BindView(R.id.ll_tool_bar)
+    LinearLayout ll_tool_bar;
+    @BindView(R.id.btn_cancel)
+    Button btn_cancel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,17 +66,55 @@ public class OrderDetailActivity extends BaseActivity {
         setTopLeftDefultListener();
         setTopBarTitle("订单详情");
         ButterKnife.bind(this);
+        initview();
         orderDetail();
+    }
+
+    private void initview() {
+        myInputPwdUtil = new MyInputPwdUtil(OrderDetailActivity.this);
+        myInputPwdUtil.getMyInputDialogBuilder().setAnimStyle(R.style.dialog_anim);
+        myInputPwdUtil.setListener(new InputPwdView.InputPwdListener() {
+            @Override
+            public void hide() {
+                myInputPwdUtil.hide();
+            }
+            @Override
+            public void forgetPwd() {
+                ToastUtils.toastutils("忘记密码",OrderDetailActivity.this);
+            }
+
+            @Override
+            public void finishPwd(String pwd) {
+                myInputPwdUtil.hide();
+                if (action.equals("可取消")) {
+                    orderCancle(pwd);
+                } else if (action.equals("确认付款")){
+                    pay(pwd);
+                }
+            }
+        });
     }
 
     @OnClick({})
     void viewClick(View view) {
         switch (view.getId()) {
             case R.id.btn_contain:
-
+                if (SPUtils.getString(SPUtils.safety).equals("0")) {
+                    Intent intent = new Intent(OrderDetailActivity.this,SafetyPwdActivity.class);
+                    startActivity(intent);
+                } else {
+                    action = "确认付款";
+                    myInputPwdUtil.show();
+                }
                 break;
             case R.id.btn_cancel:
-
+                if (SPUtils.getString(SPUtils.safety).equals("0")) {
+                    Intent intent = new Intent(OrderDetailActivity.this,SafetyPwdActivity.class);
+                    startActivity(intent);
+                } else {
+                    action = "可取消";
+                    myInputPwdUtil.show();
+                }
                 break;
             default:
                 break;
@@ -105,6 +154,9 @@ public class OrderDetailActivity extends BaseActivity {
                         tv_status.setText("部分成交");
                     } else if (status.equals("3")) {
                         tv_status.setText("待付款");
+                        ll_tool_bar.setVisibility(View.VISIBLE);
+                        btn_cancel.setVisibility(View.VISIBLE);
+                        btn_contain.setVisibility(View.VISIBLE);
                     } else if (status.equals("4")) {
                         tv_status.setText("已付款");
                     } else if (status.equals("5")) {
@@ -123,6 +175,54 @@ public class OrderDetailActivity extends BaseActivity {
 
     }
 
+    private void orderCancle(String pwd) {
+        RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.orderCancle);
+        requestParams.addParameter("TRADE_ID", getIntent().getStringExtra("TRADE_ID"));
+        requestParams.addParameter("TYPE", "0");
+        requestParams.addParameter("PASSW", pwd);
+        MXUtils.httpPost(requestParams,new CommonCallbackImp("MARKET - 订单取消",requestParams, this){
+            @Override
+            public void onSuccess(String data) {
+                super.onSuccess(data);
+                JSONObject jsonObject = JSONObject.parseObject(data);
+                String result = jsonObject.getString("code");
+                String message = jsonObject.getString("message");
+                if (result.equals(FlowAPI.SUCCEED)) {
+                    String pd = jsonObject.getString("pd");
+                    JSONObject pd_obj = JSONObject.parseObject(pd);
+                    ToastUtils.toastutils("取消成功",OrderDetailActivity.this);
+                    // 调下刷新接口
+                    finish();
+                } else {
+                    ToastUtils.toastutils(message,OrderDetailActivity.this);
+                }
+            }
+        });
+    }
 
+    private void pay(String pwd) {
+        RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.pay);
+        requestParams.addParameter("TRADE_ID", getIntent().getStringExtra("TRADE_ID"));
+        requestParams.addParameter("STATUS", "4");
+        requestParams.addParameter("PASSW", pwd);
+        MXUtils.httpPost(requestParams,new CommonCallbackImp("MARKET - 订单确认收款",requestParams, this){
+            @Override
+            public void onSuccess(String data) {
+                super.onSuccess(data);
+                JSONObject jsonObject = JSONObject.parseObject(data);
+                String result = jsonObject.getString("code");
+                String message = jsonObject.getString("message");
+                if (result.equals(FlowAPI.SUCCEED)) {
+                    String pd = jsonObject.getString("pd");
+                    JSONObject pd_obj = JSONObject.parseObject(pd);
+                    ToastUtils.toastutils("付款成功",OrderDetailActivity.this);
+                    finish();
+                } else {
+                    ToastUtils.toastutils(message,OrderDetailActivity.this);
+                }
 
+            }
+        });
+
+    }
 }
