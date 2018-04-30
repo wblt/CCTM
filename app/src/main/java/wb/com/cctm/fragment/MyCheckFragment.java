@@ -153,8 +153,8 @@ public class MyCheckFragment extends BaseFragment {
             public void finishPwd(String pwd) {
                 myInputPwdUtil.hide();
                 if (action.equals("可取消")) {
-                    test(pwd);
-//                    orderCancle(pwd);
+//                    test(pwd);
+                    orderCancle(pwd);
                 } else if (action.equals("确认收款")){
                     surePay(pwd);
                 }
