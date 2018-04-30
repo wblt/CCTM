@@ -95,7 +95,7 @@ public class OrderDetailActivity extends BaseActivity {
         });
     }
 
-    @OnClick({})
+    @OnClick({R.id.btn_contain,R.id.btn_cancel})
     void viewClick(View view) {
         switch (view.getId()) {
             case R.id.btn_contain:
