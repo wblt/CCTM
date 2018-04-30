@@ -221,7 +221,8 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.ReciveCodeActivity" />
         <activity android:name=".activity.PayInfoActivity" />
-        <activity android:name=".activity.MarkBuyActivity"></activity>
+        <activity android:name=".activity.MarkBuyActivity" />
+        <activity android:name=".activity.OrderDetailActivity"></activity>
     </application>
 
 </manifest>
