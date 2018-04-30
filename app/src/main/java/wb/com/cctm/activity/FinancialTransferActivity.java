@@ -84,7 +84,7 @@ public class FinancialTransferActivity extends BaseActivity {
             }
         });
         String address = getIntent().getStringExtra("address");
-        if (address != null &&TextUtils.isEmpty(address)) {
+        if (address != null &&!TextUtils.isEmpty(address)) {
             et_wallet_address.setText(address);
         }
     }
