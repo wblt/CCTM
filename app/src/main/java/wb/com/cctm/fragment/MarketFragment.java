@@ -52,12 +52,14 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import wb.com.cctm.R;
 import wb.com.cctm.activity.GuadanActivity;
+import wb.com.cctm.activity.MarkBuyActivity;
 import wb.com.cctm.adapter.BBPageAdapter;
 import wb.com.cctm.adapter.CheckAdpter;
 import wb.com.cctm.base.BaseActivity;
 import wb.com.cctm.base.BaseFragment;
 import wb.com.cctm.base.OnItemClickListener;
 import wb.com.cctm.bean.DepthBean;
+import wb.com.cctm.bean.MarkBean;
 import wb.com.cctm.commons.utils.CommonUtils;
 import wb.com.cctm.commons.utils.ToastUtils;
 import wb.com.cctm.net.CommonCallbackImp;
@@ -81,7 +83,10 @@ public class MarketFragment extends BaseFragment {
     private List<DepthBean> depthBeanList;
     @BindView(R.id.recyc_list)
     RecyclerView recyc_list;
-    private MyInputPwdUtil myInputPwdUtil;
+    private String queryId = "0";
+    private CheckAdpter adpter;
+    @BindView(R.id.ll_no_data)
+    LinearLayout ll_no_data;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,37 +124,26 @@ public class MarketFragment extends BaseFragment {
         dates.add("");
         dates.add("");
         dates.add("");
-        CheckAdpter adpter = new CheckAdpter();
-        adpter.setOnItemClickListener(new OnItemClickListener<String>() {
+        adpter = new CheckAdpter();
+        adpter.setOnItemClickListener(new OnItemClickListener<MarkBean>() {
             @Override
-            public void onClick(String s, View view, int position) {
+            public void onClick(MarkBean s, View view, int position) {
                 switch (view.getId()) {
                     case R.id.ll_pipei:
-                        myInputPwdUtil.show();
+                        Intent intent = new Intent(getActivity(), MarkBuyActivity.class);
+                        startActivity(intent);
                         break;
                 }
             }
         });
         recyc_list.setLayoutManager(new LinearLayoutManager(getContext()));
         recyc_list.setAdapter(adpter);
-        myInputPwdUtil = new MyInputPwdUtil(getActivity());
-        myInputPwdUtil.getMyInputDialogBuilder().setAnimStyle(R.style.dialog_anim);
-        myInputPwdUtil.setListener(new InputPwdView.InputPwdListener() {
-            @Override
-            public void hide() {
-                myInputPwdUtil.hide();
-            }
+    }
 
-            @Override
-            public void forgetPwd() {
-                ToastUtils.toastutils("忘记密码",getContext());
-            }
-
-            @Override
-            public void finishPwd(String pwd) {
-                ToastUtils.toastutils(pwd,getContext());
-            }
-        });
+    @Override
+    public void onResume() {
+        super.onResume();
+        marketList("1");
     }
 
     @OnClick({R.id.tv_day,R.id.tv_week})
@@ -309,6 +303,38 @@ public class MarketFragment extends BaseFragment {
                     }
                 } else {
                     ToastUtils.toastutils(message,getActivity());
+                }
+
+            }
+        });
+    }
+
+
+    private void marketList(String type) {
+        RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.marketList);
+        requestParams.addParameter("QUERY_ID", queryId);
+        requestParams.addParameter("TYPE", type);
+        MXUtils.httpPost(requestParams,new CommonCallbackImp("MARKET - 市场列表",requestParams, (BaseActivity) getActivity()){
+            @Override
+            public void onSuccess(String data) {
+                super.onSuccess(data);
+                JSONObject jsonObject = JSONObject.parseObject(data);
+                String result = jsonObject.getString("code");
+                String message = jsonObject.getString("message");
+                if (result.equals(FlowAPI.SUCCEED)) {
+                    String pd = jsonObject.getString("pd");
+                    List<MarkBean> beanList = JSONArray.parseArray(pd,MarkBean.class);
+                    adpter.addAll(beanList);
+                    adpter.notifyDataSetChanged();
+                    if (adpter.getData().size()>0) {
+                        recyc_list.setVisibility(View.VISIBLE);
+                        ll_no_data.setVisibility(View.GONE);
+                    } else {
+                        recyc_list.setVisibility(View.GONE);
+                        ll_no_data.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    ToastUtils.toastutils(message,getContext());
                 }
 
             }

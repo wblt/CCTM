@@ -10,57 +10,34 @@ import android.widget.LinearLayout;
 import java.util.List;
 
 import wb.com.cctm.R;
+import wb.com.cctm.base.BaseRecyclerViewAdapter;
+import wb.com.cctm.base.BaseRecyclerViewHolder;
 import wb.com.cctm.base.OnItemClickListener;
+import wb.com.cctm.bean.MycheckBean;
+import wb.com.cctm.databinding.ItemMyCheckBinding;
 
 /**
  * Created by wb on 2018/4/18.
  */
 
-public class MychecAdapter extends RecyclerView.Adapter {
-    private List<String> datas;
-    private Context context;
-    private OnItemClickListener<String> listener;
-    public MychecAdapter(List<String> datas, Context context) {
-        this.datas = datas;
-        this.context = context;
-    }
+public class MychecAdapter extends BaseRecyclerViewAdapter<MycheckBean> {
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view =  LayoutInflater.from(context).inflate(R.layout.item_my_check,parent,false);
-        Myholder myViewHolder = new Myholder(view);
-        return myViewHolder;
+    public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        return new ViewHolder(viewGroup,R.layout.item_my_check);
     }
 
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        Myholder myholder = (Myholder) holder;
-        final String s = datas.get(position);
-        myholder.ll_pipei.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (listener != null) {
-                    listener.onClick(s,view,position);
-                }
-            }
-        });
-    }
+    private class ViewHolder extends BaseRecyclerViewHolder<MycheckBean,ItemMyCheckBinding> {
 
-    @Override
-    public int getItemCount() {
-        return datas.size();
-    }
+        public ViewHolder(ViewGroup viewGroup, int layoutId) {
+            super(viewGroup, layoutId);
+        }
 
-    public static class Myholder extends RecyclerView.ViewHolder {
-        private LinearLayout ll_pipei;
-        public Myholder(View itemView) {
-            super(itemView);
-            ll_pipei = itemView.findViewById(R.id.ll_pipei);
+        @Override
+        public void onBindViewHolder(MycheckBean object, int position) {
+            binding.executePendingBindings();
         }
     }
 
 
-    public void setListener(OnItemClickListener<String> listener) {
-        this.listener = listener;
-    }
 }

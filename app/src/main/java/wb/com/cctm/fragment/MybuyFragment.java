@@ -28,12 +28,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import wb.com.cctm.R;
-import wb.com.cctm.adapter.CheckAdpter;
+import wb.com.cctm.adapter.MybuyAdapter;
 import wb.com.cctm.adapter.MychecAdapter;
 import wb.com.cctm.base.BaseActivity;
 import wb.com.cctm.base.BaseFragment;
 import wb.com.cctm.base.OnItemClickListener;
-import wb.com.cctm.bean.MycheckBean;
+import wb.com.cctm.bean.MybuyBean;
 import wb.com.cctm.commons.utils.SPUtils;
 import wb.com.cctm.commons.utils.ToastUtils;
 import wb.com.cctm.net.CommonCallbackImp;
@@ -41,14 +41,15 @@ import wb.com.cctm.net.FlowAPI;
 import wb.com.cctm.net.MXUtils;
 
 
-public class MyCheckFragment extends BaseFragment {
+public class MybuyFragment extends BaseFragment {
+
     private Unbinder unbinder;
     @BindView(R.id.recyc_list)
     RecyclerView recyc_list;
+    private String queryid = "0";
+    private MybuyAdapter adpter;
     @BindView(R.id.ll_no_data)
     LinearLayout ll_no_data;
-    private String queryid = "0";
-    private  MychecAdapter adpter;
     @BindView(R.id.sm_refreshLayout)
     SmartRefreshLayout sm_refreshLayout;
     @Override
@@ -59,15 +60,15 @@ public class MyCheckFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my_check,container,false);
+        View view = inflater.inflate(R.layout.fragment_mybuy,container,false);
         unbinder = ButterKnife.bind(this,view);
         initview(view);
-        sellList("1");
+        buyList("1");
         return view;
     }
 
     private void initview(View view) {
-        adpter = new MychecAdapter();
+        adpter = new MybuyAdapter();
         recyc_list.setLayoutManager(new LinearLayoutManager(getContext()));
         recyc_list.setAdapter(adpter);
         sm_refreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -76,24 +77,24 @@ public class MyCheckFragment extends BaseFragment {
                 refreshLayout.finishRefresh(1000);
                 queryid = "0";
                 adpter.clear();
-                sellList("1");
+                buyList("1");
             }
         });
         sm_refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 refreshLayout.finishLoadMore(1000);
-                sellList("2");
+                buyList("2");
             }
         });
     }
 
-    private void  sellList(String type) {
-        RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.sellList);
+    private void buyList(String type) {
+        RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.buyList);
         requestParams.addParameter("QUERY_ID", queryid);
         requestParams.addParameter("USER_NAME", SPUtils.getString(SPUtils.username));
         requestParams.addParameter("TYPE", type);
-        MXUtils.httpPost(requestParams,new CommonCallbackImp("MARKET - 卖单列表",requestParams, (BaseActivity) getActivity()){
+        MXUtils.httpPost(requestParams,new CommonCallbackImp("MARKET - 买单列表",requestParams, (BaseActivity) getActivity()){
             @Override
             public void onSuccess(String data) {
                 super.onSuccess(data);
@@ -102,18 +103,18 @@ public class MyCheckFragment extends BaseFragment {
                 String message = jsonObject.getString("message");
                 if (result.equals(FlowAPI.SUCCEED)) {
                     String pd = jsonObject.getString("pd");
-                    List<MycheckBean> beanList = JSONArray.parseArray(pd,MycheckBean.class);
+                    List<MybuyBean> beanList = JSONArray.parseArray(pd,MybuyBean.class);
                     if (beanList.size()>0) {
                         queryid = beanList.get(beanList.size()-1).getTRADE_ID();
                     }
                     adpter.addAll(beanList);
                     adpter.notifyDataSetChanged();
                     if (adpter.getData().size()>0) {
-                        recyc_list.setVisibility(View.VISIBLE);
                         ll_no_data.setVisibility(View.GONE);
+                        recyc_list.setVisibility(View.VISIBLE);
                     } else {
-                        recyc_list.setVisibility(View.GONE);
                         ll_no_data.setVisibility(View.VISIBLE);
+                        recyc_list.setVisibility(View.GONE);
                     }
                 } else {
                     ToastUtils.toastutils(message,getActivity());
@@ -123,4 +124,7 @@ public class MyCheckFragment extends BaseFragment {
         });
 
     }
+
+
+
 }

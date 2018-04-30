@@ -15,6 +15,7 @@ import wb.com.cctm.R;
 import wb.com.cctm.adapter.BBPageAdapter;
 import wb.com.cctm.base.BaseActivity;
 import wb.com.cctm.fragment.MyCheckFragment;
+import wb.com.cctm.fragment.MybuyFragment;
 
 public class MyorderActivity extends BaseActivity {
     @BindView(R.id.tab)
@@ -35,7 +36,7 @@ public class MyorderActivity extends BaseActivity {
     }
     private void initview() {
         mFragmentList = new ArrayList<>();
-        mFragmentList.add(new MyCheckFragment());
+        mFragmentList.add(new MybuyFragment());
         mFragmentList.add(new MyCheckFragment());
         mTitleList = new ArrayList<>();
         mTitleList.add("我的买单");

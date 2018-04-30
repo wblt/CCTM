@@ -109,6 +109,34 @@ public class FlowAPI {
     // TOOL - 修改支付信息
     public static String payMes = SERVER_IP + "/app/tool/payMes";
 
+    // MARKET - 买单
+    public static String buy = SERVER_IP + "/app/market/buy";
 
+    // MARKET - 买单列表
+    public static String buyList = SERVER_IP + "/app/market/buyList";
+
+    // MARKET - 卖单列表
+    public static String sellList = SERVER_IP + "/app/market/sellList";
+
+    // MARKET - 市场列表
+    public static String marketList = SERVER_IP + "/app/market/marketList";
+
+    // MARKET - 挂单
+    public static String sell = SERVER_IP + "/app/market/sell";
+
+    // MARKET - 指导价 点击挂单时候获取
+    public static String price = SERVER_IP + "/app/market/price";
+
+    // MARKET - 订单取消
+    public static String orderCancle = SERVER_IP + "/app/market/orderCancle";
+
+    // MARKET - 订单已付款(测试过审核也可用此接口)
+    public static String pay = SERVER_IP + "/app/market/pay";
+
+    // MARKET - 订单确认收款
+    public static String surePay = SERVER_IP + "/app/market/surePay";
+
+    // MARKET - 订单详情
+    public static String orderDetail = SERVER_IP + "/app/market/orderDetail";
 
 }

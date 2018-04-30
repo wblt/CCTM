@@ -13,26 +13,27 @@ import wb.com.cctm.R;
 import wb.com.cctm.base.BaseRecyclerViewAdapter;
 import wb.com.cctm.base.BaseRecyclerViewHolder;
 import wb.com.cctm.base.OnItemClickListener;
+import wb.com.cctm.bean.MarkBean;
 import wb.com.cctm.databinding.ItemChecBinding;
 
 /**
  * Created by wb on 2018/4/14.
  */
 
-public class CheckAdpter extends BaseRecyclerViewAdapter<String>{
+public class CheckAdpter extends BaseRecyclerViewAdapter<MarkBean>{
 
     @Override
     public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         return new ViewHolder(viewGroup,R.layout.item_chec);
     }
 
-    private class ViewHolder extends BaseRecyclerViewHolder<String,ItemChecBinding> {
+    private class ViewHolder extends BaseRecyclerViewHolder<MarkBean,ItemChecBinding> {
 
         public ViewHolder(ViewGroup viewGroup, int layoutId) {
             super(viewGroup, layoutId);
         }
         @Override
-        public void onBindViewHolder(final String object, final int position) {
+        public void onBindViewHolder(final MarkBean object, final int position) {
             binding.executePendingBindings();
             binding.llPipei.setOnClickListener(new View.OnClickListener() {
                 @Override

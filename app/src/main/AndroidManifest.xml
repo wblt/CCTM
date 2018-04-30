@@ -220,7 +220,8 @@
             android:theme="@style/ZxingTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.ReciveCodeActivity" />
-        <activity android:name=".activity.PayInfoActivity"></activity>
+        <activity android:name=".activity.PayInfoActivity" />
+        <activity android:name=".activity.MarkBuyActivity"></activity>
     </application>
 
 </manifest>
