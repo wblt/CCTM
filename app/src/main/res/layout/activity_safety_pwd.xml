@@ -90,9 +90,9 @@
                 android:hint="请输入您的验证码"
                 android:textColorHint="@color/white"
                 android:singleLine="true"
-                android:maxLength="15"
-                android:inputType="textPassword"
-                android:digits="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
+                android:maxLength="4"
+                android:inputType="number"
+                android:digits="1234567890"/>
             <Button
                 android:id="@+id/btn_code"
                 android:layout_width="wrap_content"
