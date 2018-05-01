@@ -171,8 +171,4 @@ public class FinancialTransferActivity extends BaseActivity {
             }
         });
     }
-
-
-
-
 }

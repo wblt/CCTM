@@ -222,7 +222,8 @@
         <activity android:name=".activity.ReciveCodeActivity" />
         <activity android:name=".activity.PayInfoActivity" />
         <activity android:name=".activity.MarkBuyActivity" />
-        <activity android:name=".activity.OrderDetailActivity"></activity>
+        <activity android:name=".activity.OrderDetailActivity" />
+        <activity android:name=".activity.ShengHeActivity"></activity>
     </application>
 
 </manifest>

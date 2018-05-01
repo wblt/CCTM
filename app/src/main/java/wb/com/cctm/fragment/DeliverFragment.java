@@ -37,6 +37,7 @@ import wb.com.cctm.activity.FrendsActivity;
 import wb.com.cctm.activity.InvitingFriendsActivity;
 import wb.com.cctm.activity.MoveWalletActivity;
 import wb.com.cctm.activity.NewsActivity;
+import wb.com.cctm.activity.ShengHeActivity;
 import wb.com.cctm.activity.TestActivity;
 import wb.com.cctm.activity.UserInfoActivity;
 import wb.com.cctm.activity.WalletRecordActivity;
@@ -167,6 +168,8 @@ public class DeliverFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.ll_suan_li:
+                intent = new Intent(getActivity(), ShengHeActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;

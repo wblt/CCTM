@@ -3,7 +3,9 @@ package wb.com.cctm.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,6 +15,8 @@ import com.lmj.mypwdinputlibrary.InputPwdView;
 import com.lmj.mypwdinputlibrary.MyInputPwdUtil;
 
 import org.xutils.http.RequestParams;
+
+import java.text.DecimalFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +37,8 @@ public class MarkBuyActivity extends BaseActivity {
     TextView tv_sell_number;
     @BindView(R.id.et_buy_number)
     EditText et_buy_number;
+    @BindView(R.id.tv_sum_price)
+    TextView tv_sum_price;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,29 @@ public class MarkBuyActivity extends BaseActivity {
                 buy(pwd);
             }
         });
+
+        tv_sell_number.setText(getIntent().getStringExtra("number"));
+        tv_sell_price.setText(getIntent().getStringExtra("price"));
+        et_buy_number.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                float price = Float.valueOf(tv_sell_price.getText().toString());
+                int number = Integer.valueOf(et_buy_number.getText().toString());
+                float sum = number*price;
+                DecimalFormat df = new DecimalFormat("#.00");
+                tv_sum_price.setText(df.format(sum));
+            }
+        });
     }
 
     @OnClick({R.id.btn_commit})
@@ -73,7 +102,7 @@ public class MarkBuyActivity extends BaseActivity {
                     ToastUtils.toastutils("请输入买入数量",MarkBuyActivity.this);
                     return;
                 }
-                int sell_number = Integer.valueOf(tv_sell_number.getText().toString());
+                Float sell_number = Float.valueOf(tv_sell_number.getText().toString());
                 int buy_number = Integer.valueOf(et_buy_number.getText().toString());
                 if (buy_number>sell_number) {
                     ToastUtils.toastutils("买入数量大于当前卖单数量",MarkBuyActivity.this);

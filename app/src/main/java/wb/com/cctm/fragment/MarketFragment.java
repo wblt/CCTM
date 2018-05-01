@@ -124,6 +124,9 @@ public class MarketFragment extends BaseFragment {
                     case R.id.ll_pipei:
                         Intent intent = new Intent(getActivity(), MarkBuyActivity.class);
                         intent.putExtra("TRADE_ID",s.getTRADE_ID());
+                        // 价格
+                        intent.putExtra("price",s.getBUSINESS_PRICE());
+                        intent.putExtra("number",s.getBUSINESS_COUNT());
                         startActivity(intent);
                         break;
                 }
