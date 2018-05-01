@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="wb.com.cctm.fragment.MarketFragment">
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/sm_refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <com.scwang.smartrefresh.layout.header.ClassicsHeader

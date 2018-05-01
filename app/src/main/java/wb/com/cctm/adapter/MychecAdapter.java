@@ -54,7 +54,7 @@ public class MychecAdapter extends BaseRecyclerViewAdapter<MycheckBean> {
                 binding.tvBtnStatus.setText("可取消");
             } else if (object.getSTATUS().equals("3")) {
                 binding.tvStatus.setText("待付款");
-                binding.tvBtnStatus.setVisibility(View.VISIBLE);
+                binding.tvBtnStatus.setVisibility(View.INVISIBLE);
                 binding.tvBtnStatus.setText("确认付款");
             } else if (object.getSTATUS().equals("4")) {
                 binding.tvStatus.setText("已付款");

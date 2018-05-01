@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -33,6 +34,10 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.lmj.mypwdinputlibrary.InputPwdView;
 import com.lmj.mypwdinputlibrary.MyInputPwdUtil;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.xutils.http.RequestParams;
 
@@ -87,6 +92,8 @@ public class MarketFragment extends BaseFragment {
     private CheckAdpter adpter;
     @BindView(R.id.ll_no_data)
     LinearLayout ll_no_data;
+    @BindView(R.id.sm_refreshLayout)
+    SmartRefreshLayout sm_refreshLayout;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +141,23 @@ public class MarketFragment extends BaseFragment {
         });
         recyc_list.setLayoutManager(new LinearLayoutManager(getContext()));
         recyc_list.setAdapter(adpter);
+
+        sm_refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                refreshLayout.finishRefresh(1000);
+                adpter.clear();
+                queryId = "0";
+                marketList("1");
+            }
+        });
+        sm_refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                refreshLayout.finishLoadMore(1000);
+                marketList("2");
+            }
+        });
     }
 
     @Override
@@ -322,6 +346,9 @@ public class MarketFragment extends BaseFragment {
                 if (result.equals(FlowAPI.SUCCEED)) {
                     String pd = jsonObject.getString("pd");
                     List<MarkBean> beanList = JSONArray.parseArray(pd,MarkBean.class);
+                    if (beanList.size()>0) {
+                        queryId = beanList.get(beanList.size()-1).getTRADE_ID();
+                    }
                     adpter.addAll(beanList);
                     adpter.notifyDataSetChanged();
                     if (adpter.getData().size()>0) {
