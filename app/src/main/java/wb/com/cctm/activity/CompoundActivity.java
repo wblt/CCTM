@@ -146,6 +146,7 @@ public class CompoundActivity extends BaseActivity {
                     } else {
                         flag = "1";
                     }
+                    ToastUtils.toastutils("修改成功",CompoundActivity.this);
                     updatastatus();
                 } else {
                     ToastUtils.toastutils(message,CompoundActivity.this);

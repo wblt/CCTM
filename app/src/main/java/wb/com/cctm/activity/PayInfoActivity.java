@@ -118,6 +118,8 @@ public class PayInfoActivity extends BaseActivity {
                     et_bank_addr_name.setText(pd_obj.getString("BANK_ADDR"));
                     et_wechat_number.setText(pd_obj.getString("WCHAT"));
                     et_zhifuba_number.setText(pd_obj.getString("ALIPAY"));
+                    ToastUtils.toastutils("提交成功",PayInfoActivity.this);
+                    finish();
                 } else {
                     ToastUtils.toastutils(message,PayInfoActivity.this);
                 }

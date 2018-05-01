@@ -74,7 +74,6 @@ public class MyCheckFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_my_check,container,false);
         unbinder = ButterKnife.bind(this,view);
         initview(view);
-
         return view;
     }
 
