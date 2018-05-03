@@ -22,7 +22,7 @@ public class ImageLoader {
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .crossFade()
-                .placeholder(R.color.grey)
+                .placeholder(R.mipmap.logo)
                 .into(iv);
     }
 
