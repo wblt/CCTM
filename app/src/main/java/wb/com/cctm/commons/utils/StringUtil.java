@@ -76,6 +76,15 @@ public class StringUtil {
         return result.matches(); //是否含有中文字符
     }
 
+    public static boolean checkpwd(String pwd) {
+        String regex = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,}$";
+        if (pwd.matches(regex)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     /**
      * 设置字体颜色

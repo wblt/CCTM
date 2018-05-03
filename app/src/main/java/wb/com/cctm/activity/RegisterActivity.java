@@ -27,6 +27,7 @@ import wb.com.cctm.base.BaseActivity;
 import wb.com.cctm.commons.utils.MD5;
 import wb.com.cctm.commons.utils.RegExpValidator;
 import wb.com.cctm.commons.utils.SPUtils;
+import wb.com.cctm.commons.utils.StringUtil;
 import wb.com.cctm.commons.utils.ToastUtils;
 import wb.com.cctm.net.CommonCallbackImp;
 import wb.com.cctm.net.FlowAPI;
@@ -104,8 +105,7 @@ public class RegisterActivity extends BaseActivity {
             ToastUtils.toastutils("电话号码格式不正确",RegisterActivity.this);
             return;
         }
-        String regex = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$";
-        if (!password.matches(regex)) {
+        if (!StringUtil.checkpwd(password)) {
             ToastUtils.toastutils("请输入6-15位字母、数字的密码",RegisterActivity.this);
             return;
         }
@@ -166,6 +166,10 @@ public class RegisterActivity extends BaseActivity {
         }
         if (TextUtils.isEmpty(password)) {
             ToastUtils.toastutils("密码输入为空",RegisterActivity.this);
+            return;
+        }
+        if (!StringUtil.checkpwd(password)) {
+            ToastUtils.toastutils("密码输入为空请输入6-15位字母、数字的密码",RegisterActivity.this);
             return;
         }
         if (!password.equals(re_password)) {

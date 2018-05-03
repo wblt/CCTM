@@ -23,14 +23,13 @@ import wb.com.cctm.base.BaseActivity;
 import wb.com.cctm.commons.utils.MD5;
 import wb.com.cctm.commons.utils.RegExpValidator;
 import wb.com.cctm.commons.utils.SPUtils;
+import wb.com.cctm.commons.utils.StringUtil;
 import wb.com.cctm.commons.utils.ToastUtils;
 import wb.com.cctm.net.CommonCallbackImp;
 import wb.com.cctm.net.FlowAPI;
 import wb.com.cctm.net.MXUtils;
 
 public class ForgotPasswordActivity extends BaseActivity {
-
-
     @BindView(R.id.et_username)
     EditText et_username;
     @BindView(R.id.et_password)
@@ -140,6 +139,10 @@ public class ForgotPasswordActivity extends BaseActivity {
         }
         if (TextUtils.isEmpty(password)) {
             ToastUtils.toastutils("密码输入为空",ForgotPasswordActivity.this);
+            return;
+        }
+        if (!StringUtil.checkpwd(password)) {
+            ToastUtils.toastutils("请输入6-15位字母、数字的密码",ForgotPasswordActivity.this);
             return;
         }
         if (!re_password.equals(password)) {
