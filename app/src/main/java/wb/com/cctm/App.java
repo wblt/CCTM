@@ -57,17 +57,22 @@ public class App extends Application {
         }
     }
 
-    public MainActivity getMainActivity() {
-        return mainActivity;
-    }
-
-    public void setMainActivity(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
-    }
-
     public void initExt(){
         x.Ext.init(this);
         x.Ext.setDebug(true);
+    }
+
+    public void exit() {
+        try {
+            for (Activity activity : mList) {
+                if (activity != null)
+                    activity.finish();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            System.exit(0);
+        }
     }
 
 }

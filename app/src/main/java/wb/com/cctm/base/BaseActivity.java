@@ -5,6 +5,8 @@ import android.app.FragmentManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +14,11 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.tu.loadingdialog.LoadingDialog;
 
+import wb.com.cctm.App;
 import wb.com.cctm.R;
 
 public class BaseActivity extends AppCompatActivity {
@@ -22,6 +26,7 @@ public class BaseActivity extends AppCompatActivity {
     private LinearLayout base_top;
     private LoadingDialog.Builder builder;
     private LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,4 +130,5 @@ public class BaseActivity extends AppCompatActivity {
         }
         super.onDestroy();
     }
+
 }

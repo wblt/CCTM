@@ -21,6 +21,7 @@ import java.security.NoSuchAlgorithmException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import wb.com.cctm.App;
 import wb.com.cctm.R;
 import wb.com.cctm.base.BaseActivity;
 import wb.com.cctm.commons.utils.MD5;
@@ -198,8 +199,6 @@ public class RegisterActivity extends BaseActivity {
                     SPUtils.putString(SPUtils.username,username);
                     SPUtils.putString(SPUtils.password,password);
                     SPUtils.putString(SPUtils.phone,userphone);
-                    Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
-                    startActivity(intent);
                     finish();
                 } else {
                     ToastUtils.toastutils(message,RegisterActivity.this);

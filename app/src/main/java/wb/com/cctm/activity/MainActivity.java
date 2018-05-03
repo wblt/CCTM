@@ -9,12 +9,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-import com.pgyersdk.javabean.AppBean;
-import com.pgyersdk.update.PgyUpdateManager;
-import com.pgyersdk.update.UpdateManagerListener;
 
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
@@ -39,11 +38,12 @@ public class MainActivity extends BaseActivity {
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE };
+    private long exitTime = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         appendMainBody(this,R.layout.activity_main);
-        App.getInstance().setMainActivity(this);
+        App.getInstance().addActivity(this);
         initView();
         test();
     }
@@ -109,43 +109,10 @@ public class MainActivity extends BaseActivity {
             ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE,
                     REQUEST_EXTERNAL_STORAGE);
         } else {
-            update();
             initTools();
         }
     }
-    private void update() {
-        verName = VersionUtil.getAppVersionName(this);
-        //设置是否强制更新。true为强制更新；false为不强制更新（默认值）。
-        PgyUpdateManager.setIsForced(true);
-        PgyUpdateManager.register(MainActivity.this, new UpdateManagerListener() {
-            @Override
-            public void onNoUpdateAvailable() {
 
-            }
-            @Override
-            public void onUpdateAvailable(String s) {
-                // 将新版本信息封装到AppBean中
-                final AppBean appBean = getAppBeanFromString(s);
-                new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("版本"+verName+"更新")
-                        .setCancelable(false)
-                        .setMessage(appBean.getReleaseNote())
-                        .setNegativeButton(
-                                "确定",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(
-                                            DialogInterface dialog,
-                                            int which) {
-                                        startDownloadTask(
-                                                MainActivity.this,
-                                                appBean.getDownloadURL());
-                                    }
-                                }).show();
-            }
-        });
-
-    }
 
     public void initTools(){
         String out_file_path = BBConfig.YYW_FILE_PATH;
@@ -163,5 +130,35 @@ public class MainActivity extends BaseActivity {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if((System.currentTimeMillis()-exitTime) > 2000){
+            Toast.makeText(this,"再次点击退出应用",Toast.LENGTH_LONG).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            App.getInstance().exit();
+        }
+    }
+
+    //双击后退按钮关闭应用
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.i("","KKKKKKKKKKKKKKKKKKKKKKK=" + keyCode);
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            if((System.currentTimeMillis()-exitTime) > 2000){
+                Toast.makeText(this,"再次点击退出应用",Toast.LENGTH_LONG).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                App.getInstance().exit();
+            }
+            return true;
+        }else if(keyCode == KeyEvent.KEYCODE_HOME){
+            // 不退出程序，进入后台
+            moveTaskToBack(true);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

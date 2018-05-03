@@ -53,7 +53,7 @@ public class SettingActivity extends BaseActivity {
                 intent = new Intent(SettingActivity.this,LoginActivity.class);
                 startActivity(intent);
                 finish();
-                App.getInstance().getMainActivity().finish();
+                App.getInstance().closeActivitys();
                 break;
             case R.id.ll_phone_number:
                 intent = new Intent(SettingActivity.this,PhoneNumberActivity.class);

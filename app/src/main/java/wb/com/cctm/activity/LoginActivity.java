@@ -21,6 +21,7 @@ import org.xutils.http.RequestParams;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import wb.com.cctm.App;
 import wb.com.cctm.R;
 import wb.com.cctm.base.BaseActivity;
 import wb.com.cctm.commons.utils.Code;
