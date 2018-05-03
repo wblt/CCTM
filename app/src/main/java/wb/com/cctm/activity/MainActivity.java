@@ -33,7 +33,6 @@ public class MainActivity extends BaseActivity {
     private Fragment[] fragments;
     private int index;
     private int currentTabIndex;
-    private String verName = "";
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -114,7 +113,7 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    public void initTools(){
+    private void initTools(){
         String out_file_path = BBConfig.YYW_FILE_PATH;
         File dir = new File(out_file_path);
         if (!dir.exists()) {

@@ -23,6 +23,7 @@
 
     <style name="ThemeSplash" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@mipmap/fullscreen</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
 <!-- 左边的箭头指示-->
