@@ -2,12 +2,14 @@ package wb.com.cctm.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +28,7 @@ import java.io.File;
 
 import wb.com.cctm.R;
 import wb.com.cctm.base.BaseActivity;
+import wb.com.cctm.bean.VersionBean;
 import wb.com.cctm.commons.utils.BBConfig;
 import wb.com.cctm.commons.utils.SPUtils;
 import wb.com.cctm.commons.utils.ToastUtils;
@@ -36,12 +39,12 @@ import wb.com.cctm.net.MXUtils;
 
 public class SplashActivity extends BaseActivity {
     private ProgressDialog pBar;
-    private String filepath;
-    private String verName;
+    private VersionBean versionBean;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE };
+    private boolean isDown = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +54,10 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // 获取版本信息
-        getNewVersion();
+        if (!isDown) {
+            // 获取版本信息
+            getNewVersion();
+        }
     }
 
     private void getNewVersion() {
@@ -66,10 +71,10 @@ public class SplashActivity extends BaseActivity {
                 String message = jsonObject.getString("message");
                 if (result.equals(FlowAPI.SUCCEED)) {
                     String pd = jsonObject.getString("pd");
-                    JSONObject pd_obj = JSONObject.parseObject(pd);
-                    int code = Integer.valueOf(pd_obj.getString("V_VERSION_CODE"));
-                    if (code>VersionUtil.getAppVersionCode(SplashActivity.this)) {
-                        showUpdateDialog(pd_obj.getString("V_NUMBER"),pd_obj.getString("V_ADDR"));
+                    versionBean = JSONObject.parseObject(pd,VersionBean.class);
+                    int code = Integer.valueOf(versionBean.getV_VERSION_CODE());
+                    if (code>=VersionUtil.getAppVersionCode(SplashActivity.this)) {
+                        showUpdateDialog(versionBean.getV_NUMBER(),versionBean.getV_ADDR());
                     } else {
                         goActivity();
                     }
@@ -82,7 +87,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void showUpdateDialog(String newVersion, final String url) {
-        verName = VersionUtil.getAppVersionName(SplashActivity.this);
+        String verName = VersionUtil.getAppVersionName(SplashActivity.this);
         new AlertDialog.Builder(SplashActivity.this)
                 .setTitle("软件更新")
                 .setCancelable(false)
@@ -102,6 +107,7 @@ public class SplashActivity extends BaseActivity {
                                             REQUEST_EXTERNAL_STORAGE);
                                 } else {
                                     initTools();
+                                    isDown = true;
                                     downFile(url);
                                 }
                             }
@@ -117,7 +123,7 @@ public class SplashActivity extends BaseActivity {
         pBar.setCancelable(false);
         pBar.show();
         String apkName = downurl.substring(downurl.lastIndexOf("/") + 1);// 接口名称
-        filepath = BBConfig.YYW_FILE_PATH + apkName;
+        final String filepath = BBConfig.YYW_FILE_PATH + apkName;
         RequestParams requestParams = new RequestParams(downurl);
         requestParams.setSaveFilePath(filepath);
         x.http().get(requestParams, new Callback.ProgressCallback<File>() {
@@ -127,6 +133,7 @@ public class SplashActivity extends BaseActivity {
                 installApk(filepath);
                 pBar.dismiss();
                 pBar = null;
+                isDown = false;
             }
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
@@ -134,6 +141,7 @@ public class SplashActivity extends BaseActivity {
                 Toast.makeText(SplashActivity.this, "下载失败，请检查网络和SD卡", Toast.LENGTH_SHORT).show();
                 pBar.dismiss();
                 pBar = null;
+                isDown = false;
             }
             @Override
             public void onCancelled(CancelledException cex) {
@@ -198,5 +206,27 @@ public class SplashActivity extends BaseActivity {
             startActivity(intent);
         }
         finish();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_EXTERNAL_STORAGE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission Granted准许
+                Toast.makeText(SplashActivity.this,"已获得授权！",Toast.LENGTH_SHORT).show();
+                initTools();
+                if (versionBean != null) {
+                    int code = Integer.valueOf(versionBean.getV_VERSION_CODE());
+                    if (code>=VersionUtil.getAppVersionCode(SplashActivity.this)) {
+                        isDown = true;
+                        downFile(versionBean.getV_ADDR());
+                    }
+                }
+            } else {
+                // Permission Denied拒绝
+                Toast.makeText(SplashActivity.this,"未获得授权！",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
