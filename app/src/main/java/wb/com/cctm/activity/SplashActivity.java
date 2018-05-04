@@ -16,6 +16,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
+
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -26,8 +28,11 @@ import wb.com.cctm.R;
 import wb.com.cctm.base.BaseActivity;
 import wb.com.cctm.commons.utils.BBConfig;
 import wb.com.cctm.commons.utils.SPUtils;
+import wb.com.cctm.commons.utils.ToastUtils;
 import wb.com.cctm.commons.utils.VersionUtil;
+import wb.com.cctm.net.CommonCallbackImp;
 import wb.com.cctm.net.FlowAPI;
+import wb.com.cctm.net.MXUtils;
 
 public class SplashActivity extends BaseActivity {
     private ProgressDialog pBar;
@@ -46,31 +51,42 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // 检测权限
-        int permission = ActivityCompat.checkSelfPermission(SplashActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(SplashActivity.this, PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE);
-        } else {
-            initTools();
-        }
-
         // 获取版本信息
         getNewVersion();
     }
 
     private void getNewVersion() {
-        showUpdateDialog();
+        RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.version);
+        MXUtils.httpPost(requestParams,new CommonCallbackImp("INDEX - 版本号",requestParams,this){
+            @Override
+            public void onSuccess(String data) {
+                super.onSuccess(data);
+                JSONObject jsonObject = JSONObject.parseObject(data);
+                String result = jsonObject.getString("code");
+                String message = jsonObject.getString("message");
+                if (result.equals(FlowAPI.SUCCEED)) {
+                    String pd = jsonObject.getString("pd");
+                    JSONObject pd_obj = JSONObject.parseObject(pd);
+                    int code = Integer.valueOf(pd_obj.getString("V_VERSION_CODE"));
+                    if (code>VersionUtil.getAppVersionCode(SplashActivity.this)) {
+                        showUpdateDialog(pd_obj.getString("V_NUMBER"),pd_obj.getString("V_ADDR"));
+                    } else {
+                        goActivity();
+                    }
+                } else {
+                    ToastUtils.toastutils(message,SplashActivity.this);
+                }
+
+            }
+        });
     }
 
-    private void showUpdateDialog() {
+    private void showUpdateDialog(String newVersion, final String url) {
         verName = VersionUtil.getAppVersionName(SplashActivity.this);
         new AlertDialog.Builder(SplashActivity.this)
                 .setTitle("软件更新")
                 .setCancelable(false)
-                .setMessage("当前版本"+verName+",发现有新版本请及时更新")
+                .setMessage("当前版本"+verName+",发现有新版本"+newVersion+"请及时更新")
                 .setNegativeButton(
                         "确定",
                         new DialogInterface.OnClickListener() {
@@ -85,8 +101,8 @@ public class SplashActivity extends BaseActivity {
                                     ActivityCompat.requestPermissions(SplashActivity.this, PERMISSIONS_STORAGE,
                                             REQUEST_EXTERNAL_STORAGE);
                                 } else {
-                                    String downurl = "http://gyxz.hwm6b6.cn/a31/rj_hm1/weixin6.6.5.apk";
-                                    downFile(downurl);
+                                    initTools();
+                                    downFile(url);
                                 }
                             }
                         }).show();

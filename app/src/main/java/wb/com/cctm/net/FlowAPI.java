@@ -139,4 +139,6 @@ public class FlowAPI {
     // MARKET - 订单详情
     public static String orderDetail = SERVER_IP + "/app/market/orderDetail";
 
+    // INDEX - 版本号
+    public static String version = SERVER_IP + "/app/index/version";
 }
