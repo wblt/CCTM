@@ -73,7 +73,7 @@ public class SplashActivity extends BaseActivity {
                     String pd = jsonObject.getString("pd");
                     versionBean = JSONObject.parseObject(pd,VersionBean.class);
                     int code = Integer.valueOf(versionBean.getV_VERSION_CODE());
-                    if (code>=VersionUtil.getAppVersionCode(SplashActivity.this)) {
+                    if (code>VersionUtil.getAppVersionCode(SplashActivity.this)) {
                         showUpdateDialog(versionBean.getV_NUMBER(),versionBean.getV_ADDR());
                     } else {
                         goActivity();
@@ -218,7 +218,7 @@ public class SplashActivity extends BaseActivity {
                 initTools();
                 if (versionBean != null) {
                     int code = Integer.valueOf(versionBean.getV_VERSION_CODE());
-                    if (code>=VersionUtil.getAppVersionCode(SplashActivity.this)) {
+                    if (code>VersionUtil.getAppVersionCode(SplashActivity.this)) {
                         isDown = true;
                         downFile(versionBean.getV_ADDR());
                     }
