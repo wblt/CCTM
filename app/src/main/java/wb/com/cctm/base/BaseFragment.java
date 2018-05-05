@@ -34,10 +34,9 @@ public class BaseFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        mainview =  inflater.inflate(R.layout.activity_base, null);
+        mainview =  inflater.inflate(R.layout.fragment_base, null);
         base_main = (LinearLayout)mainview.findViewById(R.id.base_main);
         base_top = (LinearLayout) mainview.findViewById(R.id.base_top);
         this.inflater = inflater;
