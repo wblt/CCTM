@@ -35,8 +35,8 @@ public class MoveWalletActivity extends BaseActivity {
     EditText et_code;
     @BindView(R.id.et_number)
     EditText et_number;
-    @BindView(R.id.tv_s_curr)
-    TextView tv_s_curr;
+    @BindView(R.id.tv_qk_curr)
+    TextView tv_qk_curr;
     @BindView(R.id.tv_d_curr)
     TextView tv_d_curr;
     @BindView(R.id.tv_acuur)
@@ -46,7 +46,7 @@ public class MoveWalletActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         appendMainBody(this,R.layout.activity_move_wallet);
         appendTopBody(R.layout.activity_top_text);
-        setTopBarTitle("转入算力钱包");
+        setTopBarTitle("转入区块SHC钱包");
         setTopLeftDefultListener();
         ButterKnife.bind(this);
         initview();
@@ -56,7 +56,7 @@ public class MoveWalletActivity extends BaseActivity {
         iv_showCode.setImageBitmap(Code.getInstance().createBitmap("#111F3F"));
         realCode = Code.getInstance().getCode().toLowerCase();
         tv_d_curr.setText(getIntent().getStringExtra("D_CURRENCY"));
-        tv_s_curr.setText(getIntent().getStringExtra("S_CURRENCY"));
+        tv_qk_curr.setText(getIntent().getStringExtra("QK_CURRENCY"));
         tv_acuur.setText(getIntent().getStringExtra("A_CURRENCY"));
         String hint = "最多可转余额为"+tv_acuur.getText().toString();
         SpannableString s = new SpannableString(hint);//这里输入自己想要的提示文字
@@ -119,7 +119,7 @@ public class MoveWalletActivity extends BaseActivity {
                     String pd = jsonObject.getString("pd");
                     JSONObject pd_obj = JSONObject.parseObject(pd);
                     tv_d_curr.setText(pd_obj.getString("D_CURRENCY"));
-                    tv_s_curr.setText(pd_obj.getString("S_CURRENCY"));
+                    tv_qk_curr.setText(pd_obj.getString("QK_CURRENCY"));
                     tv_acuur.setText(pd_obj.getString("A_CURRENCY"));
                     finish();
                 } else {

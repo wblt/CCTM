@@ -79,6 +79,8 @@ public class DeliverFragment extends BaseFragment {
     @BindView(R.id.sm_refreshLayout)
     SmartRefreshLayout sm_refreshLayout;
     private String A_CURRENCY;
+    @BindView(R.id.tv_qk_curr)
+    TextView tv_qk_curr;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,7 +157,7 @@ public class DeliverFragment extends BaseFragment {
             case R.id.ll_move_wallet:
                 intent = new Intent(getActivity(), MoveWalletActivity.class);
                 intent.putExtra("D_CURRENCY",tv_d_curr.getText().toString());
-                intent.putExtra("S_CURRENCY",tv_s_curr.getText().toString());
+                intent.putExtra("QK_CURRENCY",tv_s_curr.getText().toString());
                 intent.putExtra("A_CURRENCY",A_CURRENCY);
                 startActivity(intent);
                 break;
@@ -250,6 +252,7 @@ public class DeliverFragment extends BaseFragment {
                     tv_user_name.setText(pd_obj.getString("NICK_NAME"));
                     tv_d_curr.setText(pd_obj.getString("D_CURRENCY"));
                     tv_s_curr.setText(pd_obj.getString("S_CURRENCY"));
+                    tv_qk_curr.setText(pd_obj.getString("QK_CURRENCY"));
                     A_CURRENCY = pd_obj.getString("A_CURRENCY");
                     ImageLoader.load(pd_obj.getString("HEAD_URL"),iv_head_img);
                     dayStep();

@@ -38,6 +38,11 @@ public class InvitingFriendsActivity extends BaseActivity {
     private String left_str = "";
     private String right_str = "";
     private String app_url = "";
+    @BindView(R.id.tv_l_total)
+    TextView tv_l_total;
+    @BindView(R.id.tv_r_total)
+    TextView tv_r_total;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +110,8 @@ public class InvitingFriendsActivity extends BaseActivity {
                     tv_left_addr.setText(left_str);
                     tv_right_addr.setText(right_str);
                     tv_app_addr.setText(app_url);
+                    tv_l_total.setText("左区业绩:"+pd_obj.getString("L_TOTAL"));
+                    tv_r_total.setText("右区业绩:"+pd_obj.getString("R_TOTAL"));
                 } else {
                     ToastUtils.toastutils(message,InvitingFriendsActivity.this);
                 }
