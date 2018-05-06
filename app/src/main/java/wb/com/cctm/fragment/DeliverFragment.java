@@ -168,8 +168,6 @@ public class DeliverFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.ll_suan_li:
-//                intent = new Intent(getActivity(), ShengHeActivity.class);
-//                startActivity(intent);
                 break;
             default:
                 break;
