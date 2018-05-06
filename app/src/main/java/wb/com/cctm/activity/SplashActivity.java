@@ -198,13 +198,8 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void goActivity() {
-        if (TextUtils.isEmpty(SPUtils.getString(SPUtils.isLogin))) {
-            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-            startActivity(intent);
-        } else {
-            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(SplashActivity.this, GuideActivity.class);
+        startActivity(intent);
         finish();
     }
 
