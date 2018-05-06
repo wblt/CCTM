@@ -1,5 +1,6 @@
 package wb.com.cctm.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,11 +12,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lmj.mypwdinputlibrary.InputPwdView;
 import com.lmj.mypwdinputlibrary.MyInputPwdUtil;
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.ui.ImageGridActivity;
 
 import org.xutils.http.RequestParams;
 
@@ -31,6 +35,7 @@ import wb.com.cctm.base.BaseActivity;
 import wb.com.cctm.commons.utils.ImageLoader;
 import wb.com.cctm.commons.utils.SPUtils;
 import wb.com.cctm.commons.utils.ToastUtils;
+import wb.com.cctm.commons.widget.ActionSheet;
 import wb.com.cctm.net.CommonCallbackImp;
 import wb.com.cctm.net.FlowAPI;
 import wb.com.cctm.net.MXUtils;
@@ -39,8 +44,8 @@ public class FinancialTransferActivity extends BaseActivity {
 
     @BindView(R.id.tv_d_curr)
     TextView tv_d_curr;
-    @BindView(R.id.tv_t_money)
-    TextView tv_t_money;
+    @BindView(R.id.tv_qk_money)
+    TextView tv_qk_money;
     @BindView(R.id.tv_w_energy)
     TextView tv_w_energy;
     @BindView(R.id.et_number)
@@ -50,7 +55,12 @@ public class FinancialTransferActivity extends BaseActivity {
     @BindView(R.id.btn_commit)
     Button btn_commit;
     private MyInputPwdUtil myInputPwdUtil;
-
+    @BindView(R.id.ll_send_type)
+    LinearLayout ll_send_type;
+    @BindView(R.id.tv_send_type)
+    TextView tv_send_type;
+    private Dialog dialog;
+    private String send_type = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +97,38 @@ public class FinancialTransferActivity extends BaseActivity {
         if (address != null &&!TextUtils.isEmpty(address)) {
             et_wallet_address.setText(address);
         }
+
+
+        dialog = ActionSheet.showSheet(this,R.layout.actionsheet_send_type);
+        TextView cancel = dialog.findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.hide();
+
+            }
+        });
+        TextView take_charge = dialog.findViewById(R.id.take_charge);
+        take_charge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.hide();
+                send_type = "0";
+                tv_send_type.setText("发送零钱");
+            }
+        });
+        TextView choose_qk = dialog.findViewById(R.id.choose_qk);
+        choose_qk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.hide();
+                send_type = "1";
+                tv_send_type.setText("发送区块SHC");
+            }
+        });
     }
 
-    @OnClick({R.id.btn_commit,R.id.iv_input_xx2,R.id.iv_input_xx})
+    @OnClick({R.id.btn_commit,R.id.iv_input_xx2,R.id.iv_input_xx,R.id.ll_send_type})
     void viewClick(View view) {
         switch (view.getId()) {
             case R.id.btn_commit:
@@ -118,6 +157,9 @@ public class FinancialTransferActivity extends BaseActivity {
             case R.id.iv_input_xx:
                 et_number.getText().clear();
                 break;
+            case R.id.ll_send_type:
+                dialog.show();
+                break;
             default:
                 break;
         }
@@ -136,7 +178,7 @@ public class FinancialTransferActivity extends BaseActivity {
                 if (result.equals(FlowAPI.SUCCEED)) {
                     String pd = jsonObject.getString("pd");
                     JSONObject pd_obj = JSONObject.parseObject(pd);
-                    tv_t_money.setText(pd_obj.getString("T_MONEY"));
+                    tv_qk_money.setText(pd_obj.getString("QK_CURRENCY"));
                     tv_w_energy.setText(pd_obj.getString("W_ENERGY"));
                     tv_d_curr.setText(pd_obj.getString("D_CURRENCY"));
                 } else {
@@ -152,6 +194,7 @@ public class FinancialTransferActivity extends BaseActivity {
         requestParams.addParameter("USER_NAME", SPUtils.getString(SPUtils.username));
         requestParams.addParameter("W_ADDRESS", et_wallet_address.getText().toString());
         requestParams.addParameter("S_MONEY", et_number.getText().toString());
+        requestParams.addParameter("CURRENCY_TYPE", send_type);
         requestParams.addParameter("PASSW", pwd);
         MXUtils.httpPost(requestParams,new CommonCallbackImp("MY - 发送",requestParams,this){
             @Override

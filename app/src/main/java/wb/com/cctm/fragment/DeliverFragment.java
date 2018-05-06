@@ -251,8 +251,8 @@ public class DeliverFragment extends BaseFragment {
                     SPUtils.putString(SPUtils.w_energy,pd_obj.getString("W_ENERGY"));
                     tv_user_name.setText(pd_obj.getString("NICK_NAME"));
                     tv_d_curr.setText(pd_obj.getString("D_CURRENCY"));
-                    tv_s_curr.setText(pd_obj.getString("S_CURRENCY"));
-                    tv_qk_curr.setText(pd_obj.getString("QK_CURRENCY"));
+                    tv_s_curr.setText("算力钱包 "+pd_obj.getString("S_CURRENCY"));
+                    tv_qk_curr.setText("区块SHC "+pd_obj.getString("QK_CURRENCY"));
                     A_CURRENCY = pd_obj.getString("A_CURRENCY");
                     ImageLoader.load(pd_obj.getString("HEAD_URL"),iv_head_img);
                     dayStep();

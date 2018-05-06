@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="wb.com.cctm.activity.FinancialTransferActivity">
+    tools:context="wb.com.cctm.activity.FinancialTransferActivity"
+    android:background="@color/mainPrimary">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,11 +24,11 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="当前可用"
+                android:text="当前区块SHC"
                 android:textSize="12dp"
                 android:textColor="@color/white"/>
             <TextView
-                android:id="@+id/tv_t_money"
+                android:id="@+id/tv_qk_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0.00"
@@ -77,7 +78,7 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="当前可发送SHC"
+                android:text="当前零钱"
                 android:textSize="12dp"
                 android:textColor="@color/white"/>
             <TextView
@@ -98,8 +99,7 @@
             android:layout_height="50dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:paddingLeft="10dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -138,8 +138,7 @@
             android:layout_height="50dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:paddingLeft="10dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -168,6 +167,40 @@
                 android:padding="8dp"
                 android:src="@mipmap/xxxx"
                 android:visibility="visible"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:background="@color/main_botton_text_color"></LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_send_type"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="转账类型"
+                android:textSize="12dp"
+                android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/tv_send_type"
+                android:gravity="end"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="发送零钱"
+                android:textColor="@color/grey"
+                android:textSize="12dp"/>
+            <ImageView
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/arrow"/>
         </LinearLayout>
 
         <LinearLayout

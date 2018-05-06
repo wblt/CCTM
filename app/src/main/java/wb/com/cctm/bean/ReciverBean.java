@@ -9,6 +9,7 @@ public class ReciverBean {
     String W_ADDRESS;
     String ID;
     String CREATE_TIME;
+    String CURRENCY_TYPE;
 
     public String getRECEIVE_MONEY() {
         return RECEIVE_MONEY;
@@ -40,5 +41,13 @@ public class ReciverBean {
 
     public void setCREATE_TIME(String CREATE_TIME) {
         this.CREATE_TIME = CREATE_TIME;
+    }
+
+    public String getCURRENCY_TYPE() {
+        return CURRENCY_TYPE;
+    }
+
+    public void setCURRENCY_TYPE(String CURRENCY_TYPE) {
+        this.CURRENCY_TYPE = CURRENCY_TYPE;
     }
 }

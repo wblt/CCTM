@@ -115,7 +115,6 @@ public class InvitingFriendsActivity extends BaseActivity {
                 } else {
                     ToastUtils.toastutils(message,InvitingFriendsActivity.this);
                 }
-
             }
         });
 

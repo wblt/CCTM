@@ -9,6 +9,7 @@ public class TransferRecoderBean {
     String SEND_MONEY;
     String ID;
     String CREATE_TIME;
+    String CURRENCY_TYPE;
 
     public String getW_ADDRESS() {
         return W_ADDRESS;
@@ -40,5 +41,13 @@ public class TransferRecoderBean {
 
     public void setCREATE_TIME(String CREATE_TIME) {
         this.CREATE_TIME = CREATE_TIME;
+    }
+
+    public String getCURRENCY_TYPE() {
+        return CURRENCY_TYPE;
+    }
+
+    public void setCURRENCY_TYPE(String CURRENCY_TYPE) {
+        this.CURRENCY_TYPE = CURRENCY_TYPE;
     }
 }
