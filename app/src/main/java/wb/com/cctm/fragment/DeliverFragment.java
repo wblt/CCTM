@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -269,7 +270,7 @@ public class DeliverFragment extends BaseFragment {
     private void dayStep() {
         RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.dayStep);
         requestParams.addParameter("USER_NAME", SPUtils.getString(SPUtils.username));
-        requestParams.addParameter("USER_STEP", SPUtils.getString(SPUtils.current_step));
+        requestParams.addParameter("USER_STEP", TextUtils.isEmpty(SPUtils.getString(SPUtils.current_step)) ? "0":SPUtils.getString(SPUtils.current_step));
         requestParams.addParameter("CREATE_TIME", CommonUtils.getCurrentTime());
         MXUtils.httpPost(requestParams,new CommonCallbackImp("INDEX - 记录步数",requestParams, (BaseActivity) getActivity()){
             @Override

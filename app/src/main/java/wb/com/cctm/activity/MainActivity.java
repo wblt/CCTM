@@ -44,7 +44,6 @@ public class MainActivity extends BaseActivity {
         appendMainBody(this,R.layout.activity_main);
         App.getInstance().addActivity(this);
         initView();
-        test();
     }
     private void initView() {
         DeliverFragment deliverFragment = new DeliverFragment();
@@ -121,15 +120,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void test() {
-        try {
-            String str  = "15388965285dec";
-            String md5_str = MD5.MD5Encode(str);
-            Log.i("s",md5_str);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     @Override
     public void onBackPressed() {

@@ -395,6 +395,7 @@ public class OrderDetailActivity extends BaseActivity {
                             ll_dk_pz.setVisibility(View.VISIBLE);
                             ll_add_img.setVisibility(View.GONE);
                             iv_img.setVisibility(View.VISIBLE);
+                            file_img_path = pd_obj.getString("IMAGE_NOTE");
                             ImageLoader.load(pd_obj.getString("IMAGE_NOTE"),iv_img);
                         } else {
                             ll_tool_bar.setVisibility(View.GONE);
@@ -403,6 +404,7 @@ public class OrderDetailActivity extends BaseActivity {
                             ll_dk_pz.setVisibility(View.VISIBLE);
                             ll_add_img.setVisibility(View.GONE);
                             iv_img.setVisibility(View.VISIBLE);
+                            file_img_path = pd_obj.getString("IMAGE_NOTE");
                             ImageLoader.load(pd_obj.getString("IMAGE_NOTE"),iv_img);
                         }
                     } else if (status.equals("5")) {
@@ -410,6 +412,7 @@ public class OrderDetailActivity extends BaseActivity {
                         ll_dk_pz.setVisibility(View.VISIBLE);
                         ll_add_img.setVisibility(View.GONE);
                         iv_img.setVisibility(View.VISIBLE);
+                        file_img_path = pd_obj.getString("IMAGE_NOTE");
                         ImageLoader.load(pd_obj.getString("IMAGE_NOTE"),iv_img);
                     } else if (status.equals("6")) {
                         tv_status.setText("已取消");
