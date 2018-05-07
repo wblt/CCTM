@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="wb.com.cctm.activity.OrderDetailActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/mainPrimary">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -313,14 +314,28 @@
                 android:textColor="@color/white"
                 android:textSize="12dp"/>
             <LinearLayout
-                android:layout_marginLeft="20dp"
-                android:layout_width="80dp"
+                android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:gravity="center">
+                android:gravity="center_vertical">
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/photo_muban"/>
+                    android:layout_marginLeft="20dp"
+                    android:visibility="gone"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@mipmap/head"/>
+                <LinearLayout
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:gravity="center"
+                    android:background="@drawable/button_rect_white">
+                    <ImageView
+                        android:visibility="visible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/photo_muban"/>
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
