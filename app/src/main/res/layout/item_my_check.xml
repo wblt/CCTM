@@ -143,13 +143,13 @@
                         android:layout_gravity="center"
                         android:orientation="vertical">
                         <TextView
-                            android:visibility="invisible"
+                            android:visibility="visible"
                             android:id="@+id/tv_btn_status"
                             android:background="@drawable/button_rect_golden"
                             android:gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="可取消"
+                            android:text="查看详情"
                             android:textSize="12dp"
                             android:textColor="@color/main_bottom_text_color_selector"/>
                     </LinearLayout>

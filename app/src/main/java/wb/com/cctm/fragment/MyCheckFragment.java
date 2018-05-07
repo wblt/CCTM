@@ -92,31 +92,9 @@ public class MyCheckFragment extends BaseFragment {
         adpter.setOnItemClickListener(new OnItemClickListener<MycheckBean>() {
             @Override
             public void onClick(MycheckBean mycheckBean, View view, int position) {
-                switch (view.getId()) {
-                    case R.id.tv_btn_status:
-                        TextView textView = (TextView) view;
-                        if (textView.getText().equals("可取消")) {
-                            if (SPUtils.getString(SPUtils.safety).equals("0")) {
-                                Intent intent = new Intent(getActivity(),SafetyPwdActivity.class);
-                                startActivity(intent);
-                            } else {
-                                action = "可取消";
-                                TRADE_ID = mycheckBean.getTRADE_ID();
-                                myInputPwdUtil.show();
-                            }
-                        } else if (textView.getText().equals("确认收款")) {
-                            if (SPUtils.getString(SPUtils.safety).equals("0")) {
-                                Intent intent = new Intent(getActivity(),SafetyPwdActivity.class);
-                                startActivity(intent);
-                            } else {
-                                action = "确认收款";
-                                TRADE_ID = mycheckBean.getTRADE_ID();
-                                myInputPwdUtil.show();
-                            }
-                        }
-                        break;
-                    default:
-                }
+                Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
+                intent.putExtra("TRADE_ID",mycheckBean.getTRADE_ID());
+                startActivity(intent);
             }
         });
         sm_refreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -152,7 +130,6 @@ public class MyCheckFragment extends BaseFragment {
             public void finishPwd(String pwd) {
                 myInputPwdUtil.hide();
                 if (action.equals("可取消")) {
-//                    test(pwd);
                     orderCancle(pwd);
                 } else if (action.equals("确认收款")){
                     surePay(pwd);
@@ -252,32 +229,4 @@ public class MyCheckFragment extends BaseFragment {
     }
 
 
-    private void test(String pwd) {
-        RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.pay);
-        requestParams.addParameter("TRADE_ID", TRADE_ID);
-        requestParams.addParameter("STATUS", "1");
-        requestParams.addParameter("PASSW", pwd);
-        MXUtils.httpPost(requestParams,new CommonCallbackImp("MARKET - 测试审核",requestParams, (BaseActivity) getActivity()){
-            @Override
-            public void onSuccess(String data) {
-                super.onSuccess(data);
-                JSONObject jsonObject = JSONObject.parseObject(data);
-                String result = jsonObject.getString("code");
-                String message = jsonObject.getString("message");
-                if (result.equals(FlowAPI.SUCCEED)) {
-                    String pd = jsonObject.getString("pd");
-                    JSONObject pd_obj = JSONObject.parseObject(pd);
-                    ToastUtils.toastutils("审核成功",getActivity());
-                    // 调下刷新接口
-                    queryid = "0";
-                    adpter.clear();
-                    sellList("1");
-                } else {
-                    ToastUtils.toastutils(message,getContext());
-                }
-
-            }
-        });
-
-    }
 }
