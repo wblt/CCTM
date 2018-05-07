@@ -94,6 +94,7 @@ public class MyCheckFragment extends BaseFragment {
             public void onClick(MycheckBean mycheckBean, View view, int position) {
                 Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
                 intent.putExtra("TRADE_ID",mycheckBean.getTRADE_ID());
+                intent.putExtra("action","卖单");
                 startActivity(intent);
             }
         });

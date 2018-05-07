@@ -85,6 +85,7 @@ public class MybuyFragment extends BaseFragment {
             public void onClick(MybuyBean mybuyBean, View view, int position) {
                 Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
                 intent.putExtra("TRADE_ID",mybuyBean.getTRADE_ID());
+                intent.putExtra("action","买单");
                 startActivity(intent);
             }
         });

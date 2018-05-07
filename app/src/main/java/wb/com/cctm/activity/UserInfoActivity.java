@@ -86,7 +86,6 @@ public class UserInfoActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         appendMainBody(this,R.layout.activity_user_info);
-        appendTopBody(R.layout.activity_top_text);
         setTopLeftDefultListener();
         setTopBarTitle("个人信息");
         ButterKnife.bind(this);
@@ -323,7 +322,6 @@ public class UserInfoActivity extends BaseActivity {
                 } else {
                     ToastUtils.toastutils(message,UserInfoActivity.this);
                 }
-
             }
         });
 

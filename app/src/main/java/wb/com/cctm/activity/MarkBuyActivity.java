@@ -85,6 +85,10 @@ public class MarkBuyActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                if (TextUtils.isEmpty(et_buy_number.getText().toString())) {
+                    tv_sum_price.setText("0.00");
+                    return;
+                }
                 float price = Float.valueOf(tv_sell_price.getText().toString());
                 int number = Integer.valueOf(et_buy_number.getText().toString());
                 float sum = number*price;
@@ -94,7 +98,7 @@ public class MarkBuyActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.btn_commit})
+    @OnClick({R.id.btn_commit,R.id.iv_xxx})
     void viewClick(View view) {
         switch (view.getId()) {
             case R.id.btn_commit:
@@ -114,6 +118,9 @@ public class MarkBuyActivity extends BaseActivity {
                 } else {
                     myInputPwdUtil.show();
                 }
+                break;
+            case R.id.iv_xxx:
+                et_buy_number.getText().clear();
                 break;
         }
     }

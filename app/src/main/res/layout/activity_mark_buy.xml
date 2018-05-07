@@ -88,6 +88,7 @@
                 android:inputType="number"
                 android:singleLine="true"/>
             <ImageView
+                android:id="@+id/iv_xxx"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:padding="8dp"
