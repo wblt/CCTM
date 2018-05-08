@@ -86,6 +86,7 @@ public class ReciveCodeActivity extends BaseActivity {
                     }
                     tv_nick_name.setText(SPUtils.getString(SPUtils.nick_name));
                     String address = SPUtils.getString(SPUtils.wallet_address);
+                    tv_address.setText(address);
                     Bitmap bitmap = CodeCreator.createQRCode(address, 1000, 1000, null);
                     if (bitmap != null) {
                         contentIv.setImageBitmap(bitmap);

@@ -82,6 +82,7 @@ public class DeliverFragment extends BaseFragment {
     private String A_CURRENCY;
     @BindView(R.id.tv_qk_curr)
     TextView tv_qk_curr;
+    private String qk_curr = "";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,7 +159,7 @@ public class DeliverFragment extends BaseFragment {
             case R.id.ll_move_wallet:
                 intent = new Intent(getActivity(), MoveWalletActivity.class);
                 intent.putExtra("D_CURRENCY",tv_d_curr.getText().toString());
-                intent.putExtra("QK_CURRENCY",tv_s_curr.getText().toString());
+                intent.putExtra("QK_CURRENCY",qk_curr);
                 intent.putExtra("A_CURRENCY",A_CURRENCY);
                 startActivity(intent);
                 break;
@@ -171,8 +172,8 @@ public class DeliverFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.ll_suan_li:
-                intent = new Intent(getActivity(),ShengHeActivity.class);
-                startActivity(intent);
+//                intent = new Intent(getActivity(),ShengHeActivity.class);
+//                startActivity(intent);
                 break;
             default:
                 break;
@@ -256,6 +257,7 @@ public class DeliverFragment extends BaseFragment {
                     tv_d_curr.setText(pd_obj.getString("D_CURRENCY"));
                     tv_s_curr.setText("算力钱包 "+pd_obj.getString("S_CURRENCY"));
                     tv_qk_curr.setText("区块SHC "+pd_obj.getString("QK_CURRENCY"));
+                    qk_curr = pd_obj.getString("QK_CURRENCY");
                     A_CURRENCY = pd_obj.getString("A_CURRENCY");
                     ImageLoader.load(pd_obj.getString("HEAD_URL"),iv_head_img);
                     dayStep();
