@@ -33,6 +33,7 @@ public class MybuyAdapter extends BaseRecyclerViewAdapter<MybuyBean> {
             binding.tvPrice.setText(object.getBUSINESS_PRICE());
             binding.tvTtNumber.setText(object.getBUSINESS_COUNT());
             binding.tvTime.setText(object.getCREATE_TIME());
+            binding.tvAll.setText(object.getTOTAL_MONEY());
             if (object.getSTATUS().equals("0")) {
                 binding.tvStatus.setText("待审核");
                 //binding.tvBtnStatus.setVisibility(View.VISIBLE);

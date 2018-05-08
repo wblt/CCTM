@@ -82,12 +82,14 @@ public class GuadanActivity extends BaseActivity {
                 int number = Integer.valueOf(et_sell_number.getText().toString());
                 float sum = number*price;
                 DecimalFormat df = new DecimalFormat("#.00");
-                tv_sum_price.setText(df.format(sum));
+                tv_sum_price.setText("总价:"+df.format(sum));
+            } else {
+                tv_sum_price.setText("总价:"+"0.00");
             }
         }
     };
 
-    @OnClick({R.id.btn_commit})
+    @OnClick({R.id.btn_commit,R.id.ig_xxxx,R.id.ig_xxxx2})
     void viewClick(View view) {
         switch (view.getId()) {
             case R.id.btn_commit:
@@ -113,6 +115,12 @@ public class GuadanActivity extends BaseActivity {
                     ToastUtils.toastutils("价格格式有误",GuadanActivity.this);
                     e.printStackTrace();
                 }
+                break;
+            case R.id.ig_xxxx:
+                et_sell_price.getText().clear();
+                break;
+            case R.id.ig_xxxx2:
+                et_sell_number.getText().clear();
                 break;
             default:
                 break;

@@ -72,31 +72,33 @@ public class MarkBuyActivity extends BaseActivity {
 
         tv_sell_number.setText(getIntent().getStringExtra("number"));
         tv_sell_price.setText(getIntent().getStringExtra("price"));
-        et_buy_number.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (TextUtils.isEmpty(et_buy_number.getText().toString())) {
-                    tv_sum_price.setText("0.00");
-                    return;
-                }
-                float price = Float.valueOf(tv_sell_price.getText().toString());
-                int number = Integer.valueOf(et_buy_number.getText().toString());
-                float sum = number*price;
-                DecimalFormat df = new DecimalFormat("#.00");
-                tv_sum_price.setText(df.format(sum));
-            }
-        });
+        et_buy_number.addTextChangedListener(textWatcher);
     }
+
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (TextUtils.isEmpty(et_buy_number.getText().toString())) {
+                tv_sum_price.setText("总价:"+"0.00");
+                return;
+            }
+            float price = Float.valueOf(tv_sell_price.getText().toString());
+            int number = Integer.valueOf(et_buy_number.getText().toString());
+            float sum = number*price;
+            DecimalFormat df = new DecimalFormat("#.00");
+            tv_sum_price.setText("总价:"+df.format(sum));
+        }
+    };
 
     @OnClick({R.id.btn_commit,R.id.iv_xxx})
     void viewClick(View view) {
