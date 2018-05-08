@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -50,6 +51,8 @@ public class ReciveCodeActivity extends BaseActivity {
     TextView tv_copy;
     @BindView(R.id.tv_nick_name)
     TextView tv_nick_name;
+    @BindView(R.id.ll_code)
+    LinearLayout ll_code;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +92,7 @@ public class ReciveCodeActivity extends BaseActivity {
                     tv_address.setText(address);
                     Bitmap bitmap = CodeCreator.createQRCode(address, 1000, 1000, null);
                     if (bitmap != null) {
+                        ll_code.setVisibility(View.VISIBLE);
                         contentIv.setImageBitmap(bitmap);
                     }
                 } catch (WriterException e) {

@@ -62,6 +62,7 @@ public class FrendsActivity extends BaseActivity {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 refreshLayout.finishRefresh(1000);
+                adapter.clear();
                 friends();
             }
         });

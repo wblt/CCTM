@@ -6,10 +6,12 @@
     android:layout_height="match_parent"
     tools:context="wb.com.cctm.activity.InvitingFriendsActivity">
     <LinearLayout
+        android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:visibility="gone">
         <LinearLayout
             android:layout_weight="1"
             android:layout_width="match_parent"
@@ -21,8 +23,7 @@
                 android:layout_margin="30dp"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@mipmap/qrcode"/>
+                android:layout_height="match_parent" />
         </LinearLayout>
         <LinearLayout
             android:layout_weight="1"

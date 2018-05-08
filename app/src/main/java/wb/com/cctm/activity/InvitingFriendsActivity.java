@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
@@ -42,6 +43,8 @@ public class InvitingFriendsActivity extends BaseActivity {
     TextView tv_l_total;
     @BindView(R.id.tv_r_total)
     TextView tv_r_total;
+    @BindView(R.id.ll_content)
+    LinearLayout ll_content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +115,7 @@ public class InvitingFriendsActivity extends BaseActivity {
                     tv_app_addr.setText(app_url);
                     tv_l_total.setText("左区业绩:"+pd_obj.getString("L_TOTAL"));
                     tv_r_total.setText("右区业绩:"+pd_obj.getString("R_TOTAL"));
+                    ll_content.setVisibility(View.VISIBLE);
                 } else {
                     ToastUtils.toastutils(message,InvitingFriendsActivity.this);
                 }
