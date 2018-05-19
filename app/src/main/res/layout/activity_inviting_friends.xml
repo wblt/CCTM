@@ -58,21 +58,22 @@
                 android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:gravity="center">
                 <TextView
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:textSize="12dp"
-                    android:text="1.左区邀请地址,点击链接即可复制"
-                    android:layout_width="match_parent"
+                    android:text="1.左区邀请邀请码:"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:gravity="center"
                     android:id="@+id/tv_left_addr"
                     android:textColor="@color/main_bottom_text_color_selector"
                     android:textSize="12dp"
-                    android:text=""
-                    android:layout_width="match_parent"
+                    android:text="123456"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <LinearLayout
