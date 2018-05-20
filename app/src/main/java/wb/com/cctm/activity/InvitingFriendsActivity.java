@@ -59,11 +59,11 @@ public class InvitingFriendsActivity extends BaseActivity {
     }
 
     private void initveiw() {
-        tv_left_addr.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
-        tv_left_addr.getPaint().setAntiAlias(true);//抗锯齿
+//        tv_left_addr.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+//        tv_left_addr.getPaint().setAntiAlias(true);//抗锯齿
 
-        tv_right_addr.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
-        tv_right_addr.getPaint().setAntiAlias(true);//抗锯齿
+//        tv_right_addr.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+//        tv_right_addr.getPaint().setAntiAlias(true);//抗锯齿
 
         tv_app_addr.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
         tv_app_addr.getPaint().setAntiAlias(true);//抗锯齿
