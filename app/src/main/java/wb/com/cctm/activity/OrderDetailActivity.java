@@ -113,7 +113,8 @@ public class OrderDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         appendMainBody(this,R.layout.activity_order_detail);
         setTopLeftDefultListener();
-        if (getIntent().getStringExtra("action").equals("卖单")) {
+        String act = getIntent().getStringExtra("action");
+        if (act != null && act.equals("卖单")) {
             setTopBarTitle("卖单详情");
         } else {
             setTopBarTitle("买单详情");

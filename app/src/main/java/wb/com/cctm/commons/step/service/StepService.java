@@ -97,7 +97,7 @@ public class StepService extends Service implements SensorEventListener {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "onCreate()");
-        initNotification();
+        //initNotification();
         initTodayData();
         initBroadcastReceiver();
         new Thread(new Runnable() {
@@ -159,7 +159,7 @@ public class StepService extends Service implements SensorEventListener {
         if (mStepCount != null) {
             mStepCount.setSteps(CURRENT_STEP);
         }
-        updateNotification();
+        //updateNotification();
     }
 
     /**
@@ -269,22 +269,21 @@ public class StepService extends Service implements SensorEventListener {
     /**
      * 更新步数通知
      */
-    private void updateNotification() {
-        //设置点击跳转
-        Intent hangIntent = new Intent(this, MainActivity.class);
-        PendingIntent hangPendingIntent = PendingIntent.getActivity(this, 0, hangIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        Notification notification = mBuilder.setContentTitle(getResources().getString(R.string.app_name))
-                .setContentText("今日步数" + CURRENT_STEP + " 步")
-                .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示
-                .setContentIntent(hangPendingIntent)
-                .build();
-        mNotificationManager.notify(notifyId_Step, notification);
-        if (mCallback != null) {
-            mCallback.updateUi(CURRENT_STEP);
-        }
-        Log.d(TAG, "updateNotification()");
-    }
+//    private void updateNotification() {
+//        //设置点击跳转
+//        Intent hangIntent = new Intent(this, MainActivity.class);
+//        PendingIntent hangPendingIntent = PendingIntent.getActivity(this, 0, hangIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+//        Notification notification = mBuilder.setContentTitle(getResources().getString(R.string.app_name))
+//                .setContentText("今日步数" + CURRENT_STEP + " 步")
+//                .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示
+//                .setContentIntent(hangPendingIntent)
+//                .build();
+//        mNotificationManager.notify(notifyId_Step, notification);
+//        if (mCallback != null) {
+//            mCallback.updateUi(CURRENT_STEP);
+//        }
+//        Log.d(TAG, "updateNotification()");
+//    }
 
     /**
      * UI监听器对象
@@ -470,7 +469,7 @@ public class StepService extends Service implements SensorEventListener {
                 CURRENT_STEP++;
             }
         }
-        updateNotification();
+        //updateNotification();
     }
 
     /**
@@ -489,7 +488,7 @@ public class StepService extends Service implements SensorEventListener {
             @Override
             public void stepChanged(int steps) {
                 CURRENT_STEP = steps;
-                updateNotification();
+                //updateNotification();
             }
         });
         if (isAvailable) {

@@ -7,8 +7,8 @@ android {
         applicationId "wb.com.cctm"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 23
-        versionName "1.0.23"
+        versionCode 24
+        versionName "1.0.24"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
@@ -51,13 +51,13 @@ dependencies {
     compile files('libs/cos-sdk-android-1.4.3.jar')
     compile project(':compresshelper')
     compile files('libs/core-3.3.0.jar')
-    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.github.gittjy:LoadingDialog:1.0.2'
-    compile 'com.android.support:support-v4:26.+'
+    compile 'com.android.support:support-v4:25.3.1'
     compile 'com.jakewharton:butterknife:8.8.1'
-    compile 'com.android.support:design:26.+'
+    compile 'com.android.support:design:25.3.1'
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-3'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-3'
     compile 'com.tencent.bugly:crashreport:latest.release'

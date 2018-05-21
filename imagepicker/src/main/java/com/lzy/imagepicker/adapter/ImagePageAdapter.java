@@ -25,18 +25,15 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  * ================================================
  */
 public class ImagePageAdapter extends PagerAdapter {
-
     private int screenWidth;
     private int screenHeight;
     private ImagePicker imagePicker;
     private ArrayList<ImageItem> images = new ArrayList<>();
     private Activity mActivity;
     public PhotoViewClickListener listener;
-
     public ImagePageAdapter(Activity activity, ArrayList<ImageItem> images) {
         this.mActivity = activity;
         this.images = images;
-
         DisplayMetrics dm = Utils.getScreenPix(activity);
         screenWidth = dm.widthPixels;
         screenHeight = dm.heightPixels;
