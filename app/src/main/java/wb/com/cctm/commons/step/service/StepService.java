@@ -251,7 +251,7 @@ public class StepService extends Service implements SensorEventListener {
                 (CURRENT_STEP < Integer.parseInt(plan)) &&
                 (time.equals(new SimpleDateFormat("HH:mm").format(new Date())))
                 ) {
-            remindNotify();
+            //remindNotify();
         }
 
     }
@@ -308,31 +308,30 @@ public class StepService extends Service implements SensorEventListener {
      */
     int notify_remind_id = 200;
 
-    /**
-     * 提醒锻炼通知栏
-     */
-    private void remindNotify() {
-
-        //设置点击跳转
-        Intent hangIntent = new Intent(this, MainActivity.class);
-        PendingIntent hangPendingIntent = PendingIntent.getActivity(this, 0, hangIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        String plan = this.getSharedPreferences("share_date", Context.MODE_MULTI_PROCESS).getString("planWalk_QTY", "10000");
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-        mBuilder.setContentTitle("今日步数" + CURRENT_STEP + " 步")
-                .setContentText("距离目标还差" + (Integer.valueOf(plan) - CURRENT_STEP) + "步，加油！")
-                .setContentIntent(hangPendingIntent)
-                .setTicker(getResources().getString(R.string.app_name) + "提醒您开始锻炼了")//通知首次出现在通知栏，带上升动画效果的
-                .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示
-                .setPriority(Notification.PRIORITY_DEFAULT)//设置该通知优先级
-                .setAutoCancel(true)//设置这个标志当用户单击面板就可以让通知将自动取消
-                .setOngoing(false)//ture，设置他为一个正在进行的通知。他们通常是用来表示一个后台任务,用户积极参与(如播放音乐)或以某种方式正在等待,因此占用设备(如一个文件下载,同步操作,主动网络连接)
-                .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND)//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合：
-                //Notification.DEFAULT_ALL  Notification.DEFAULT_SOUND 添加声音 // requires VIBRATE permission
-                .setSmallIcon(R.mipmap.logo);
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        mNotificationManager.notify(notify_remind_id, mBuilder.build());
-    }
+//    /**
+//     * 提醒锻炼通知栏
+//     */
+//    private void remindNotify() {
+//        //设置点击跳转
+//        Intent hangIntent = new Intent(this, MainActivity.class);
+//        PendingIntent hangPendingIntent = PendingIntent.getActivity(this, 0, hangIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+//
+//        String plan = this.getSharedPreferences("share_date", Context.MODE_MULTI_PROCESS).getString("planWalk_QTY", "10000");
+//        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+//        mBuilder.setContentTitle("今日步数" + CURRENT_STEP + " 步")
+//                .setContentText("距离目标还差" + (Integer.valueOf(plan) - CURRENT_STEP) + "步，加油！")
+//                .setContentIntent(hangPendingIntent)
+//                .setTicker(getResources().getString(R.string.app_name) + "提醒您开始锻炼了")//通知首次出现在通知栏，带上升动画效果的
+//                .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示
+//                .setPriority(Notification.PRIORITY_DEFAULT)//设置该通知优先级
+//                .setAutoCancel(true)//设置这个标志当用户单击面板就可以让通知将自动取消
+//                .setOngoing(false)//ture，设置他为一个正在进行的通知。他们通常是用来表示一个后台任务,用户积极参与(如播放音乐)或以某种方式正在等待,因此占用设备(如一个文件下载,同步操作,主动网络连接)
+//                .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND)//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合：
+//                //Notification.DEFAULT_ALL  Notification.DEFAULT_SOUND 添加声音 // requires VIBRATE permission
+//                .setSmallIcon(R.mipmap.logo);
+//        NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//        mNotificationManager.notify(notify_remind_id, mBuilder.build());
+//    }
 
     /**
      * @获取默认的pendingIntent,为了防止2.3及以下版本报错
@@ -532,7 +531,6 @@ public class StepService extends Service implements SensorEventListener {
      */
     private void save() {
         int tempStep = CURRENT_STEP;
-
         List<StepData> list = DbUtils.getQueryByWhere(StepData.class, "today", new String[]{CURRENT_DATE});
         if (list.size() == 0 || list.isEmpty()) {
             StepData data = new StepData();
