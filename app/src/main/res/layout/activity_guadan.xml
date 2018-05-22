@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="12dp"
-                android:text="本次可挂卖最多"/>
+                android:text="当前可发送SHC为"/>
             <TextView
                 android:id="@+id/tv_gua_sell_number"
                 android:layout_width="wrap_content"

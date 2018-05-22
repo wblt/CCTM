@@ -128,8 +128,8 @@ public class DeliverFragment extends BaseFragment {
 
     private void initData() {
         sp = new SharedPreferencesUtils(getActivity());
-        //获取用户设置的计划锻炼步数，没有设置过的话默认10000
-        String planWalk_QTY = (String) sp.getParam("planWalk_QTY", "10000");
+        //获取用户设置的计划锻炼步数，没有设置过的话默认30000
+        String planWalk_QTY = (String) sp.getParam("planWalk_QTY", "30000");
         //设置当前步数为0
         cc.setCurrentCount(Integer.parseInt(planWalk_QTY), 0);
         setupService();
@@ -205,7 +205,7 @@ public class DeliverFragment extends BaseFragment {
         public void onServiceConnected(ComponentName name, IBinder service) {
             StepService stepService = ((StepService.StepBinder) service).getService();
             //设置初始化数据
-            String planWalk_QTY = (String) sp.getParam("planWalk_QTY", "10000");
+            String planWalk_QTY = (String) sp.getParam("planWalk_QTY", "30000");
             if (cc != null) {
                 cc.setCurrentCount(Integer.parseInt(planWalk_QTY), stepService.getStepCount());
                 SPUtils.putString(SPUtils.current_step,stepService.getStepCount()+"");
@@ -214,7 +214,7 @@ public class DeliverFragment extends BaseFragment {
             stepService.registerCallback(new UpdateUiCallBack() {
                 @Override
                 public void updateUi(int stepCount) {
-                    String planWalk_QTY = (String) sp.getParam("planWalk_QTY", "10000");
+                    String planWalk_QTY = (String) sp.getParam("planWalk_QTY", "30000");
                     if (cc != null) {
                         cc.setCurrentCount(Integer.parseInt(planWalk_QTY), stepCount);
                         SPUtils.putString(SPUtils.current_step,stepCount+"");
