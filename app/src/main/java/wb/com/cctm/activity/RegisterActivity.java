@@ -105,10 +105,10 @@ public class RegisterActivity extends BaseActivity {
             ToastUtils.toastutils("电话号码格式不正确",RegisterActivity.this);
             return;
         }
-        if (!StringUtil.checkpwd(password)) {
-            ToastUtils.toastutils("请输入6-15位字母、数字的密码",RegisterActivity.this);
-            return;
-        }
+//        if (!StringUtil.checkpwd(password)) {
+//            ToastUtils.toastutils("请输入6-15位字母、数字的密码",RegisterActivity.this);
+//            return;
+//        }
         if (!password.equals(re_password)) {
             ToastUtils.toastutils("密码输入不一致",RegisterActivity.this);
             return;
@@ -168,10 +168,10 @@ public class RegisterActivity extends BaseActivity {
             ToastUtils.toastutils("密码输入为空",RegisterActivity.this);
             return;
         }
-        if (!StringUtil.checkpwd(password)) {
-            ToastUtils.toastutils("密码输入为空请输入6-15位字母、数字的密码",RegisterActivity.this);
-            return;
-        }
+//        if (!StringUtil.checkpwd(password)) {
+//            ToastUtils.toastutils("密码输入为空请输入6-15位字母、数字的密码",RegisterActivity.this);
+//            return;
+//        }
         if (!password.equals(re_password)) {
             ToastUtils.toastutils("密码输入不一致",RegisterActivity.this);
             return;
