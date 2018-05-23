@@ -137,14 +137,14 @@ public class ForgotPasswordActivity extends BaseActivity {
             ToastUtils.toastutils("电话号码格式错误",ForgotPasswordActivity.this);
             return;
         }
-//        if (TextUtils.isEmpty(password)) {
-//            ToastUtils.toastutils("密码输入为空",ForgotPasswordActivity.this);
-//            return;
-//        }
-        if (!StringUtil.checkpwd(password)) {
-            ToastUtils.toastutils("请输入6-15位字母、数字的密码",ForgotPasswordActivity.this);
+        if (TextUtils.isEmpty(password)) {
+            ToastUtils.toastutils("密码输入为空",ForgotPasswordActivity.this);
             return;
         }
+//        if (!StringUtil.checkpwd(password)) {
+//            ToastUtils.toastutils("请输入6-15位字母、数字的密码",ForgotPasswordActivity.this);
+//            return;
+//        }
         if (!re_password.equals(password)) {
             ToastUtils.toastutils("两次密码输入不一致",ForgotPasswordActivity.this);
             return;
