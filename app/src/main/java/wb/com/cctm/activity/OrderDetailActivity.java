@@ -433,7 +433,7 @@ public class OrderDetailActivity extends BaseActivity {
         String cancle_type = "";
         if (getIntent().getStringExtra("action").equals("卖单")) {
             cancle_type = "1";
-        } else {
+        } else if (getIntent().getStringExtra("action").equals("买单")) {
             cancle_type = "0";
         }
         RequestParams requestParams= FlowAPI.getRequestParams(FlowAPI.orderCancle);

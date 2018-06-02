@@ -39,6 +39,7 @@ public class MychecAdapter extends BaseRecyclerViewAdapter<MycheckBean> {
             binding.tvPrice.setText(object.getBUSINESS_PRICE());
             binding.tvAll.setText(object.getTOTAL_MONEY());
             binding.tvNameB.setText(object.getUSER_NAME_B());
+            binding.tvNameB.setVisibility(View.INVISIBLE);
             binding.tvTime.setText(object.getCREATE_TIME());
             if (object.getSTATUS().equals("0")) {
                 binding.tvStatus.setText("待审核");
