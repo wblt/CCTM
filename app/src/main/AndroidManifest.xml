@@ -223,11 +223,34 @@
             android:screenOrientation="portrait"
             android:theme="@style/ZxingTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name=".activity.ReciveCodeActivity" />
-        <activity android:name=".activity.PayInfoActivity" />
-        <activity android:name=".activity.MarkBuyActivity" />
-        <activity android:name=".activity.OrderDetailActivity" />
-        <activity android:name=".activity.ShengHeActivity"></activity>
+        <activity android:name=".activity.ReciveCodeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".activity.PayInfoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".activity.MarkBuyActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".activity.OrderDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".activity.ShengHeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" ></activity>
+        <activity android:name=".activity.TibishActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" ></activity>
+        <activity android:name=".activity.TibijlActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" ></activity>
     </application>
 
 </manifest>

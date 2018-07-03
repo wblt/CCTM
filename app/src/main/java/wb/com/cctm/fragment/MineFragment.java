@@ -39,6 +39,7 @@ import wb.com.cctm.activity.ReciveCodeActivity;
 import wb.com.cctm.activity.ReciverRecordActivity;
 import wb.com.cctm.activity.SettingActivity;
 import wb.com.cctm.activity.StepRecoderActivity;
+import wb.com.cctm.activity.TibishActivity;
 import wb.com.cctm.activity.TransferRecoderActivity;
 import wb.com.cctm.activity.UserInfoActivity;
 import wb.com.cctm.activity.WalletConversionActivity;
@@ -91,7 +92,7 @@ public class MineFragment extends BaseFragment {
             "能量兑换",
             "运动记录",
             "收款地址",
-            "更多"
+            "提币申请"
     };
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -240,8 +241,9 @@ public class MineFragment extends BaseFragment {
                         intent = new Intent(getActivity(), ReciveCodeActivity.class);
                         startActivity(intent);
                         break;
-                    case "更多":
-                        ToastUtils.toastutils("开发中",getActivity());
+                    case "提币申请":
+                        intent = new Intent(getActivity(), TibishActivity.class);
+                        startActivity(intent);
                         break;
                     default:
                         break;

@@ -141,4 +141,13 @@ public class FlowAPI {
 
     // INDEX - 版本号
     public static String version = SERVER_IP + "/app/index/version";
+
+    // MY - 提币申请
+    public static String tequila = SERVER_IP + "/app/my/tequila";
+
+    // MY - 提币记录
+    public static String tequilaDetail = SERVER_IP + "/app/my/tequilaDetail";
+
+    // MY - 提币取消
+    public static String tequilaCancle = SERVER_IP + "/app/my/tequilaCancle";
 }
